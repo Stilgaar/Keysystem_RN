@@ -1,0 +1,18 @@
+[
+    {
+        "vehiculeGUID": 5465465434634,
+        "vehiculeBrand": "Suzuki",
+        "vehiculeModel": "SJ",
+        "vehiculeType": "Electrique",
+        "vehiculeImmatriculation": "JH4DC538X6S551541",
+        "vehiculeKmTotalDone": "28 135km",
+        "vehiculeKmTotalDoneThis": "10 132km",
+        "vehiculeKmTotalDonePerDay": "120",
+        "vehiculeKmTotalDonePerMonth": "3000",
+        "vehiculeContractType": "LOA",
+        "vehiculeContractRenter": "Esso",
+        "vehiculeEndThisReservation": "2023-06-30",
+        "latitude": 43.639544,
+        "longitude": 6.912603
+    }
+]

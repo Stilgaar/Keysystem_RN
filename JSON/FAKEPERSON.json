@@ -1,0 +1,95 @@
+[
+    {
+        "fullName": "Admin the administrator",
+        "isVerified": true,
+        "userGUID": "1321324465",
+        "userEmailAdress": "admin@test.com",
+        "password": "Admintest1234!",
+        "firstName": "admin",
+        "lastName": "test",
+        "birthdate": "1995-09-26",
+        "userIdentityCardNumber": "AZDADAZ21315EF3534",
+        "userDriverLicenceCardNumber": "ZERZEF32F234T3E",
+        "userAdress": "Impasse du test",
+        "userPostalCode": "06000",
+        "userCity": "AdminCity",
+        "userCountry": "PaysAdminTest",
+        "userHistory": [
+            {
+                "userRoutes": [
+                    {
+                        "date": "2023-03-20",
+                        "departureTime": "00h37",
+                        "departureLocation": "Bezons",
+                        "arrivalTime": "02h17",
+                        "arrivalLocation": "1 villa daumier 78500 Satrouville, France",
+                        "routeKmDone": 564,
+                        "routeStops": "3h23",
+                        "routeDuration": "1h23",
+                        "routeAverageSpeed": 23,
+                        "routeC02": 0,
+                        "routeGasConsumtion": 2.3
+                    },
+                    {
+                        "date": "2023-03-19",
+                        "departureTime": "00h37",
+                        "departureLocation": "Bezons",
+                        "arrivalTime": "02h17",
+                        "arrivalLocation": "1 villa daumier 78500 Satrouville, France",
+                        "routeKmDone": 564,
+                        "routeStops": "3h23",
+                        "routeDuration": "1h23",
+                        "routeAverageSpeed": 23,
+                        "routeC02": 0,
+                        "routeGasConsumtion": 2.3
+                    },
+                    {
+                        "date": "2023-03-19",
+                        "departureTime": "00h37",
+                        "departureLocation": "Bezons",
+                        "arrivalTime": "02h17",
+                        "arrivalLocation": "1 villa daumier 78500 Satrouville, France",
+                        "routeKmDone": 564,
+                        "routeStops": "3h23",
+                        "routeDuration": "1h23",
+                        "routeAverageSpeed": 23,
+                        "routeC02": 0,
+                        "routeGasConsumtion": 2.3
+                    },
+                    {
+                        "date": "2023-03-21",
+                        "departureTime": "00h37",
+                        "departureLocation": "Bezons",
+                        "arrivalTime": "02h17",
+                        "arrivalLocation": "1 villa daumier 78500 Satrouville, France",
+                        "routeKmDone": 564,
+                        "routeStops": "3h23",
+                        "routeDuration": "1h23",
+                        "routeAverageSpeed": 23,
+                        "routeC02": 0,
+                        "routeGasConsumtion": 2.3
+                    }
+                ]
+            },
+            {
+                "userOldKeys": [
+                    {
+                        "vehiculeBrand": "suzuki",
+                        "vehiculeModel": "L5",
+                        "virtualKeyDateActivated": "03/08/23",
+                        "virtualKeyDateDesactivated": "13/12/24"
+                    }
+                ]
+            },
+            {
+                "userNexReservations": [
+                    {
+                        "vehiculeBrand": "buick",
+                        "vehiculeModel": "rendez vous",
+                        "virtualKeyDateActivated": "03/08/23"
+                    }
+                ]
+            }
+        ]
+    }
+]

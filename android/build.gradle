@@ -1,0 +1,33 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+
+
+buildscript {
+    ext {
+        buildToolsVersion = "33.0.0"
+        kotlin_version = "1.8.0"
+        minSdkVersion = 21
+        compileSdkVersion = 33
+        targetSdkVersion = 33    
+        supportLibVersion = "33.0.0"
+        googlePlayServicesVersion = "18.2.0" // or set latest version
+        androidMapsUtilsVersion = "0.5+"
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle:7.3.1")
+        classpath("com.facebook.react:react-native-gradle-plugin")
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+//NOTE DE JEFF : 
+//Open the build.gradle file of react-native-vision-camera located in the node_modules/react-native-vision-camera/android directory.
+//Find the kotlin-gradle-plugin dependency in the dependencies block.
+//Update the version of kotlin-gradle-plugin to 1.6.20 or higher
+
+ // OLD : classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+ // NEW : classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20" 

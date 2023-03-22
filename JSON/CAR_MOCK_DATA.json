@@ -1,0 +1,110 @@
+[
+    {
+        "vehiculeGUID": "d79803d4-f8fc-4f5f-8544-c3a581a25850",
+        "vehiculeSRC": "https://stimg.cardekho.com/images/carexteriorimages/630x420/Lamborghini/Urus/4418/Lamborghini-Urus-V8/1621927166506/front-left-side-47.jpg",
+        "vehiculeBrand": "Suzuki",
+        "vehiculeModel": "SJ",
+        "vehiculeImmatriculation": "JH4DC538X6S551541",
+        "vehiculeIsUsed": false,
+        "Location": "Xuanhua",
+        "latitude": 43.700000,
+        "longitude": 7.250000,
+        "vehiculeType": "Electrique",
+        "vehiculeContractRenter": "Damar",
+        "vehiculeContractType": "LOA",
+        "vehiculeContractDuration": "36 Mois",
+        "carDuractionLeft": "6 Mois",
+        "vehiculeContractStart": "13/13/13",
+        "vehiculeContractEnd": "13/13/15",
+        "vehiculeContractKm": "36 000 km",
+        "vehiculeKmTotalDone": "28 135km",
+        "vehiculeKmTotalLeft": "7 865 km",
+        "vehiculeKmTotalDoneThis": "10 132km",
+        "vehiculeKmTotalDonePerDay": "120",
+        "vehiculeKmTotalDonePerMonth": "3000",
+        "vehiculeEndThisReservation": "2023-06-30",
+        "vehiculeReservations": [
+            {
+                "fullName": "Alexis DuBoisRibeault",
+                "reseravationStart": "13/03/2023",
+                "reservationEnd": "31/03/2023"
+            },
+            {
+                "fullName": "Jeff Panaklock",
+                "reseravationStart": "23/03/2023",
+                "reservationEnd": "27/03/2023"
+            },
+            {
+                "fullName": "Jeff Panaklock",
+                "reseravationStart": "29/03/2023",
+                "reservationEnd": "31/03/2023"
+            },
+            {
+                "fullName": "Sylvie Tellier",
+                "reseravationStart": "29/03/2023",
+                "reservationEnd": "31/03/2023"
+            }
+        ],
+        "virutualPouch": [
+            {
+                "docType": "Carte Grise",
+                "picJPG": "https://www.europe-motors-brest.fr/files/upload/nouvelle-carte-grise-specimen100.jpg"
+            },
+            {
+                "docType": "Assurance",
+                "picJPG": "https://images.prismic.io/ornikar/564d30e98aeb746a027beb7b9ec9b7de38ac6a30_certificat-assurance.jpg?auto=compress,format"
+            },
+            {
+                "docType": "Contrôle technique",
+                "picJPG": "https://static1.caroom.fr/guide/wp-content/uploads/2017/03/proc%C3%A8s-verbal-de-contr%C3%B4le-technique-720x1024.jpg"
+            },
+            {
+                "docType": "Autre",
+                "picJPG": "https://www.ecologie.gouv.fr/sites/default/files/critair.png"
+            }
+        ]
+    },
+    {
+        "vehiculeGUID": "f80c62bf-117f-455c-a4f1-3ad07e97bdde",
+        "vehiculeSRC": "https://www.automobile-magazine.fr/asset/cms/600x337/201954/config/149656",
+        "vehiculeBrand": "Buick",
+        "vehiculeModel": "Rendezvous",
+        "vehiculeType": "Essence",
+        "vehiculeImmatriculation": "1GD22XEG9FZ414170",
+        "vehiculeIsUsed": true,
+        "Location": "Ketovo",
+        "latitude": 43.656668,
+        "longitude": 7.096306,
+        "vehiculeContractRenter": "Esso",
+        "vehiculeContractType": "LLD",
+        "vehiculeContractDuration": "13 Month",
+        "carDuractionLeft": "2 Mois",
+        "vehiculeContractStart": "12/12/12",
+        "vehiculeContractEnd": "12/12/13",
+        "vehiculeContractKm": "13 000 km",
+        "vehiculeKmTotalDone": "1 123 km",
+        "vehiculeKmTotalLeft": "11 877 km",
+        "vehiculeKmTotalDoneThis": "10 132km",
+        "vehiculeKmTotalDonePerDay": "120",
+        "vehiculeKmTotalDonePerMonth": "3000",
+        "vehiculeEndThisReservation": "2023-06-30",
+        "virutualPouch": [
+            {
+                "docType": "Carte Grise",
+                "picJPG": "https://www.europe-motors-brest.fr/files/upload/nouvelle-carte-grise-specimen100.jpg"
+            },
+            {
+                "docType": "Assurance",
+                "picJPG": "https://images.prismic.io/ornikar/564d30e98aeb746a027beb7b9ec9b7de38ac6a30_certificat-assurance.jpg?auto=compress,format"
+            },
+            {
+                "docType": "Contrôle technique",
+                "picJPG": "https://static1.caroom.fr/guide/wp-content/uploads/2017/03/proc%C3%A8s-verbal-de-contr%C3%B4le-technique-720x1024.jpg"
+            },
+            {
+                "docType": "Autre",
+                "picJPG": "https://www.ecologie.gouv.fr/sites/default/files/critair.png"
+            }
+        ]
+    }
+]
