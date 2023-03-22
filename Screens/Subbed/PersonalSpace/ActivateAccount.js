@@ -38,7 +38,7 @@ function ActivateAccount({ navigation }) {
 
     return (
 
-        <ScrollView style={[generalStyles.container]}>
+        <ScrollView style={[generalStyles.container, generalStyles.mbgeneral65]}>
 
             <Text style={generalStyles.title}>
                 Activation de votre compte
@@ -79,7 +79,7 @@ function ActivateAccount({ navigation }) {
                             dispatchGeneralType={`photoID`} />
 
                         <GradientButton text="Envoyer Identité"
-                            color={['#7cb9e8', '#0c8cdb', '#00b9f1']}
+                            color={['#7cb9e8', '#7cb9e8']}
                             width={300}
 
                             handlePress={() => {
@@ -114,7 +114,7 @@ function ActivateAccount({ navigation }) {
 
                         <GradientButton
                             text="Envoyer Permis"
-                            color={['#7cb9e8', '#0c8cdb', '#00b9f1']}
+                            color={['#7cb9e8', '#7cb9e8']}
                             width={300}
                             handlePress={() => {
                                 handleSubmitLicence({
@@ -148,7 +148,7 @@ function ActivateAccount({ navigation }) {
                             dispatch={delSignature} />
 
                         <GradientButton text="Envoyer votre signature"
-                            color={['#7cb9e8', '#0c8cdb', '#00b9f1']}
+                            color={['#7cb9e8', '#7cb9e8']}
                             width={300}
                             handlePress={() => {
                                 handleSubmitSignature({
@@ -167,7 +167,7 @@ function ActivateAccount({ navigation }) {
                 globalState.photoID.length > 0 &&
 
                 <GradientButton text="Envoyer Tous les documents"
-                    color={['#7cb9e8', '#0c8cdb', '#00b9f1']}
+                    color={['#7cb9e8', '#7cb9e8']}
                     width={300}
                     handlePress={() => {
                         handleSubmitAll({

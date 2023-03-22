@@ -77,17 +77,17 @@ export default function AccordeonSingleItem({ route }) {
                     <View style={{ marginTop: 10, flexDirection: "row", justifyContent: "center" }}>
 
                         <GradientButton text={`<-`}
-                            width={Dimensions.get("window").width - 350}
+                            width={Dimensions.get("window").width - 320}
                             handlePress={() => setThisDate(date => new Date(date.setDate(date.getDate() - 1)))}
                         />
 
                         <GradientButton
                             text={`${format(thisDate, 'yyyy-MM-dd')}`}
-                            width={Dimensions.get("window").width - 280}
+                            width={Dimensions.get("window").width - 200}
                         />
 
                         <GradientButton text={`->`}
-                            width={Dimensions.get("window").width - 350}
+                            width={Dimensions.get("window").width - 320}
                             handlePress={() => setThisDate(date => new Date(date.setDate(date.getDate() + 1)))}
                         />
 

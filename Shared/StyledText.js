@@ -14,6 +14,7 @@ const StyledText = (props) => {
 const styles = StyleSheet.create({
     text: {
         color: 'black',
+        fontFamily: 'Brandon'
     },
 });
 

@@ -6,9 +6,13 @@ export const blackA = "#171919"
 export const blue = "#4daafe"
 export const greenblue = '#94ecd3'
 
-export const gradientColor = ['#94ecd3', '#3ac1b1', '#128c7e']
+export const flatgreen = [primaryColor2, primaryColor2]
+
+export const gradientColor = ['#0d7463', '#3ac1b1', '#94ecd3', '#128c7e']
 export const greyGradientColor = ['#e5e5e5', '#e5e5e5', '#e5e5e5']
 
+// OLD ['#94ecd3', '#3ac1b1', '#128c7e']
+//  NICE
 const swidth = Dimensions.get('screen').width
 const sheight = Dimensions.get('screen').height
 
@@ -56,19 +60,24 @@ export const generalStyles = StyleSheet.create({
     ////////////////
 
     title: {
-        fontWeight: "bold",
-        fontSize: 25,
+        fontSize: 35,
         marginLeft: 20,
         marginTop: 10,
         marginBottom: 5,
-        fontFamily: "brandonBold",
-        color: blue,
+        textShadowColor: greenblue,
+        textShadowOffset: { width: 2, height: 2 },
+        textShadowRadius: 3,
+        color: blackA,
+        fontFamily: "BrandonBold",
     },
     titleInfo: {
         fontSize: 17,
         fontWeight: "bold",
         padding: 6,
-        color: blue,
+        textShadowColor: greenblue,
+        textShadowOffset: { width: 2, height: 2 },
+        textShadowRadius: 3,
+        color: blackA,
     },
     textInfoStyles: {
         fontFamily: "brandonBold",
@@ -85,6 +94,7 @@ export const generalStyles = StyleSheet.create({
     },
     textCenter: {
         textAlign: "center",
+        fontFamily: "BrandonBold",
     },
 
     ////////////////

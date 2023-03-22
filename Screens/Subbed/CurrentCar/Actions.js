@@ -29,18 +29,12 @@ function Actions({ route }) {
                 <GradientButton
                     handlePress={() => console.log('poeut')}
                     text="Klaxoner"
-                    paddingVertical={20}
-                    paddingHorizontal={10}
-                    borderRadius={20}
-                    width={120} />
+                />
 
                 <GradientButton
                     handlePress={() => console.log('Appel di Phares')}
                     text="Phares"
-                    paddingVertical={20}
-                    paddingHorizontal={10}
-                    borderRadius={20}
-                    width={120} />
+                />
 
             </View>
 
@@ -50,19 +44,13 @@ function Actions({ route }) {
                 <GradientButton
                     handlePress={() => console.log('Action Open')}
                     text="Ouvrir"
-                    paddingVertical={30}
-                    paddingHorizontal={20}
-                    borderRadius={100}
-                    width={150} />
+                />
 
 
                 <GradientButton
                     handlePress={() => console.log('Action Close')}
                     text="Fermer"
-                    paddingVertical={30}
-                    paddingHorizontal={20}
-                    borderRadius={100}
-                    width={150} />
+                />
 
             </View>
 
@@ -71,9 +59,7 @@ function Actions({ route }) {
                 <GradientButton
                     handlePress={() => console.log('Action Start')}
                     text="Démarer"
-                    paddingVertical={30}
-                    paddingHorizontal={20}
-                    borderRadius={100} />
+                />
 
             </View>
 

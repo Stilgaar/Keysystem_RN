@@ -2,8 +2,9 @@ import * as React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-import { generalStyles, gradientColor, greyGradientColor } from '../css';
+import { generalStyles, greyGradientColor, flatgreen } from '../css';
 
+import StyledText from '../StyledText';
 
 function GradientButton({
     text,
@@ -14,7 +15,7 @@ function GradientButton({
     borderRadius = 8,
     alignSelf = "center",
     addStyle = {},
-    color = gradientColor,
+    color = flatgreen,
     children,
     disabled = false
 }) {
@@ -23,20 +24,20 @@ function GradientButton({
 
         <TouchableOpacity
             disabled={disabled}
-            style={styles.container}
-            onPress={handlePress}>
+            onPress={handlePress}
+            style={[addStyle, {
+                width: width,
+                borderRadius: borderRadius,
+                alignSelf: alignSelf,
+                borderWidth: 4,
+                borderColor: "black",
+                backgroundColor: color,
+            }]}
+        >
 
             <LinearGradient // Button Linear Gradient
-                colors={!disabled ? color : greyGradientColor}
-                style={[addStyle,
-                    {
-                        width: width,
-                        paddingVertical: paddingVertical,
-                        paddingHorizontal: paddingHorizontal,
-                        borderRadius: borderRadius,
-                        alignSelf: alignSelf,
-                    }
-                ]}>
+                colors={color}
+                style={[{ padding: 15 }]}>
 
                 {text &&
                     <Text style={styles.buttonText}>{text}</Text>
@@ -55,10 +56,10 @@ export default GradientButton;
 
 const styles = StyleSheet.create({
     buttonText: {
-        color: 'white',
-        fontWeight: 'bold',
+        color: 'black',
         textTransform: 'uppercase',
         fontSize: 16,
         textAlign: 'center',
+        fontFamily: "BrandonBold",
     }
 }); 

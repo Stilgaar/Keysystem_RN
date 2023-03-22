@@ -1,7 +1,7 @@
 import { Text, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-import { gradientColor } from '../css';
+import { gradientColor, greenblue } from '../css';
 
 export default function CustomTabBarButton({ children }) {
 

@@ -4,6 +4,7 @@
         "vehiculeBrand": "Suzuki",
         "vehiculeModel": "SJ",
         "virtualKeyGUID": "4553432cxvxcv132",
+        "vehiculeImmatriculation": "FP-132-DP",
         "virtualKeyDateActivated": "13/12/23",
         "virtualKeyDateDesactivated": "13/12/23",
         "virtualKeysOnThisVehicule": 2
@@ -13,6 +14,7 @@
         "vehiculeBrand": "Buick",
         "vehiculeModel": "Rendezvous",
         "virtualKeyGUID": "4553bcvb132",
+        "vehiculeImmatriculation": "DP-132-AM",
         "virtualKeyDateActivated": "13/12/23",
         "virtualKeyDateDesactivated": "13/12/23",
         "virtualKeysOnThisVehicule": 1

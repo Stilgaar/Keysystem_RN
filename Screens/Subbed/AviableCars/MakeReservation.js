@@ -92,22 +92,22 @@ export default function MakeReservation({ route }) {
             <GradientButton
                 handlePress={() => showModeStart('date')}
                 addStyle={{ marginBottom: 5 }}
-                StyledText="Date début" />
+                text="Date début" />
 
             <GradientButton
                 handlePress={() => showModeStart('time')}
                 addStyle={{ marginBottom: 5 }}
-                StyledText="heure début" />
+                text="heure début" />
 
             <GradientButton
                 handlePress={() => showModeEnd('date')}
                 addStyle={{ marginBottom: 5 }}
-                StyledText="Date Fin" />
+                text="Date Fin" />
 
             <GradientButton
                 handlePress={() => showModeEnd('time')}
                 addStyle={{ marginBottom: 5 }}
-                StyledText="Heure Fin" />
+                text="Heure Fin" />
 
             {/* THIS IS THE START */}
 
@@ -146,7 +146,7 @@ export default function MakeReservation({ route }) {
 
             <GradientButton
                 disabled={startDateFromGlobal === endDateFromGlobal}
-                StyledText={`Demandez la reservation`}
+                text={`Demandez la reservation`}
                 handlePress={() => console.log("SEND RESA", globalState.validationReservation)} />
 
         </ScrollView>

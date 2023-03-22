@@ -2,9 +2,12 @@ import React from "react";
 import { StateContext } from "../../../Context/StateContext";
 
 import { View, ScrollView, TouchableOpacity } from "react-native";
+
 import { generalStyles, greenblue } from "../../../Shared/css";
 
 import StyledText from "../../../Shared/StyledText";
+
+import Octicons from 'react-native-vector-icons/Octicons';
 
 import { GradientButton } from "../../../comps";
 
@@ -39,20 +42,51 @@ function NumericalKey({
 
                                 <TouchableOpacity
                                     key={vehicule.virtualKeyGUID}
-                                    style={[generalStyles.globalShadow, { margin: 3 }]}
+                                    style={{ margin: 3 }}
                                     onPress={() => {
                                         navigation.navigate("SelectedVehicule", { virtualKeyGUID: vehicule.virtualKeyGUID, vehiculeGUID: vehicule.vehiculeGUID })
                                     }}>
 
-                                    <View style={{ backgroundColor: greenblue, padding: 10, borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
+                                    <View
+                                        style={[generalStyles.globalShadow, {
+                                            flexDirection: "row",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            backgroundColor: greenblue,
+                                            padding: 10,
+                                            borderTopEndRadius: 15,
+                                            borderTopStartRadius: 15,
+                                        }]}
+                                    >
 
-                                        <StyledText style={{ textAlign: "center" }}>{vehicule.vehiculeBrand} {vehicule.vehiculeModel}</StyledText>
+                                        <View style={{ flex: 0.3 }}>
+                                            <Octicons name="key" size={30} color="black" />
+                                        </View>
 
+                                        <View style={{ flex: 2 }}>
+                                            <StyledText style={{ textAlign: "center", fontSize: 30 }}>
+                                                {vehicule.vehiculeBrand} {vehicule.vehiculeModel}
+                                            </StyledText>
+                                        </View>
+
+
+                                        <View style={{ flex: 0.3 }}>
+                                            <Octicons name="check-circle" size={30} color="black" />
+                                        </View>
                                     </View>
 
-                                    <View style={[{ backgroundColor: "#efefef", padding: 10, borderBottomEndRadius: 15, borderBottomStartRadius: 15 }]}>
+                                    <View style={[{
+                                        backgroundColor: "#efefef",
+                                        padding: 10,
+                                        borderBottomEndRadius: 15,
+                                        borderBottomStartRadius: 15
+                                    }]}>
 
-                                        <StyledText>{vehicule.virtualKeyGUID}</StyledText>
+                                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                            <StyledText style={{ fontSize: 18 }}>Clef : {vehicule.virtualKeyGUID}</StyledText>
+
+                                            <StyledText style={{ fontSize: 18 }}>{vehicule.vehiculeImmatriculation}</StyledText>
+                                        </View>
 
                                     </View>
 

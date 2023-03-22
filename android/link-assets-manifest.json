@@ -1,0 +1,13 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/Fonts/BrandonBold.otf",
+      "sha1": "3b993afcc8fbc2d674d1ae9a72f6a596af6abcf0"
+    },
+    {
+      "path": "assets/Fonts/BrandonLight.otf",
+      "sha1": "850e35587e0b9389b95d5cdbeae4679e2dacc7f9"
+    }
+  ]
+}

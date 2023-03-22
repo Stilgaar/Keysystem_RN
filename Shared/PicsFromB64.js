@@ -49,7 +49,7 @@ export default function PicsFromB64({
 
                                 <GradientButton
                                     handlePress={() => globalDispatch(delPictureDispatch(index, dispatchGeneralType, dispatchType))}
-                                    color={['#bb0000', '#ff1a1a', '#ff0000']}
+                                    color={['#ff0000', '#ff0000']}
                                     text='X'
                                     width={40}
                                     alignSelf={`baseline`} />

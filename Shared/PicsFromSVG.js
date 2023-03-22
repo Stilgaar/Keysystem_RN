@@ -20,7 +20,7 @@ function PicsFromSVG({ svg, dispatch }) {
             <View style={{ justifyContent: "center", alignSelf: "center" }}>
 
                 <GradientButton handlePress={() => globalDispatch(dispatch())}
-                    color={['#bb0000', '#ff1a1a', '#ff0000']}
+                    color={['#ff0000', '#ff0000', '#ff0000']}
                     text='X'
                     width={50}
                     alignSelf={`baseline`} />
