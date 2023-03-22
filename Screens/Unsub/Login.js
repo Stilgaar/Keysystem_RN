@@ -58,7 +58,7 @@ const Login = ({ navigation }) => {
                     behavior={Platform.OS === "ios" ? "padding" : "height"}
                     style={[generalStyles.container, { justifyContent: 'center' }]}>
 
-                    <View style={[generalStyles.whiteContainer, generalStyles.globalShadow]}>
+                    <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
                         <View>
 

@@ -1,13 +1,15 @@
 import { View, Text } from "react-native";
 
+import StyledText from "./StyledText";
+
 function Error({ msg }) {
 
     return (
 
         <View>
-            <Text>
+            <StyledText>
                 {msg}
-            </Text>
+            </StyledText>
         </View>
 
     );

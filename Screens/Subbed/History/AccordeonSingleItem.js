@@ -3,6 +3,8 @@ import { ListItem } from '@rneui/themed';
 import { StateContext } from "../../../Context/StateContext";
 
 import { View, Text, ScrollView, Dimensions } from "react-native";
+import StyledText from "../../../Shared/StyledText";
+
 
 import format from "date-fns/format";
 
@@ -99,7 +101,7 @@ export default function AccordeonSingleItem({ route }) {
                         filteredArray.map((history, index) => (
 
                             <ListItem.Accordion key={index}
-                                containerStyle={[generalStyles.globalShadow, generalStyles.whiteContainer]}
+                                containerStyle={[generalStyles.globalShadow, generalStyles.colorContainer]}
                                 content={
                                     <>
                                         <ListItem.Content>
@@ -138,8 +140,8 @@ export default function AccordeonSingleItem({ route }) {
 
                         :
 
-                        <View style={[generalStyles.center, generalStyles.whiteContainer]}>
-                            <Text>{typeEmpty()}</Text>
+                        <View style={[generalStyles.center, generalStyles.colorContainer]}>
+                            <StyledText>{typeEmpty()}</StyledText>
                         </View>
 
                     }

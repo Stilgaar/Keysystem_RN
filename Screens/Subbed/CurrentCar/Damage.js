@@ -2,6 +2,8 @@ import React from "react";
 
 import { View, Text, ScrollView } from "react-native";
 
+import StyledText from "../../../Shared/StyledText";
+
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { CheckBox, Input } from 'react-native-elements';
 
@@ -79,24 +81,25 @@ export default function Damage({ navigation, route }) {
 
             <Text style={generalStyles.title}>Ajouter un sinistre</Text>
 
-            <View style={[generalStyles.whiteContainer, generalStyles.globalShadow]}>
+            <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
-                <Text style={generalStyles.titleInfo}>
+                <StyledText >
                     Vous avez subis un sinistre ?
-                </Text>
-                <Text>
+                </StyledText>
+
+                <StyledText>
                     Remplissez ce formulaire pour votre voiture pour que votre entreprise puisse prendre
                     les messures nessésaires le plus rapidement possible
-                </Text>
+                </StyledText>
 
             </View>
 
 
-            <View style={[generalStyles.whiteContainer, generalStyles.globalShadow, generalStyles.mbgeneral65]}>
+            <View style={[generalStyles.colorContainer, generalStyles.globalShadow, generalStyles.mbgeneral65]}>
 
-                <Text style={{ textAlign: "center", marginBottom: 5 }}>
+                <StyledText style={{ textAlign: "center", marginBottom: 5 }}>
                     Date / Heure séléctionnée : {format(globalState?.attributionDamage?.[0]?.generalDamageInfo?.[0].currentDate, "dd-MM-yyyy - HH:mm:ss")}
-                </Text>
+                </StyledText>
 
                 <GradientButton handlePress={() => showMode('date')}
                     addStyle={{ marginBottom: 5 }}
@@ -135,7 +138,7 @@ export default function Damage({ navigation, route }) {
                     onChangeText={value => globalDispatch(addInfoDispatch(value, dispatchGeneralType, "generalDamageInfo", "location"))} />
 
 
-                <Text style={{ marginBottom: 10 }}>Localisation des dommages</Text>
+                <StyledText style={{ marginBottom: 10 }}>Localisation des dommages</StyledText>
 
                 {damageArray.map((text, i) => (
 

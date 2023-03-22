@@ -52,13 +52,13 @@ export default function SelectedVehicule({ navigation, route }) {
                 <>
                     {/* <Text style={[generalStyles.title, { marginBottom: 5 }]}>Véhicule Séléctionné</Text> */}
 
-                    <View style={[generalStyles.whiteContainer, generalStyles.globalShadow, { marginTop: 10 }]}>
+                    <View style={[generalStyles.colorContainer, generalStyles.globalShadow, { marginTop: 10 }]}>
 
                         <VehiculesInfo data={globalState.currentCar?.[0]} />
 
                     </View>
 
-                    <View style={[generalStyles.whiteContainer, generalStyles.globalShadow]}>
+                    <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
                         <HistoryKM data={globalState.currentCar?.[0]} />
 

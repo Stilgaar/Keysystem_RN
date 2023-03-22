@@ -2,8 +2,10 @@ import React from "react";
 
 import { StateContext, DispatchContext } from "../../../Context/StateContext";
 
-import { View, Text, ScrollView } from "react-native";
+import { View, ScrollView } from "react-native";
 import { generalStyles } from "../../../Shared/css";
+
+import StyledText from "../../../Shared/StyledText";
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { setSelectedDateReservation } from "../../../Reducer/GlobalReducer/globalDispatch";
@@ -78,34 +80,34 @@ export default function MakeReservation({ route }) {
 
         <ScrollView style={[generalStyles.container]}>
 
-            <Text style={generalStyles.title}>Reservez</Text>
+            <StyledText style={generalStyles.title}>Reservez</StyledText>
 
-            <View style={[generalStyles.whiteContainer]}>
-                <Text>Voiture : {vehicule.vehiculeBrand} {vehicule.vehiculeModel}</Text>
-                <Text>Immatriculation : {vehicule.vehiculeImmatriculation}</Text>
-                <Text>Début reservation : {startDateFromGlobal}</Text>
-                <Text>Fin reservation : {endDateFromGlobal} </Text>
+            <View style={[generalStyles.colorContainer]}>
+                <StyledText>Voiture : {vehicule.vehiculeBrand} {vehicule.vehiculeModel}</StyledText>
+                <StyledText>Immatriculation : {vehicule.vehiculeImmatriculation}</StyledText>
+                <StyledText>Début reservation : {startDateFromGlobal}</StyledText>
+                <StyledText>Fin reservation : {endDateFromGlobal} </StyledText>
             </View>
 
             <GradientButton
                 handlePress={() => showModeStart('date')}
                 addStyle={{ marginBottom: 5 }}
-                text="Date début" />
+                StyledText="Date début" />
 
             <GradientButton
                 handlePress={() => showModeStart('time')}
                 addStyle={{ marginBottom: 5 }}
-                text="heure début" />
+                StyledText="heure début" />
 
             <GradientButton
                 handlePress={() => showModeEnd('date')}
                 addStyle={{ marginBottom: 5 }}
-                text="Date Fin" />
+                StyledText="Date Fin" />
 
             <GradientButton
                 handlePress={() => showModeEnd('time')}
                 addStyle={{ marginBottom: 5 }}
-                text="Heure Fin" />
+                StyledText="Heure Fin" />
 
             {/* THIS IS THE START */}
 
@@ -131,20 +133,20 @@ export default function MakeReservation({ route }) {
                 />
             )}
 
-            <View style={[generalStyles.whiteContainer]}>
+            <View style={[generalStyles.colorContainer]}>
 
                 {startDateFromGlobal === endDateFromGlobal ?
 
-                    <Text style={[generalStyles.textCenter]}>Le début et la fin de la reservation sont les mêmes</Text>
+                    <StyledText style={[generalStyles.textCenter]}>Le début et la fin de la reservation sont les mêmes</StyledText>
                     :
-                    <Text style={[generalStyles.textCenter]}>Vous pouvez procèder à la reservation</Text>
+                    <StyledText style={[generalStyles.textCenter]}>Vous pouvez procèder à la reservation</StyledText>
                 }
 
             </View>
 
             <GradientButton
                 disabled={startDateFromGlobal === endDateFromGlobal}
-                text={`Demandez la reservation`}
+                StyledText={`Demandez la reservation`}
                 handlePress={() => console.log("SEND RESA", globalState.validationReservation)} />
 
         </ScrollView>

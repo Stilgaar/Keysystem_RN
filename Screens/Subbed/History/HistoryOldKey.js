@@ -1,4 +1,6 @@
-import { View, Text } from "react-native"
+import { View } from "react-native"
+
+import StyledText from "../../../Shared/StyledText"
 
 export default function HistoryOldKey({ item }) {
 
@@ -6,9 +8,9 @@ export default function HistoryOldKey({ item }) {
     return (
         <View>
 
-            <Text>Véhicule {item.vehiculeBrand} {item.vehiculeModel}</Text>
-            <Text>Date d'ativation de la clef : {item.virtualKeyDateActivated}</Text>
-            <Text>Date de désactivation de la clef : {item.virtualKeyDateDesactivated}</Text>
+            <StyledText>Véhicule {item.vehiculeBrand} {item.vehiculeModel}</StyledText>
+            <StyledText>Date d'ativation de la clef : {item.virtualKeyDateActivated}</StyledText>
+            <StyledText>Date de désactivation de la clef : {item.virtualKeyDateDesactivated}</StyledText>
 
         </View>
     )

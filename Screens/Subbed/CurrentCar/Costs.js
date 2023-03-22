@@ -3,6 +3,8 @@ import { DispatchContext, StateContext } from "../../../Context/StateContext";
 
 import { View, Text, ScrollView } from "react-native";
 
+import StyledText from "../../../Shared/StyledText";
+
 import { Input } from "react-native-elements";
 
 import { generalStyles } from "../../../Shared/css";
@@ -65,19 +67,19 @@ export default function Costs({ navigation, route }) {
 
             <Text style={generalStyles.title}>Coûts de la voiture</Text>
 
-            <View style={[generalStyles.whiteContainer, generalStyles.globalShadow]}>
+            <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
-                <Text style={generalStyles.titleInfo}>
+                <StyledText>
                     Gestion des côuts du véhicule
-                </Text>
+                </StyledText>
 
-                <Text>
+                <StyledText>
                     Rajoutez les coûts de votre voiture
-                </Text>
+                </StyledText>
 
             </View>
 
-            <View style={[generalStyles.whiteContainer, generalStyles.globalShadow, generalStyles.mbgeneral65]}>
+            <View style={[generalStyles.colorContainer, generalStyles.globalShadow, generalStyles.mbgeneral65]}>
 
                 <DropDownPicker
                     zIndex={10000}

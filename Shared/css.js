@@ -9,6 +9,9 @@ export const greenblue = '#94ecd3'
 export const gradientColor = ['#94ecd3', '#3ac1b1', '#128c7e']
 export const greyGradientColor = ['#e5e5e5', '#e5e5e5', '#e5e5e5']
 
+const swidth = Dimensions.get('screen').width
+const sheight = Dimensions.get('screen').height
+
 export const generalStyles = StyleSheet.create({
 
     ////////////////
@@ -27,7 +30,7 @@ export const generalStyles = StyleSheet.create({
         flex: 3,
         backgroundColor: "#efefef",
     },
-    whiteContainer: {
+    colorContainer: {
         padding: 20,
         marginTop: 2,
         marginBottom: 5,
@@ -37,12 +40,15 @@ export const generalStyles = StyleSheet.create({
         backgroundColor: "#efefef",
         justifyContent: 'center',
     },
-    smallWhiteContainer: {
-        backgroundColor: "white",
+    smallcolorContainer: {
+        backgroundColor: "#efefef",
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 50,
-        padding: 10,
+        borderRadius: 25,
+        padding: 3,
+        marginLeft: 10,
+        marginRight: 10,
+        marginBottom: 5,
     },
 
     ////////////////
@@ -118,6 +124,10 @@ export const generalStyles = StyleSheet.create({
     center: {
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    spbetween: {
+        flexDirection: "row",
+        justifyContent: "space-between"
     },
 
     ////////////////

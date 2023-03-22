@@ -1,12 +1,13 @@
-import { View, Text } from "react-native"
+import { View } from "react-native"
+
+import StyledText from "../../../Shared/StyledText"
 
 export default function HistoryNextReservation({ item }) {
 
     return (
         <View>
-            <Text>Véhicule : {item.vehiculeBrand} {item.vehiculeModel}</Text>
-            <Text>Date d'ativation de la clef : {item.virtualKeyDateActivated}</Text>
-            <Text></Text>
+            <StyledText>Véhicule : {item.vehiculeBrand} {item.vehiculeModel}</StyledText>
+            <StyledText>Date d'ativation de la clef : {item.virtualKeyDateActivated}</StyledText>
         </View>
     )
 }

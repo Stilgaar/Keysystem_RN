@@ -1,6 +1,9 @@
 // React && React Native components
 import React, { useContext } from "react";
 import { View, Text, Dimensions, ScrollView } from "react-native";
+
+import StyledText from "../../../Shared/StyledText";
+
 import { StateContext } from "../../../Context/StateContext";
 
 import { generalStyles } from "../../../Shared/css";
@@ -30,7 +33,7 @@ export default function MyAccount({ navigation }) {
 
                 <Text style={generalStyles.title}>Mon Compte</Text>
 
-                <View style={[generalStyles.whiteContainer, generalStyles.globalShadow]}>
+                <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
                     <TextInfo array={accountArrayInfoText} data={globalState.user[0]} />
 
@@ -40,7 +43,7 @@ export default function MyAccount({ navigation }) {
 
                     <Text style={generalStyles.title}>Modifier votre compte</Text>
 
-                    <View style={[generalStyles.whiteContainer, generalStyles.globalShadow]}>
+                    <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
                         <View style={{ marginTop: 10 }}>
 
@@ -64,7 +67,7 @@ export default function MyAccount({ navigation }) {
 
                         <Text style={generalStyles.title}>Historique</Text>
 
-                        <View style={[generalStyles.whiteContainer, generalStyles.globalShadow]}>
+                        <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
                             <View style={{ marginTop: 10 }}>
 

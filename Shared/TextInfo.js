@@ -1,8 +1,8 @@
 import React from "react"
 
-import { Text, View, StyleSheet } from "react-native";
+import { View } from "react-native";
 
-import { generalStyles } from "./css";
+import StyledText from "./StyledText";
 
 function TextInfo({
     array,
@@ -15,15 +15,15 @@ function TextInfo({
 
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }} key={index}>
 
-                    <Text style={generalStyles.textInfoStyles}>
+                    <StyledText>
                         {textInfo.text}
-                    </Text>
+                    </StyledText>
 
-                    <Text style={generalStyles.textDataStyles}>
+                    <StyledText>
                         {data?.[`${textInfo?.key}`]}
-                        {data?.[`${textInfo?.secondKey}`] && <Text> / </Text>}
+                        {data?.[`${textInfo?.secondKey}`] && <StyledText> / </StyledText>}
                         {data?.[`${textInfo?.secondKey}`]}
-                    </Text>
+                    </StyledText>
 
                 </View>
 

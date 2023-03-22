@@ -2,8 +2,7 @@ import React from "react"
 
 import { StateContext } from "../../../Context/StateContext";
 
-import { View, Text, ScrollView, Image, Modal, StyleSheet, Dimensions } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { View, Text, ScrollView, Animated, Image, Modal, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 
 import { generalStyles } from "../../../Shared/css";
 import { GradientButton } from "../../../comps";
@@ -51,7 +50,7 @@ export default function VirtualPouch() {
                 {globalState?.currentCar?.[0]?.virutualPouch.map((document, index) => (
 
                     <View key={index}
-                        style={[generalStyles.whiteContainer, generalStyles.center]}>
+                        style={[generalStyles.colorContainer, generalStyles.center]}>
 
                         <Text style={generalStyles.title}>
                             {document.docType}
@@ -90,23 +89,18 @@ export default function VirtualPouch() {
                         {selectedImage &&
 
                             <>
-                                <GestureDetector gesture={pinchGesture}>
+                                <ScrollView horizontal={true}>
 
-                                    <ScrollView horizontal={true}>
+                                    <View>
 
-                                        <Animated.View style={[animatedStyle]}>
+                                        <Image
+                                            source={{ uri: `${selectedImage.picJPG}` }}
+                                            style={[styles.fullScreenImage]}
+                                        />
 
-                                            <Animated.Image
-                                                source={{ uri: `${selectedImage.picJPG}` }}
-                                                style={[styles.fullScreenImage, animatedStyle]}
-                                            />
+                                    </View>
 
-                                        </Animated.View>
-
-
-                                    </ScrollView>
-
-                                </GestureDetector>
+                                </ScrollView>
 
                                 <GradientButton text={`Fermer ${selectedImage.docType}`}
                                     width={Dimensions.get('window').width - 10}

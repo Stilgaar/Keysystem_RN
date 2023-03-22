@@ -3,6 +3,8 @@ import { StateContext } from "../../../Context/StateContext";
 
 import { View, Text, ScrollView } from "react-native";
 
+import StyledText from "../../../Shared/StyledText";
+
 import { activateAccountList } from "../../../JSON/Fr/MyAccountArray"
 
 import PicsFromB64 from "../../../Shared/PicsFromB64"
@@ -42,26 +44,26 @@ function ActivateAccount({ navigation }) {
                 Activation de votre compte
             </Text>
 
-            <View style={[generalStyles.whiteContainer, generalStyles.globalShadow]}>
+            <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
-                <Text style={{ marginBottom: 5 }}>
+                <StyledText style={{ marginBottom: 5 }}>
                     Pour activer votre compte nous avons besoin des documents suivants :
-                </Text>
+                </StyledText>
 
                 {activateAccountList.map(list => (
 
-                    <Text style={{ marginLeft: 15, marginTop: 2 }} key={list}>
+                    <StyledText style={{ marginLeft: 15, marginTop: 2 }} key={list}>
                         * {list}
-                    </Text>
+                    </StyledText>
 
                 ))}
 
 
             </View>
 
-            <View style={[generalStyles.whiteContainer, generalStyles.globalShadow]}>
+            <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
-                <Text>Carte d'identité</Text>
+                <StyledText>Carte d'identité</StyledText>
 
                 <View style={{ marginTop: 10 }}>
 
@@ -92,9 +94,9 @@ function ActivateAccount({ navigation }) {
 
             </View>
 
-            <View style={[generalStyles.whiteContainer, generalStyles.globalShadow]}>
+            <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
-                <Text>Permis de conduire</Text>
+                <StyledText>Permis de conduire</StyledText>
 
                 <View style={{ marginTop: 10 }}>
 
@@ -127,9 +129,9 @@ function ActivateAccount({ navigation }) {
 
             </View>
 
-            <View style={[generalStyles.whiteContainer, generalStyles.globalShadow]}>
+            <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
-                <Text>Signature</Text>
+                <StyledText>Signature</StyledText>
 
                 <View style={{ marginTop: 10 }}>
 

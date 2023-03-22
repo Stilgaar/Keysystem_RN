@@ -3,6 +3,8 @@ import { View, Text } from "react-native";
 import { generalStyles } from "../../../Shared/css";
 
 import { GradientButton } from "../../../comps";
+
+
 // Actions
 // Ouvrir le véhicule avec mon mobile
 // Mettre en route le moteur

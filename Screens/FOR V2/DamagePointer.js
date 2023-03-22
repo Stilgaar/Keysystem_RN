@@ -38,7 +38,7 @@ export default function DamagePointer({ navigation }) {
             </Text>
 
             <View onLayout={handleLayout}
-                style={[generalStyles.center, generalStyles.whiteContainer, generalStyles.globalShadow]}>
+                style={[generalStyles.center, generalStyles.colorContainer, generalStyles.globalShadow]}>
 
 
                 {/* IMAGE HERE */}

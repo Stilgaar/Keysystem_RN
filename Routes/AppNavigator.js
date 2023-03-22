@@ -105,91 +105,91 @@ export default function AppNavigator() {
     const notificationListener = React.useRef();
     const [expoPushToken, setExpoPushToken] = React.useState('');
 
-    React.useEffect(() => {
+    // React.useEffect(() => {
 
-        registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+    //     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
 
-        notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-            // console.log(notification)
-        });
+    //     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+    //         // console.log(notification)
+    //     });
 
-        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-            //console.log("res", response);
-        });
+    //     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+    //         //console.log("res", response);
+    //     });
 
-        // open a WebSocket connection
-        // const ws = new WebSocket('wss://socketsbay.com/wss/v2/1/demo/');
+    //     // open a WebSocket connection
+    //     // const ws = new WebSocket('wss://socketsbay.com/wss/v2/1/demo/');
 
-        // ws.addEventListener('message', event => {
-        // makeANofitication(JSON.parse(event.data))
-        // });
+    //     // ws.addEventListener('message', event => {
+    //     // makeANofitication(JSON.parse(event.data))
+    //     // });
 
-        return () => {
-            Notifications.removeNotificationSubscription(notificationListener.current);
-            Notifications.removeNotificationSubscription(responseListener.current);
-        };
+    //     return () => {
+    //         Notifications.removeNotificationSubscription(notificationListener.current);
+    //         Notifications.removeNotificationSubscription(responseListener.current);
+    //     };
 
-    }, []);
+    // }, []);
 
-    async function makeANofitication(notif) {
+    // async function makeANofitication(notif) {
 
-        if (typeof notif === 'object' && notif !== null && notif.title && notif.body) {
+    //     if (typeof notif === 'object' && notif !== null && notif.title && notif.body) {
 
-            globalDispatch(addNotification(notif))
+    //         globalDispatch(addNotification(notif))
 
-            await Notifications.scheduleNotificationAsync({
-                content: {
-                    title: notif.title,
-                    body: notif.body,
-                },
-                trigger: { seconds: 2 },
-            });
-        }
+    //         await Notifications.scheduleNotificationAsync({
+    //             content: {
+    //                 title: notif.title,
+    //                 body: notif.body,
+    //             },
+    //             trigger: { seconds: 2 },
+    //         });
+    //     }
 
-    }
+    // }
 
-    async function registerForPushNotificationsAsync() {
-        let token;
+    // async function registerForPushNotificationsAsync() {
+    //     let token;
 
-        if (Platform.OS === 'android') {
+    //     if (Platform.OS === 'android') {
 
-            await Notifications.setNotificationChannelAsync('default', {
-                name: 'default',
-                importance: Notifications.AndroidImportance.MAX,
-                vibrationPattern: [0, 250, 250, 250],
-                lightColor: '#FF231F7C',
-            });
+    //         await Notifications.setNotificationChannelAsync('default', {
+    //             name: 'default',
+    //             importance: Notifications.AndroidImportance.MAX,
+    //             vibrationPattern: [0, 250, 250, 250],
+    //             lightColor: '#FF231F7C',
+    //         });
 
-        }
+    //     }
 
-        if (Device.isDevice) {
-            const { status: existingStatus } = await Notifications.getPermissionsAsync();
-            let finalStatus = existingStatus;
+    //     if (Device.isDevice) {
+    //         const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    //         let finalStatus = existingStatus;
 
-            if (finalStatus === 'denied') {
-                // If the existing status is "denied", request permissions again
-                const { status } = await Notifications.requestPermissionsAsync();
-                finalStatus = status;
-            }
+    //         if (finalStatus === 'denied') {
+    //             // If the existing status is "denied", request permissions again
+    //             const { status } = await Notifications.requestPermissionsAsync();
+    //             finalStatus = status;
+    //         }
 
-            if (finalStatus !== 'granted') {
-                const { status } = await Notifications.requestPermissionsAsync();
-                finalStatus = status;
-            }
-            if (finalStatus !== 'granted') {
-                alert('Failed to get push token for push notification!');
-                return;
-            }
+    //         if (finalStatus !== 'granted') {
+    //             const { status } = await Notifications.requestPermissionsAsync();
+    //             finalStatus = status;
+    //         }
+    //         if (finalStatus !== 'granted') {
+    //             alert('Failed to get push token for push notification!');
+    //             return;
+    //         }
 
-            // So i just desactivated this line beaucause, well, i got a warning. I think its only if your subscribe to a firebase db.
-            //  token = (await Notifications.getExpoPushTokenAsync()).data;
+    //         // So i just desactivated this line beaucause, well, i got a warning. I think its only if your subscribe to a firebase db.
+    //         //  token = (await Notifications.getExpoPushTokenAsync()).data;
 
-        } else {
-            alert('Must use physical device for Push Notifications');
-        }
+    //     } else {
+    //         alert('Must use physical device for Push Notifications');
+    //     }
 
-        return token;
-    }
+    //     return token;
+    // }
 
     ////////////////
     // Add Screen Names in this array where you don't want the tap bar to be displayed. \o/
@@ -399,7 +399,7 @@ export default function AppNavigator() {
                 />
 
 
-                {/*    <Stack.Screen name="SelectedVehicule"
+                <Stack.Screen name="SelectedVehicule"
                     component={SelectedVehicule}
                     options={{
                         header: ({ navigation }) => (
@@ -589,7 +589,7 @@ export default function AppNavigator() {
                                 initial={false} />
                         ),
                     }}
-                />*/}
+                />
 
             </Stack.Navigator >
         )
@@ -640,7 +640,7 @@ export default function AppNavigator() {
                         }}
                     />
 
-                    {/*      <Stack.Screen name="VehiculeCalendar"
+                    <Stack.Screen name="VehiculeCalendar"
                         component={VehiculeCalendar}
                         options={{
                             header: ({ navigation }) => (
@@ -668,7 +668,7 @@ export default function AppNavigator() {
                                 )
                             ),
                         }}
-                    />*/}
+                    />
 
                 </Stack.Navigator >
 

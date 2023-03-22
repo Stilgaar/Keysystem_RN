@@ -12,7 +12,9 @@ import tinycolor from "tinycolor2";
 
 import { eachDayOfInterval, format } from 'date-fns';
 
-import { View, Text, ScrollView, Modal, StyleSheet, Dimensions } from "react-native";
+import { View, Text, ScrollView, Modal, Dimensions } from "react-native";
+
+import StyledText from "../../../Shared/StyledText";
 
 import vehicules from "../../../JSON/CAR_MOCK_DATA.json"
 import { generalStyles } from "../../../Shared/css";
@@ -129,7 +131,7 @@ export default function VehiculeCalendar({ navigation, route }) {
 
         <ScrollView style={[generalStyles.container, generalStyles.mbgeneral65, { flexGrow: 1 }]}>
 
-            <View style={[generalStyles.whiteContainer, generalStyles.globalShadow, { marginTop: 10 }]}>
+            <View style={[generalStyles.colorContainer, generalStyles.globalShadow, { marginTop: 10 }]}>
 
                 <Text style={generalStyles.title}>Disponibilités</Text>
 
@@ -159,16 +161,16 @@ export default function VehiculeCalendar({ navigation, route }) {
                         {period?.[`${selectedDay?.dateString?.toString()}`]?.["periods"].length > 0 ?
 
                             <>
-                                <Text style={{ margin: 10 }}>Reservations ce jour {selectedDay.dateString.toString()}</Text>
+                                <StyledText style={{ margin: 10 }}>Reservations ce jour {selectedDay.dateString.toString()}</StyledText>
 
                                 {period[`${selectedDay?.dateString?.toString()}`]["periods"]
                                     .map((thisDay, index) => (
 
-                                        <View key={index} style={[generalStyles.whiteContainer, { width: windowWidth - 90, padding: 10, flexDirection: "row" }]}>
+                                        <View key={index} style={[generalStyles.colorContainer, { width: windowWidth - 90, padding: 10, flexDirection: "row" }]}>
 
                                             <View style={[generalStyles.badge, { margin: 5, backgroundColor: thisDay.color }]} />
 
-                                            <Text style={{ margin: 5 }}> Reservé par : {thisDay.fullName} </Text>
+                                            <StyledText style={{ margin: 5 }}> Reservé par : {thisDay.fullName} </StyledText>
 
                                         </View>
                                     ))
@@ -179,9 +181,9 @@ export default function VehiculeCalendar({ navigation, route }) {
                             :
 
                             <>
-                                <View style={[generalStyles.whiteContainer]}>
+                                <View style={[generalStyles.colorContainer]}>
 
-                                    <Text>Pas de reservations ce jour là</Text>
+                                    <StyledText>Pas de reservations ce jour là</StyledText>
 
                                 </View>
 

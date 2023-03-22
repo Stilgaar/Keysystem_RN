@@ -1,4 +1,5 @@
 import React from "react"
+import { enableScreens } from 'react-native-screens';
 
 // Important for Swipe gesture - Pinch-to-zoom -Drag and drop- Long press- Double tap
 // import 'react-native-gesture-handler';
@@ -19,11 +20,18 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 export default function App() {
 
   ////////////////
+  // Needed in React native
+  ////////////////
+
+  enableScreens();
+
+  ////////////////
   // States for the things
   ////////////////
 
-  const [fontsLoaded, setFontsLoaded] = React.useState(false);
-  const [permission, setPermission] = React.useState(null);
+
+  // const [fontsLoaded, setFontsLoaded] = React.useState(false);
+  // const [permission, setPermission] = React.useState(null);
 
   ////////////////
   // JSX

@@ -12,6 +12,8 @@ import { GradientButton } from "../../../comps";
 
 import { generalStyles, primaryColor2 } from "../../../Shared/css";
 
+import StyledText from "../../../Shared/StyledText";
+
 import { FilterEverything } from "../../../Functions/FilterAll";
 import { getSelectedVehiculeReseravation } from "../../../Reducer/GlobalReducer/globalDispatch";
 
@@ -32,6 +34,7 @@ function SelectVehicle({ navigation }) {
     // const { data: vehiculeList } = useFetch(`${process.env.API_URL}resetapiroad`)
 
     return (
+
         <>
             {globalState.user[0].isVerified ?
                 <>
@@ -43,7 +46,7 @@ function SelectVehicle({ navigation }) {
 
                                 <Text style={generalStyles.title}>Véhicules disponibles</Text>
 
-                                <View style={[generalStyles.center, generalStyles.whiteContainer]}>
+                                <View style={[generalStyles.center, generalStyles.smallcolorContainer]}>
 
                                     <Input placeholder={`Rechercher un véhicule`}
                                         onChangeText={(text) => setSearchVehicule(text)} />
@@ -63,19 +66,36 @@ function SelectVehicle({ navigation }) {
                                                 }
                                                 else { setSelectedVehicule(vehicule) }
                                             }}
-                                            style={[generalStyles.whiteContainer, generalStyles.globalShadow, { marginLeft: 10, marginRight: 10, marginBottom: 2, marginTop: 2 },
+                                            style={[generalStyles.colorContainer, generalStyles.globalShadow, { marginLeft: 10, marginRight: 10, marginBottom: 2, marginTop: 2 },
                                             selectedVehicule.vehiculeGUID === vehicule.vehiculeGUID && { backgroundColor: primaryColor2 }]}>
 
-                                            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                            <View style={generalStyles.spbetween}>
 
-                                                <View>
-                                                    <Text>Véhicule : {vehicule.vehiculeBrand} - {vehicule.vehiculeModel}</Text>
-                                                    <Text>Type : {vehicule.vehiculeType}</Text>
-                                                    <Text>Immatriculation : {vehicule.vehiculeImmatriculation}</Text>
-                                                    <Text>Kilométrage : {vehicule.vehiculeKmTotalDone}</Text>
+                                                <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
+
+                                                    <View style={generalStyles.spbetween}>
+                                                        <StyledText>Véhicule</StyledText>
+                                                        <StyledText>{vehicule.vehiculeBrand} - {vehicule.vehiculeModel}</StyledText>
+                                                    </View>
+
+                                                    <View style={generalStyles.spbetween}>
+                                                        <StyledText>Type</StyledText>
+                                                        <StyledText> {vehicule.vehiculeType}</StyledText>
+                                                    </View>
+
+                                                    <View style={generalStyles.spbetween}>
+                                                        <StyledText>Immatriculation</StyledText>
+                                                        <StyledText>{vehicule.vehiculeImmatriculation}</StyledText>
+                                                    </View>
+                                                    <View style={generalStyles.spbetween}>
+                                                        <StyledText>Kilométrage</StyledText>
+                                                        <StyledText>{vehicule.vehiculeKmTotalDone}</StyledText>
+                                                    </View>
 
                                                     {vehicule.vehiculeIsUsed &&
-                                                        <Text style={{ marginTop: 5 }}>En cours d'utilisation</Text>
+                                                        <View style={generalStyles.center}>
+                                                            <StyledText style={{ marginTop: 5, color: "crimson" }}>En cours d'utilisation</StyledText>
+                                                        </View>
                                                     }
 
                                                 </View>
@@ -85,7 +105,6 @@ function SelectVehicle({ navigation }) {
                                                     <Avatar size={65}
                                                         rounded
                                                         source={{ uri: vehicule.vehiculeSRC }}
-                                                        avatarStyle={generalStyles.globalShadow}
                                                     />
 
                                                 </View>
@@ -128,7 +147,7 @@ function SelectVehicle({ navigation }) {
 
                 :
 
-                <View style={[generalStyles.center, generalStyles.whiteContainer, generalStyles.center, { flex: 1 }]}>
+                <View style={[generalStyles.center, generalStyles.colorContainer, generalStyles.center, { flex: 1 }]}>
 
                     <Text style={{ textAlign: "center" }}>Avant de pouvoir reverver une voiture vous devez activer votre compte. </Text>
 

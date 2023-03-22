@@ -69,7 +69,7 @@ function ModifyAccount() {
                     <KeyboardAvoidingView
                         behavior={Platform.OS === "ios" ? "padding" : "height"}
                         style={[generalStyles.container]}>
-                        <View style={[generalStyles.whiteContainer, generalStyles.center, generalStyles.globalShadow]}>
+                        <View style={[generalStyles.colorContainer, generalStyles.center, generalStyles.globalShadow]}>
 
                             <View style={styles.form}>
                                 <TextInput

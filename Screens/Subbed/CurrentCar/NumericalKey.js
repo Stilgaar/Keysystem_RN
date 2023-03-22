@@ -1,13 +1,12 @@
 import React from "react";
 import { StateContext } from "../../../Context/StateContext";
 
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
-import { generalStyles, greenblue, blackA } from "../../../Shared/css";
+import { View, ScrollView, TouchableOpacity } from "react-native";
+import { generalStyles, greenblue } from "../../../Shared/css";
+
+import StyledText from "../../../Shared/StyledText";
 
 import { GradientButton } from "../../../comps";
-
-import { TextInfo } from "../../../comps";
-import { virtualKeysAllVehicules } from "../../../JSON/Fr/CurrentVehiculeArray";
 
 // Clé numérique
 // Information sur la clé active
@@ -33,7 +32,7 @@ function NumericalKey({
                         <ScrollView style={[generalStyles.container, generalStyles.mbgeneral65]}>
 
                             <View>
-                                <Text style={[generalStyles.title, { marginBottom: 5 }]}>Clef(s) numériques</Text>
+                                <StyledText style={[generalStyles.title, { marginBottom: 5 }]}>Clef(s) numériques</StyledText>
                             </View>
 
                             {globalState?.currentKeys.map((vehicule) => (
@@ -47,13 +46,13 @@ function NumericalKey({
 
                                     <View style={{ backgroundColor: greenblue, padding: 10, borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
 
-                                        <Text style={{ textAlign: "center" }}> {vehicule.vehiculeBrand} {vehicule.vehiculeModel}</Text>
+                                        <StyledText style={{ textAlign: "center" }}>{vehicule.vehiculeBrand} {vehicule.vehiculeModel}</StyledText>
 
                                     </View>
 
                                     <View style={[{ backgroundColor: "#efefef", padding: 10, borderBottomEndRadius: 15, borderBottomStartRadius: 15 }]}>
 
-                                        <Text>{vehicule.virtualKeyGUID} </Text>
+                                        <StyledText>{vehicule.virtualKeyGUID}</StyledText>
 
                                     </View>
 
@@ -65,13 +64,13 @@ function NumericalKey({
 
                         :
 
-                        <View style={[generalStyles.center, generalStyles.whiteContainer, generalStyles.center, { flex: 1 }]}>
+                        <View style={[generalStyles.center, generalStyles.colorContainer, generalStyles.center, { flex: 1 }]}>
 
-                            <Text style={{ textAlign: "center" }}>Vous ne disposez pas encore de clef(s) numériques, veuillez reserver une voiture</Text>
+                            <StyledText style={{ textAlign: "center" }}>Vous ne disposez pas encore de clef(s) numériques, veuillez reserver une voiture</StyledText>
 
                             <GradientButton handlePress={() => navigation.navigate('Vehicules')}
                                 addStyle={{ marginTop: 65 }}
-                                text={`Séléctionnez une voiture`} />
+                                StyledText={`Séléctionnez une voiture`} />
 
                         </View>
 
@@ -81,13 +80,13 @@ function NumericalKey({
 
                 :
 
-                <View style={[generalStyles.center, generalStyles.whiteContainer, generalStyles.center, { flex: 1 }]}>
+                <View style={[generalStyles.center, generalStyles.colorContainer, generalStyles.center, { flex: 1 }]}>
 
-                    <Text style={{ textAlign: "center" }}>Avant de pouvoir reverver une voiture vous devez activer votre compte. </Text>
+                    <StyledText style={{ textAlign: "center" }}>Avant de pouvoir reverver une voiture vous devez activer votre compte. </StyledText>
 
                     <GradientButton handlePress={() => navigation.navigate('Account', { screen: "ActivateAccount" })}
                         addStyle={{ marginTop: 65 }}
-                        text={`Envoyer vos documents`} />
+                        StyledText={`Envoyer vos documents`} />
 
                 </View>
 

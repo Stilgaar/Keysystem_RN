@@ -1,4 +1,6 @@
-import { View, Text, StyleSheet } from "react-native"
+import { View, StyleSheet } from "react-native"
+
+import StyledText from "../../../Shared/StyledText";
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -18,8 +20,8 @@ export default function HistoryRoute({ item }) {
 
                         <FontAwesome name="flag" size={12} color="green" />
 
-                        <Text style={{ marginLeft: 5 }}>{item?.departureTime} </Text>
-                        <Text style={{ marginLeft: 5 }}>{item?.departureLocation}</Text>
+                        <StyledText style={{ marginLeft: 5 }}>{item?.departureTime} </StyledText>
+                        <StyledText style={{ marginLeft: 5 }}>{item?.departureLocation}</StyledText>
 
                     </View>
                 }
@@ -30,8 +32,8 @@ export default function HistoryRoute({ item }) {
 
                         <FontAwesome name="flag" size={12} color="red" />
 
-                        <Text style={{ marginLeft: 5 }}>{item?.arrivalTime}</Text>
-                        <Text style={{ marginLeft: 5 }}>{item?.arrivalLocation}</Text>
+                        <StyledText style={{ marginLeft: 5 }}>{item?.arrivalTime}</StyledText>
+                        <StyledText style={{ marginLeft: 5 }}>{item?.arrivalLocation}</StyledText>
 
                     </View>
                 }
@@ -42,24 +44,24 @@ export default function HistoryRoute({ item }) {
 
                         <View style={styles.cell}>
 
-                            <Text style={styles.itemSmalltext}>Km</Text>
-                            <Text style={styles.itemText}>{item.routeKmDone}</Text>
-                            <Text>Parcourus</Text>
+                            <StyledText style={styles.itemSmalltext}>Km</StyledText>
+                            <StyledText style={styles.itemText}>{item.routeKmDone}</StyledText>
+                            <StyledText>Parcourus</StyledText>
 
                         </View>
 
                         <View style={styles.cell}>
 
-                            <Text style={styles.itemSmalltext}>h</Text>
-                            <Text style={styles.itemText}>{item.routeDuration}</Text>
-                            <Text>de conduite</Text>
+                            <StyledText style={styles.itemSmalltext}>h</StyledText>
+                            <StyledText style={styles.itemText}>{item.routeDuration}</StyledText>
+                            <StyledText>de conduite</StyledText>
                         </View>
 
                         <View style={styles.cell}>
 
-                            <Text style={styles.itemSmalltext}>h</Text>
-                            <Text style={styles.itemText}>{item.routeStops}</Text>
-                            <Text>d'arrêt</Text>
+                            <StyledText style={styles.itemSmalltext}>h</StyledText>
+                            <StyledText style={styles.itemText}>{item.routeStops}</StyledText>
+                            <StyledText>d'arrêt</StyledText>
                         </View>
 
                     </View>
@@ -68,25 +70,25 @@ export default function HistoryRoute({ item }) {
 
                         <View style={styles.cell}>
 
-                            <Text style={styles.itemSmalltext}>l/100</Text>
-                            <Text style={styles.itemText}>{item.routeGasConsumtion}</Text>
-                            <Text>consomation</Text>
+                            <StyledText style={styles.itemSmalltext}>l/100</StyledText>
+                            <StyledText style={styles.itemText}>{item.routeGasConsumtion}</StyledText>
+                            <StyledText>consomation</StyledText>
 
                         </View>
 
                         <View style={styles.cell}>
 
-                            <Text style={styles.itemSmalltext}>km/h</Text>
-                            <Text style={styles.itemText}>{item.routeAverageSpeed}</Text>
-                            <Text>vitesse moyenne</Text>
+                            <StyledText style={styles.itemSmalltext}>km/h</StyledText>
+                            <StyledText style={styles.itemText}>{item.routeAverageSpeed}</StyledText>
+                            <StyledText>vitesse moyenne</StyledText>
 
                         </View>
 
                         <View style={styles.cell}>
 
-                            <Text style={styles.itemSmalltext}>g/mol</Text>
-                            <Text style={styles.itemText}>{item.routeC02}</Text>
-                            <Text>Rejet en CO2</Text>
+                            <StyledText style={styles.itemSmalltext}>g/mol</StyledText>
+                            <StyledText style={styles.itemText}>{item.routeC02}</StyledText>
+                            <StyledText>Rejet en CO2</StyledText>
                         </View>
 
                     </View>

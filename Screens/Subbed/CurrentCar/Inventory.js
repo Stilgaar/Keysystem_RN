@@ -2,6 +2,8 @@ import React from "react";
 
 import { View, Text, ScrollView } from "react-native";
 
+import StyledText from "../../../Shared/StyledText";
+
 import { generalStyles } from "../../../Shared/css";
 
 import { GradientButton } from "../../../comps";
@@ -51,21 +53,21 @@ export default function Inventory({ navigation, route }) {
                 <React.Fragment key={display.title}>
                     <Text style={generalStyles.title}>{display.title}</Text>
 
-                    <View style={[generalStyles.whiteContainer, generalStyles.globalShadow]}>
+                    <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
-                        <Text style={generalStyles.titleInfo}>
+                        <StyledText style={generalStyles.titleInfo}>
                             {display.text1}
-                        </Text>
+                        </StyledText>
 
-                        <Text>
+                        <StyledText>
                             {display.text2}
-                        </Text>
+                        </StyledText>
 
                     </View>
                 </React.Fragment>
             ))}
 
-            <View style={[generalStyles.whiteContainer, generalStyles.globalShadow, generalStyles.mbgeneral65]}>
+            <View style={[generalStyles.colorContainer, generalStyles.globalShadow, generalStyles.mbgeneral65]}>
 
                 <Input
                     multiline={true}

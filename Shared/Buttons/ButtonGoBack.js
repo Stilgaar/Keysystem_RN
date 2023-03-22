@@ -9,7 +9,7 @@ function ButtonGoBack({ onPress }) {
 
         <TouchableOpacity style={{ justifyContent: "flex-start", alignItems: "flex-start" }} onPress={onPress}>
 
-            <View style={[generalStyles.smallWhiteContainer, generalStyles.globalShadow]}>
+            <View style={[generalStyles.smallcolorContainer, generalStyles.globalShadow]}>
 
                 <Ionicons name="arrow-back-circle" size={30} color="black" />
 

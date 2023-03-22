@@ -68,7 +68,7 @@ const SingUp = ({ navigation }) => {
                         behavior={Platform.OS === "ios" ? "padding" : "height"}
                         style={[generalStyles.container, { justifyContent: 'center' }]}>
 
-                        <View style={[generalStyles.whiteContainer, generalStyles.center, generalStyles.globalShadow]}>
+                        <View style={[generalStyles.colorContainer, generalStyles.center, generalStyles.globalShadow]}>
 
                             <View>
                                 <TextInput

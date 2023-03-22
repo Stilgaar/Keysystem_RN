@@ -5,7 +5,7 @@ import { View, StyleSheet, Text, ActivityIndicator, BackHandler } from 'react-na
 import { generalStyles } from './css';
 
 // react-native-camera package
-import { RNCamera } from 'react-native-camera';
+// import { Camera } from 'react-native-vision-camera';
 
 // Buttons, but gradient
 import { GradientButton } from '../comps';
@@ -23,7 +23,6 @@ export default function MyCamera({
     globalDispatch,
     goBackCondition,
     navigation,
-    textForObtention,
     indexInventory
 }) {
 
@@ -39,12 +38,12 @@ export default function MyCamera({
 
     const [isLoading, setLoading] = React.useState(true);
 
-    React.useEffect(() => {
-        (async () => {
-            const { status } = await RNCamera.requestCameraPermission();
-            setCameraPermission(status);
-        })();
-    }, []);
+    // React.useEffect(() => {
+    //     async () => {
+    //         const cameraPermission = await Camera.requestCameraPermission();
+    //         setCameraPermission(cameraPermission);
+    //     };
+    // }, []);
 
     ////////////////
     // Back Button Handler (in CHECK IN // CHECKOUT)
@@ -67,16 +66,13 @@ export default function MyCamera({
     };
 
     React.useEffect(() => {
-        {
-            dispatchGeneralType === "attributionInventory" &&
-                BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+        dispatchGeneralType === "attributionInventory" &&
+            BackHandler.addEventListener('hardwareBackPress', handleBackPress);
 
-            // cleaning the useefect
-            return () => {
-                BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
-            };
-
-        }
+        // cleaning the useefect
+        return () => {
+            BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+        };
     }, [indexInventory]);
 
     ////////////////
@@ -90,13 +86,13 @@ export default function MyCamera({
     ////////////////
 
 
-    const takePhoto = async () => {
-        if (cameraRef.current) {
-            const options = { quality: 0.5, base64: true };
-            const data = await cameraRef.current.takePictureAsync(options);
-            globalDispatch(dispatch(data, dispatchGeneralType, dispatchType));
-        }
-    };
+    // const takePhoto = async () => {
+    //     if (cameraRef.current) {
+    //         const options = { quality: 0.5, base64: true };
+    //         const data = await cameraRef.current.takePictureAsync(options);
+    //         globalDispatch(dispatch(data, dispatchGeneralType, dispatchType));
+    //     }
+    // };
 
     ////////////////
     // JSX
@@ -104,7 +100,7 @@ export default function MyCamera({
 
     if (isLoading) {
         return (
-            <View style={[generalStyles.container, generalStyles.whiteContainer, generalStyles.center]}>
+            <View style={[generalStyles.container, generalStyles.colorContainer, generalStyles.center]}>
                 <ActivityIndicator size="large" color="blue" />
             </View>
         );
@@ -124,50 +120,50 @@ export default function MyCamera({
 
             <View style={styles.container}>
 
-                <RNCamera
+                {/* <Camera
                     style={styles.camera}
                     device={Camera.device.back}
                     isActive={true}
                     onCapturedPhoto={newPhoto => {
                         globalDispatch(dispatch(newPhoto, dispatchGeneralType, dispatchType));
                     }}
-                >
+                > */}
 
-                    {dispatchGeneralType === "attributionInventory" &&
+                {dispatchGeneralType === "attributionInventory" &&
 
-                        <GradientButton width={350}
-                            handlePress={() => navigation.replace((indexInventory + 1) === inventoryArray.length ? routeType : inventoryArray[indexInventory + 1].key, { routeType: routeType })}
-                            text={`${(indexInventory + 1) === inventoryArray.length ? "Fin" : "vers " + inventoryArray[indexInventory + 1].text}`} />
-                    }
+                    <GradientButton width={350}
+                        handlePress={() => navigation.replace((indexInventory + 1) === inventoryArray.length ? routeType : inventoryArray[indexInventory + 1].key, { routeType: routeType })}
+                        text={`${(indexInventory + 1) === inventoryArray.length ? "Fin" : "vers " + inventoryArray[indexInventory + 1].text}`} />
+                }
 
 
-                    <View style={generalStyles.buttonContainer}>
+                <View style={generalStyles.buttonContainer}>
 
-                        {goBackCondition ? (
+                    {goBackCondition ? (
 
-                            <GradientButton width={70}
-                                borderRadius={20}
-                                handlePress={() => navigation.goBack()}>
+                        <GradientButton width={70}
+                            borderRadius={20}
+                            handlePress={() => navigation.goBack()}>
 
-                                <FontAwesome5 name="backspace" size={30} color="white" />
+                            <FontAwesome5 name="backspace" size={30} color="white" />
 
-                            </GradientButton>
+                        </GradientButton>
 
-                        ) : (
+                    ) : (
 
-                            <GradientButton width={70}
-                                borderRadius={50}
-                                handlePress={takePhoto}>
+                        <GradientButton width={70}
+                            borderRadius={50}
+                            handlePress={takePhoto}>
 
-                                <MaterialIcons name="add-a-photo" size={30} color="white" />
+                            <MaterialIcons name="add-a-photo" size={30} color="white" />
 
-                            </GradientButton>
+                        </GradientButton>
 
-                        )}
+                    )}
 
-                    </View>
+                </View>
 
-                </RNCamera>
+                {/* </Camera> */}
 
             </View >
         );

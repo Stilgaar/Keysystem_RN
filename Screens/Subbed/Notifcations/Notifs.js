@@ -2,6 +2,8 @@ import React from 'react';
 import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { GradientButton } from '../../../comps';
 
+import StyledText from '../../../Shared/StyledText';
+
 import useGlobalContext from '../../../Hooks/useGlobalContext';
 
 import { generalStyles } from '../../../Shared/css';
@@ -31,17 +33,22 @@ export default function Notifs() {
                             {(notif.title || notif.body) &&
 
                                 <TouchableOpacity onPress={() => globalDispatch(delNotification(index))}
-                                    style={[generalStyles.whiteContainer, generalStyles.globalShadow, { marginLeft: 10, marginRight: 10, marginBottom: 2, marginTop: 2 }]}>
+                                    style={[generalStyles.colorContainer, generalStyles.globalShadow, { marginLeft: 10, marginRight: 10, marginBottom: 2, marginTop: 2 }]}>
 
                                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
 
                                         <View>
-                                            <Text style={{ fontSize: 25 }}>{notif.title}</Text>
-                                            <Text style={{ opacity: 0.7, marginLeft: 10, paddingTop: 5 }}>{notif.body}</Text>
+
+                                            <StyledText style={{ fontSize: 25 }}>{notif.title}</StyledText>
+
+                                            <StyledText style={{ opacity: 0.7, marginLeft: 10, paddingTop: 5 }}>{notif.body}</StyledText>
+
                                         </View>
 
                                         <View>
-                                            <Text>{notif.date}</Text>
+
+                                            <StyledText>{notif.date}</StyledText>
+
                                             <GradientButton
                                                 handlePress={() => globalDispatch(delNotification(index))}
                                                 text={`vu`}
@@ -59,8 +66,8 @@ export default function Notifs() {
 
                     :
 
-                    <View style={[generalStyles.whiteContainer, { justifyContent: "center", alignItems: "center", flex: 1 }]} >
-                        <Text style={{ textAlign: 'center', textAlignVertical: 'center' }}>Vous n'avez pas de notifications</Text>
+                    <View style={[generalStyles.colorContainer, { justifyContent: "center", alignItems: "center", flex: 1 }]} >
+                        <StyledText style={{ textAlign: 'center', textAlignVertical: 'center' }}>Vous n'avez pas de notifications</StyledText>
                     </View>
 
                 }
