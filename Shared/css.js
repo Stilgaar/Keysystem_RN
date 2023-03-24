@@ -11,8 +11,8 @@ export const flatgreen = [primaryColor2, primaryColor2]
 export const gradientColor = ['#0d7463', '#3ac1b1', '#94ecd3', '#128c7e']
 export const greyGradientColor = ['#e5e5e5', '#e5e5e5', '#e5e5e5']
 
-// OLD ['#94ecd3', '#3ac1b1', '#128c7e']
-//  NICE
+// OLD : ['#94ecd3', '#3ac1b1', '#128c7e']
+// NICE : ['#0d7463', '#3ac1b1', '#94ecd3', '#128c7e']
 const swidth = Dimensions.get('screen').width
 const sheight = Dimensions.get('screen').height
 
@@ -24,7 +24,7 @@ export const generalStyles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: "white",
+        backgroundColor: "#d6d6d6",
     },
     container2: {
         flex: 2,
@@ -43,6 +43,24 @@ export const generalStyles = StyleSheet.create({
         borderRadius: 25,
         backgroundColor: "#efefef",
         justifyContent: 'center',
+    },
+    topGreyContainer: {
+        alignItems: "center",
+        justifyContent: "space-between",
+        backgroundColor: "#efefef",
+        padding: 10,
+        marginLeft: 5,
+        marginRight: 5,
+        borderTopEndRadius: 15,
+        borderTopStartRadius: 15,
+    },
+    bottomWhiteContainer: {
+        backgroundColor: "white",
+        padding: 10,
+        marginLeft: 5,
+        marginRight: 5,
+        borderBottomEndRadius: 15,
+        borderBottomStartRadius: 15
     },
     smallcolorContainer: {
         backgroundColor: "#efefef",
@@ -64,9 +82,6 @@ export const generalStyles = StyleSheet.create({
         marginLeft: 20,
         marginTop: 10,
         marginBottom: 5,
-        textShadowColor: greenblue,
-        textShadowOffset: { width: 2, height: 2 },
-        textShadowRadius: 3,
         color: blackA,
         fontFamily: "BrandonBold",
     },
@@ -74,9 +89,6 @@ export const generalStyles = StyleSheet.create({
         fontSize: 17,
         fontWeight: "bold",
         padding: 6,
-        textShadowColor: greenblue,
-        textShadowOffset: { width: 2, height: 2 },
-        textShadowRadius: 3,
         color: blackA,
     },
     textInfoStyles: {

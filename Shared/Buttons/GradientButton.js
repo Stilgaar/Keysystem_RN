@@ -10,14 +10,13 @@ function GradientButton({
     text,
     handlePress,
     width = 200,
-    paddingVertical = 14,
-    paddingHorizontal = 10,
     borderRadius = 8,
     alignSelf = "center",
     addStyle = {},
     color = flatgreen,
     children,
-    disabled = false
+    disabled = false,
+    buttonPadding = 15
 }) {
 
     return (
@@ -37,7 +36,8 @@ function GradientButton({
 
             <LinearGradient // Button Linear Gradient
                 colors={color}
-                style={[{ padding: 15 }]}>
+                style={{ padding: buttonPadding, borderRadius: borderRadius, }}>
+
 
                 {text &&
                     <Text style={styles.buttonText}>{text}</Text>

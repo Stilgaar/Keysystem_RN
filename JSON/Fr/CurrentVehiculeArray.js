@@ -1,33 +1,5 @@
 export const vehicleInfoArray = [
     {
-        text: "Marque",
-        key: "vehiculeBrand",
-    },
-    {
-        text: "Modèle",
-        key: "vehiculeModel"
-    },
-    {
-        text: "Type",
-        key: "vehiculeType"
-    },
-    {
-        text: "Immatriculation",
-        key: "vehiculeImmatriculation",
-    },
-    {
-        text: "Kilométrage actuel",
-        key: "vehiculeKmTotalDone",
-    },
-    {
-        text: "Type de contrat",
-        key: "vehiculeContractType",
-    },
-    {
-        text: "Nom du loueur",
-        key: "vehiculeContractRenter",
-    },
-    {
         text: "Date de restitution",
         key: "vehiculeEndThisReservation"
     },

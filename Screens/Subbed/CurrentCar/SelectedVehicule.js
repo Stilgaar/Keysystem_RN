@@ -1,9 +1,8 @@
 import React from "react";
 
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Image } from "react-native";
 
 import HistoryKM from "./HistoryKM";
-import VehiculesInfo from "./VehiculeInfos";
 
 import { generalStyles } from "../../../Shared/css";
 
@@ -14,6 +13,10 @@ import { getSelectedVehicule } from "../../../Reducer/GlobalReducer/globalDispat
 import {
     GradientButton,
 } from "../../../comps";
+
+import VehiculesInfo from "./VehiculeInfos";
+
+import StyledText from "../../../Shared/StyledText";
 
 import vehicules from "../../../JSON/CAR_MOCK_DATA.json"
 
@@ -40,6 +43,8 @@ export default function SelectedVehicule({ navigation, route }) {
 
     }, [])
 
+    // 
+
     ////////////////
     // JSX
     ////////////////
@@ -52,11 +57,7 @@ export default function SelectedVehicule({ navigation, route }) {
                 <>
                     {/* <Text style={[generalStyles.title, { marginBottom: 5 }]}>Véhicule Séléctionné</Text> */}
 
-                    <View style={[generalStyles.colorContainer, generalStyles.globalShadow, { marginTop: 10 }]}>
-
-                        <VehiculesInfo data={globalState.currentCar?.[0]} />
-
-                    </View>
+                    <VehiculesInfo globalState={globalState} navigation={navigation} />
 
                     <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
@@ -87,10 +88,6 @@ export default function SelectedVehicule({ navigation, route }) {
                     <GradientButton text="Coûts"
                         addStyle={{ marginBottom: 5 }}
                         handlePress={() => navigation.navigate("Costs")} />
-
-                    <GradientButton text="Where is my car"
-                        addStyle={{ marginBottom: 5 }}
-                        handlePress={() => navigation.navigate("CarMap")} />
 
                 </>
                 :
