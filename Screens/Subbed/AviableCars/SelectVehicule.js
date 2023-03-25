@@ -42,11 +42,11 @@ function SelectVehicle({ navigation }) {
 
                         <View style={generalStyles.container}>
 
-                            <ScrollView style={[generalStyles.container, { marginTop: 10, flexGrow: 1 }]}>
+                            <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
                                 <Text style={generalStyles.title}>Véhicules disponibles</Text>
 
-                                <View style={[generalStyles.center, generalStyles.smallcolorContainer]}>
+                                <View style={[generalStyles.center, generalStyles.colorContainer]}>
 
                                     <Input placeholder={`Rechercher un véhicule`}
                                         onChangeText={(text) => setSearchVehicule(text)} />

@@ -24,7 +24,7 @@ function GradientButton({
         <TouchableOpacity
             disabled={disabled}
             onPress={handlePress}
-            style={[addStyle, {
+            style={[addStyle, generalStyles.globalShadow, {
                 width: width,
                 borderRadius: borderRadius,
                 alignSelf: alignSelf,
@@ -46,6 +46,7 @@ function GradientButton({
                 {children &&
                     <View style={generalStyles.center}>{children}</View>
                 }
+
             </LinearGradient>
 
         </TouchableOpacity>

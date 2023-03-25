@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 
 import { generalStyles } from "../../../Shared/css";
 
@@ -20,7 +20,7 @@ function Actions({ route }) {
 
     return (
 
-        <View style={[generalStyles.container]}>
+        <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
             <Text style={generalStyles.title}>Activation Voiture</Text>
 
@@ -63,7 +63,7 @@ function Actions({ route }) {
 
             </View>
 
-        </View>
+        </ScrollView>
 
     );
 }

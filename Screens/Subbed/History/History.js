@@ -23,7 +23,7 @@ export default function History({ navigation }) {
 
         <View style={[generalStyles.container]}>
 
-            <ScrollView style={[generalStyles.container, { marginTop: 10, flexGrow: 1 }]}>
+            <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
                 <Text style={generalStyles.title}>Historique</Text>
 

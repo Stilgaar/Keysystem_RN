@@ -75,121 +75,41 @@ import { CustomTabBarButton } from '../comps';
 
 import useGlobalContext from '../Hooks/useGlobalContext';
 import { addNotification } from '../Reducer/GlobalReducer/globalDispatch';
+import { Notifications } from 'react-native-notifications';
 
 // Thats the bottom navigation
 const Tab = createBottomTabNavigator();
 // These are the only on that can be given a header 
 const Stack = createStackNavigator()
 
-// import * as Notifications from 'expo-notifications';
-// import * as Device from 'expo-device';
-
 // Tab icons
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { StyleSheet } from 'react-native';
-
-// Notifications.setNotificationHandler({
-// handleNotification: async () => ({
-// shouldShowAlert: true,
-// shouldPlaySound: false,
-// shouldSetBadge: false,
-// }),
-// })
 
 // Principal Navigation
 export default function AppNavigator() {
 
     const { globalDispatch } = useGlobalContext()
 
-    const responseListener = React.useRef();
-    const notificationListener = React.useRef();
-    const [expoPushToken, setExpoPushToken] = React.useState('');
+    React.useEffect(() => {
+        const ws = new WebSocket('wss://socketsbay.com/wss/v2/1/demo/');
 
-    // React.useEffect(() => {
+        ws.addEventListener('message', event => {
+            makeANofitication(JSON.parse(event.data));
+        });
 
-    //     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+    }, []);
 
-    //     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-    //         // console.log(notification)
-    //     });
+    function makeANofitication(notif) {
 
-    //     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-    //         //console.log("res", response);
-    //     });
+        globalDispatch(addNotification(notif))
 
-    //     // open a WebSocket connection
-    //     // const ws = new WebSocket('wss://socketsbay.com/wss/v2/1/demo/');
+        Notifications.postLocalNotification({
+            title: notif.title,
+            body: notif.body,
+        });
 
-    //     // ws.addEventListener('message', event => {
-    //     // makeANofitication(JSON.parse(event.data))
-    //     // });
-
-    //     return () => {
-    //         Notifications.removeNotificationSubscription(notificationListener.current);
-    //         Notifications.removeNotificationSubscription(responseListener.current);
-    //     };
-
-    // }, []);
-
-    // async function makeANofitication(notif) {
-
-    //     if (typeof notif === 'object' && notif !== null && notif.title && notif.body) {
-
-    //         globalDispatch(addNotification(notif))
-
-    //         await Notifications.scheduleNotificationAsync({
-    //             content: {
-    //                 title: notif.title,
-    //                 body: notif.body,
-    //             },
-    //             trigger: { seconds: 2 },
-    //         });
-    //     }
-
-    // }
-
-    // async function registerForPushNotificationsAsync() {
-    //     let token;
-
-    //     if (Platform.OS === 'android') {
-
-    //         await Notifications.setNotificationChannelAsync('default', {
-    //             name: 'default',
-    //             importance: Notifications.AndroidImportance.MAX,
-    //             vibrationPattern: [0, 250, 250, 250],
-    //             lightColor: '#FF231F7C',
-    //         });
-
-    //     }
-
-    //     if (Device.isDevice) {
-    //         const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    //         let finalStatus = existingStatus;
-
-    //         if (finalStatus === 'denied') {
-    //             // If the existing status is "denied", request permissions again
-    //             const { status } = await Notifications.requestPermissionsAsync();
-    //             finalStatus = status;
-    //         }
-
-    //         if (finalStatus !== 'granted') {
-    //             const { status } = await Notifications.requestPermissionsAsync();
-    //             finalStatus = status;
-    //         }
-    //         if (finalStatus !== 'granted') {
-    //             alert('Failed to get push token for push notification!');
-    //             return;
-    //         }
-
-    //         // So i just desactivated this line beaucause, well, i got a warning. I think its only if your subscribe to a firebase db.
-    //         //  token = (await Notifications.getExpoPushTokenAsync()).data;
-
-    //     } else {
-    //         alert('Must use physical device for Push Notifications');
-    //     }
-
-    //     return token;
-    // }
+    }
 
     ////////////////
     // Add Screen Names in this array where you don't want the tap bar to be displayed. \o/

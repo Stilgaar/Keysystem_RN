@@ -47,7 +47,7 @@ export default function Inventory({ navigation, route }) {
 
     return (
 
-        <ScrollView style={[generalStyles.container]}>
+        <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
             {lectureArray?.map(display => (
                 <React.Fragment key={display.title}>

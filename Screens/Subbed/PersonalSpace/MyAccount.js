@@ -29,7 +29,7 @@ export default function MyAccount({ navigation }) {
 
         <View style={[generalStyles.container]}>
 
-            <ScrollView style={[generalStyles.container, { marginTop: 10, marginBottom: 65, flexGrow: 1 }]}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1, width: '100%' }}>
 
                 <Text style={generalStyles.title}>Mon Compte</Text>
 
@@ -65,15 +65,13 @@ export default function MyAccount({ navigation }) {
 
                     <View style={{ marginTop: 10 }}>
 
-                        <Text style={generalStyles.title}>Historique</Text>
-
                         <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
                             <View style={{ marginTop: 10 }}>
 
                                 <GradientButton width={windowWidth - 50}
                                     handlePress={() => navigation.navigate("History")}
-                                    text={`Vers historiques`} />
+                                    text={`Votre Historique`} />
 
                             </View>
 

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, StyleSheet, ScrollView } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 // Icons Lib
@@ -48,123 +48,144 @@ function ModifyAccount() {
 
     return (
 
-        <Formik
-            initialValues={{
-                lastname: user.lastname,
-                firstname: user.firstname,
-                email: user.email,
-                password: '',
-                verifyPassword: '',
-            }}
-            validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting }) => {
-                // handleSubmit for laters
-                setSubmitting(false);
-            }}
-        >
-            {({ values, handleChange, handleBlur, handleSubmit, errors, isSubmitting, setFieldValue }) => (
-                <>
-                    <Text style={generalStyles.title}>Modifier informations</Text>
+        <View style={generalStyles.container}>
+            <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-                    <KeyboardAvoidingView
-                        behavior={Platform.OS === "ios" ? "padding" : "height"}
-                        style={[generalStyles.container]}>
-                        <View style={[generalStyles.colorContainer, generalStyles.center, generalStyles.globalShadow]}>
+                <Formik
+                    initialValues={{
+                        lastname: user.lastname,
+                        firstname: user.firstname,
+                        email: user.email,
+                        password: '',
+                        verifyPassword: '',
+                    }}
+                    validationSchema={validationSchema}
+                    onSubmit={(values, { setSubmitting }) => {
+                        // handleSubmit for laters
+                        setSubmitting(false);
+                    }}
+                >
+                    {({ values, handleChange, handleBlur, handleSubmit, errors, isSubmitting, setFieldValue }) => (
+                        <>
+                            <Text style={[generalStyles.title]}>Modifier informations</Text>
 
-                            <View style={styles.form}>
-                                <TextInput
-                                    style={generalStyles.inputs}
-                                    onChangeText={handleChange('lastname')}
-                                    onBlur={handleBlur('lastname')}
-                                    value={values.lastname}
-                                    placeholder="Last Name"
-                                />
-                                {errors.lastname && <Text style={generalStyles.error}>{errors.lastname}</Text>}
+                            <KeyboardAvoidingView
+                                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                                style={[generalStyles.container]}>
+                                <View style={[generalStyles.colorContainer, generalStyles.center, generalStyles.globalShadow]}>
 
-                                <TextInput
-                                    style={generalStyles.inputs}
-                                    onChangeText={handleChange('firstname')}
-                                    onBlur={handleBlur('firstname')}
-                                    value={values.firstname}
-                                    placeholder="First Name"
-                                />
-                                {errors.firstname && <Text style={generalStyles.error}>{errors.firstname}</Text>}
+                                    <View style={styles.form}>
+                                        <TextInput
+                                            style={generalStyles.inputs}
+                                            onChangeText={handleChange('lastname')}
+                                            onBlur={handleBlur('lastname')}
+                                            value={values.lastname}
+                                            placeholder="Nom de Famille"
+                                            placeholderTextColor={"black"}
+                                        />
+                                        {errors.lastname && <Text style={generalStyles.error}>{errors.lastname}</Text>}
 
-                                <TextInput
-                                    style={generalStyles.inputs}
-                                    onChangeText={handleChange('email')}
-                                    onBlur={handleBlur('email')}
-                                    value={values.email}
-                                    placeholder="Email"
-                                />
+                                        <TextInput
+                                            style={generalStyles.inputs}
+                                            onChangeText={handleChange('firstname')}
+                                            onBlur={handleBlur('firstname')}
+                                            value={values.firstname}
+                                            placeholder="Prènom"
+                                            placeholderTextColor={"black"}
+                                        />
+                                        {errors.firstname && <Text style={generalStyles.error}>{errors.firstname}</Text>}
 
-                                {errors.email && <Text style={generalStyles.error}>{errors.email}</Text>}
+                                        <TextInput
+                                            style={generalStyles.inputs}
+                                            onChangeText={handleChange('email')}
+                                            onBlur={handleBlur('email')}
+                                            value={values.email}
+                                            placeholder="Email"
+                                            placeholderTextColor={"black"}
+                                        />
 
-                                <View style={generalStyles.fdr}>
-                                    <TextInput
-                                        onChangeText={handleChange('password')}
-                                        style={generalStyles.inputs}
-                                        placeholder="Password"
-                                        secureTextEntry={!showPassword}
-                                    />
+                                        {errors.email && <Text style={generalStyles.error}>{errors.email}</Text>}
 
-                                    <TouchableOpacity onPress={() => setShowPassword(c => !c)}>
-                                        <View>
-                                            <MaterialIcons
-                                                style={generalStyles.iconEye}
-                                                name={showPassword ? 'visibility' : 'visibility-off'}
-                                                size={24}
-                                                color="#000"
+                                        <View style={generalStyles.fdr}>
+                                            <TextInput
+                                                onChangeText={handleChange('password')}
+                                                style={generalStyles.inputs}
+                                                placeholder="Password"
+                                                placeholderTextColor={"black"}
+                                                secureTextEntry={!showPassword}
+                                            />
+
+                                            <TouchableOpacity onPress={() => setShowPassword(c => !c)}>
+
+                                                <View>
+
+                                                    <MaterialIcons
+                                                        style={generalStyles.iconEye}
+                                                        name={showPassword ? 'visibility' : 'visibility-off'}
+                                                        size={24}
+                                                        color="#000"
+                                                    />
+
+                                                </View>
+
+                                            </TouchableOpacity>
+
+                                        </View>
+
+                                        {errors.password && <Text style={generalStyles.error}>{errors.password}</Text>}
+
+                                        <View style={generalStyles.fdr}>
+
+                                            <TextInput
+                                                style={generalStyles.inputs}
+                                                onChangeText={handleChange('verifyPassword')}
+                                                onBlur={handleBlur('verifyPassword')}
+                                                value={values.verifyPassword}
+                                                placeholder="Verification mot de passe"
+                                                placeholderTextColor={"black"}
+                                                secureTextEntry={!showVerifPassword}
+                                                onPress={() => setFieldValue('verifyPassword', values.verifyPassword, true)}
+                                            />
+
+                                            <TouchableOpacity onPress={() => setShowVerifPassword(c => !c)}>
+
+                                                <View>
+
+                                                    <MaterialIcons
+                                                        style={generalStyles.iconEye}
+                                                        name={showVerifPassword ? 'visibility' : 'visibility-off'}
+                                                        size={24}
+                                                        color="#000"
+                                                    />
+                                                </View>
+
+                                            </TouchableOpacity>
+
+                                        </View>
+
+                                        {errors.verifyPassword && <Text style={generalStyles.error}>{errors.verifyPassword}</Text>}
+                                        {errors.submit && <Text style={generalStyles.error}>{errors.password}</Text>}
+
+                                        <View style={{ marginTop: 30 }}>
+
+                                            <GradientButton
+                                                handlePress={handleSubmit}
+                                                text="Modifier"
+                                                loading={isSubmitting}
+                                                disabled={isSubmitting}
                                             />
                                         </View>
-                                    </TouchableOpacity>
+
+                                    </View>
                                 </View>
 
-                                {errors.password && <Text style={generalStyles.error}>{errors.password}</Text>}
+                            </KeyboardAvoidingView>
+                        </>
+                    )}
+                </Formik >
 
-                                <View style={generalStyles.fdr}>
-                                    <TextInput
-                                        style={generalStyles.inputs}
-                                        onChangeText={handleChange('verifyPassword')}
-                                        onBlur={handleBlur('verifyPassword')}
-                                        value={values.verifyPassword}
-                                        placeholder="Verification mot de passe"
-                                        secureTextEntry={!showVerifPassword}
-                                        onPress={() => setFieldValue('verifyPassword', values.verifyPassword, true)}
-                                    />
-
-                                    <TouchableOpacity onPress={() => setShowVerifPassword(c => !c)}>
-                                        <View>
-                                            <MaterialIcons
-                                                style={generalStyles.iconEye}
-                                                name={showVerifPassword ? 'visibility' : 'visibility-off'}
-                                                size={24}
-                                                color="#000"
-                                            />
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
-
-                                {errors.verifyPassword && <Text style={generalStyles.error}>{errors.verifyPassword}</Text>}
-                                {errors.submit && <Text style={generalStyles.error}>{errors.password}</Text>}
-
-                                <View style={{ marginTop: 30 }}>
-
-                                    <GradientButton
-                                        handlePress={handleSubmit}
-                                        text="Modifier"
-                                        loading={isSubmitting}
-                                        disabled={isSubmitting}
-                                    />
-                                </View>
-
-                            </View>
-                        </View>
-
-                    </KeyboardAvoidingView>
-                </>
-            )}
-        </Formik >
+            </ScrollView>
+        </View>
     );
 };
 

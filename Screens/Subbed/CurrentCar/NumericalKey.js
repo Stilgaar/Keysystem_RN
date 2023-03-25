@@ -1,13 +1,12 @@
 import React from "react";
 import { StateContext } from "../../../Context/StateContext";
 
-import { View, ScrollView, TouchableOpacity } from "react-native";
+import { View, ScrollView } from "react-native";
 
-import { generalStyles, greenblue } from "../../../Shared/css";
+import { generalStyles } from "../../../Shared/css";
 
 import StyledText from "../../../Shared/StyledText";
-
-import Octicons from 'react-native-vector-icons/Octicons';
+import SingleKey from "./SingleKey";
 
 import { GradientButton } from "../../../comps";
 
@@ -16,6 +15,8 @@ import { GradientButton } from "../../../comps";
 // Date attribution
 // Date fin
 // Option dépassement ? + délai (en heures ou jours)
+
+
 
 function NumericalKey({
     navigation
@@ -32,69 +33,25 @@ function NumericalKey({
 
                     {globalState.currentKeys.length > 0 ?
 
-                        <ScrollView style={[generalStyles.container, generalStyles.mbgeneral65]}>
+                        <View style={[generalStyles.container]}>
 
-                            <View>
-                                <StyledText style={[generalStyles.title, { marginBottom: 5 }]}>Clef(s) numériques</StyledText>
-                            </View>
+                            <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-                            {globalState?.currentKeys.map((vehicule) => (
+                                <View>
 
-                                <TouchableOpacity
-                                    key={vehicule.virtualKeyGUID}
-                                    style={{ margin: 3 }}
-                                    onPress={() => {
-                                        navigation.navigate("SelectedVehicule", { virtualKeyGUID: vehicule.virtualKeyGUID, vehiculeGUID: vehicule.vehiculeGUID })
-                                    }}>
+                                    <StyledText style={[generalStyles.title, { marginBottom: 5 }]}>Clef(s) numériques</StyledText>
 
-                                    <View
-                                        style={[generalStyles.globalShadow, {
-                                            flexDirection: "row",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            backgroundColor: greenblue,
-                                            padding: 10,
-                                            borderTopEndRadius: 15,
-                                            borderTopStartRadius: 15,
-                                        }]}
-                                    >
+                                </View>
 
-                                        <View style={{ flex: 0.3 }}>
-                                            <Octicons name="key" size={30} color="black" />
-                                        </View>
+                                {globalState?.currentKeys.map((vehicule) => (
 
-                                        <View style={{ flex: 2 }}>
-                                            <StyledText style={{ textAlign: "center", fontSize: 30 }}>
-                                                {vehicule.vehiculeBrand} {vehicule.vehiculeModel}
-                                            </StyledText>
-                                        </View>
+                                    <SingleKey vehicule={vehicule} navigation={navigation} key={vehicule.vehiculeGUID} />
 
+                                ))}
 
-                                        <View style={{ flex: 0.3 }}>
-                                            <Octicons name="check-circle" size={30} color="black" />
-                                        </View>
-                                    </View>
+                            </ScrollView >
 
-                                    <View style={[{
-                                        backgroundColor: "#efefef",
-                                        padding: 10,
-                                        borderBottomEndRadius: 15,
-                                        borderBottomStartRadius: 15
-                                    }]}>
-
-                                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                            <StyledText style={{ fontSize: 18 }}>Clef : {vehicule.virtualKeyGUID}</StyledText>
-
-                                            <StyledText style={{ fontSize: 18 }}>{vehicule.vehiculeImmatriculation}</StyledText>
-                                        </View>
-
-                                    </View>
-
-                                </TouchableOpacity >
-
-                            ))}
-
-                        </ScrollView >
+                        </View>
 
                         :
 

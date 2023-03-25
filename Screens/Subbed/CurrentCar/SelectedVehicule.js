@@ -51,58 +51,69 @@ export default function SelectedVehicule({ navigation, route }) {
 
     return (
 
-        <ScrollView style={[generalStyles.container, generalStyles.mbgeneral65, { flexGrow: 1 }]}>
+        <View style={[generalStyles.container]}>
+            <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-            {globalState?.currentCar ?
-                <>
-                    {/* <Text style={[generalStyles.title, { marginBottom: 5 }]}>Véhicule Séléctionné</Text> */}
+                {globalState?.currentCar ?
+                    <>
+                        {/* <Text style={[generalStyles.title, { marginBottom: 5 }]}>Véhicule Séléctionné</Text> */}
 
-                    <VehiculesInfo globalState={globalState} navigation={navigation} />
+                        <VehiculesInfo style={[generalStyles.marginOverall]} globalState={globalState} navigation={navigation} />
 
-                    <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
+                        <HistoryKM style={[generalStyles.marginOverall]} data={globalState.currentCar?.[0]} />
 
-                        <HistoryKM data={globalState.currentCar?.[0]} />
+                        <View style={[generalStyles.marginOverall, { flexDirection: "row", justifyContent: 'space-around' }]}>
 
-                    </View>
+                            <GradientButton text="action"
+                                width={170}
+                                buttonPadding={40}
+                                addStyle={{ marginBottom: 5 }}
+                                handlePress={() => navigation.navigate("Actions", { vehiculeGUID, virtualKeyGUID })} />
 
-                    <GradientButton text="action"
-                        addStyle={{ marginBottom: 5 }}
-                        handlePress={() => navigation.navigate("Actions", { vehiculeGUID, virtualKeyGUID })} />
 
-                    <GradientButton text="Sinistre"
-                        addStyle={{ marginBottom: 5 }}
-                        handlePress={() => navigation.navigate("Damage")} />
+                            <GradientButton text="Sinistre"
+                                width={170}
+                                buttonPadding={40}
+                                addStyle={{ marginBottom: 5 }}
+                                handlePress={() => navigation.navigate("Damage")} />
 
-                    <GradientButton text="Check In"
-                        addStyle={{ marginBottom: 5 }}
-                        handlePress={() => navigation.navigate("CheckIn")} />
+                        </View>
 
-                    <GradientButton text="Check Out"
-                        addStyle={{ marginBottom: 5 }}
-                        handlePress={() => navigation.navigate("CheckOut")} />
+                        <View style={{ flexDirection: "row", justifyContent: 'space-around' }}>
 
-                    <GradientButton text="Pochette Virtuelle"
-                        addStyle={{ marginBottom: 5 }}
-                        handlePress={() => navigation.navigate("VirtualPouch")} />
+                            <GradientButton text="Check In"
+                                addStyle={{ marginBottom: 5 }}
+                                width={170}
+                                buttonPadding={40}
+                                handlePress={() => navigation.navigate("CheckIn")} />
+                            {/* 
+                        <GradientButton text="Check Out"
+                           width={170}
+                            buttonPadding={40}
+                            addStyle={{ marginBottom: 5 }}
+                            handlePress={() => navigation.navigate("CheckOut")} /> */}
 
-                    <GradientButton text="Coûts"
-                        addStyle={{ marginBottom: 5 }}
-                        handlePress={() => navigation.navigate("Costs")} />
+                            <GradientButton text="Coûts"
+                                addStyle={{ marginBottom: 5 }}
+                                width={170}
+                                buttonPadding={40}
+                                handlePress={() => navigation.navigate("Costs")} />
+                        </View>
 
-                </>
-                :
-                <>
-                    <Text style={generalStyles.title}>Vous n'avez pas de clefs numérique ou de clefs assignés</Text>
+                    </>
+                    :
+                    <>
+                        <Text style={generalStyles.title}>Vous n'avez pas de clefs numérique ou de clefs assignés</Text>
 
-                    <GradientButton text="Choisir une voiture"
-                        addStyle={{ marginBottom: 5 }}
-                        handlePress={() => navigation.navigate("Vehicules")} />
+                        <GradientButton text="Choisir une voiture"
+                            addStyle={{ marginBottom: 5 }}
+                            handlePress={() => navigation.navigate("Vehicules")} />
 
-                </>
+                    </>
 
-            }
+                }
 
-        </ScrollView>
-
+            </ScrollView>
+        </View>
     );
 }

@@ -27,7 +27,7 @@ import { delSignature } from "../../../Reducer/GlobalReducer/globalDispatch";
 // + Signature électronique
 // + Saisie des dates d'expirations
 
-function ActivateAccount({ navigation }) {
+export default function ActivateAccount({ navigation }) {
 
     const { globalState } = useContext(StateContext)
 
@@ -38,151 +38,152 @@ function ActivateAccount({ navigation }) {
 
     return (
 
-        <ScrollView style={[generalStyles.container, generalStyles.mbgeneral65]}>
+        <View style={[generalStyles.container, { marginBottom: 25 }]}>
 
-            <Text style={generalStyles.title}>
-                Activation de votre compte
-            </Text>
+            <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-            <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
+                <Text style={generalStyles.title}>
+                    Activation de votre compte
+                </Text>
 
-                <StyledText style={{ marginBottom: 5 }}>
-                    Pour activer votre compte nous avons besoin des documents suivants :
-                </StyledText>
+                <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
-                {activateAccountList.map(list => (
-
-                    <StyledText style={{ marginLeft: 15, marginTop: 2 }} key={list}>
-                        * {list}
+                    <StyledText style={{ marginBottom: 5 }}>
+                        Pour activer votre compte nous avons besoin des documents suivants :
                     </StyledText>
 
-                ))}
+                    {activateAccountList.map(list => (
 
+                        <StyledText style={{ marginLeft: 15, marginTop: 2 }} key={list}>
+                            * {list}
+                        </StyledText>
 
-            </View>
+                    ))}
 
-            <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
-
-                <StyledText>Carte d'identité</StyledText>
-
-                <View style={{ marginTop: 10 }}>
-
-                    <GradientButton text="Piece d'identité"
-                        handlePress={() => navigation.navigate("addId")} />
 
                 </View>
 
-                {globalState.photoID.length > 0 &&
+                <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
-                    <>
-                        <PicsFromB64 picsArray={globalState.photoID}
-                            dispatchGeneralType={`photoID`} />
+                    <StyledText>Carte d'identité</StyledText>
 
-                        <GradientButton text="Envoyer Identité"
-                            color={['#7cb9e8', '#7cb9e8']}
-                            width={300}
+                    <View style={{ marginTop: 10 }}>
 
-                            handlePress={() => {
-                                handleSubmitID({
-                                    url: `${process.env.API_URL}sendId`,
-                                    body: globalState.photoID,
-                                })
-                            }}
-                        />
-                    </>
-                }
+                        <GradientButton text="Piece d'identité"
+                            handlePress={() => navigation.navigate("addId")} />
 
-            </View>
+                    </View>
 
-            <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
+                    {globalState.photoID.length > 0 &&
 
-                <StyledText>Permis de conduire</StyledText>
+                        <>
+                            <PicsFromB64 picsArray={globalState.photoID}
+                                dispatchGeneralType={`photoID`} />
 
-                <View style={{ marginTop: 10 }}>
+                            <GradientButton text="Envoyer Identité"
+                                color={['#7cb9e8', '#7cb9e8']}
+                                width={300}
 
-                    <GradientButton text="Permis"
-                        handlePress={() => navigation.navigate("addLicence")} />
+                                handlePress={() => {
+                                    handleSubmitID({
+                                        url: `${process.env.API_URL}sendId`,
+                                        body: globalState.photoID,
+                                    })
+                                }}
+                            />
+                        </>
+                    }
 
                 </View>
 
-                {globalState.photoLicence.length > 0 &&
+                <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
-                    <>
-                        <PicsFromB64
-                            picsArray={globalState.photoLicence}
-                            dispatchGeneralType={`photoLicence`} />
+                    <StyledText>Permis de conduire</StyledText>
 
-                        <GradientButton
-                            text="Envoyer Permis"
-                            color={['#7cb9e8', '#7cb9e8']}
-                            width={300}
-                            handlePress={() => {
-                                handleSubmitLicence({
-                                    url: `${process.env.API_URL}sendLicence`,
-                                    body: globalState.photoLicence,
-                                })
-                            }}
+                    <View style={{ marginTop: 10 }}>
 
-                        />
-                    </>
-                }
+                        <GradientButton text="Permis"
+                            handlePress={() => navigation.navigate("addLicence")} />
 
-            </View>
+                    </View>
 
-            <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
+                    {globalState.photoLicence.length > 0 &&
 
-                <StyledText>Signature</StyledText>
+                        <>
+                            <PicsFromB64
+                                picsArray={globalState.photoLicence}
+                                dispatchGeneralType={`photoLicence`} />
 
-                <View style={{ marginTop: 10 }}>
+                            <GradientButton
+                                text="Envoyer Permis"
+                                color={['#7cb9e8', '#7cb9e8']}
+                                width={300}
+                                handlePress={() => {
+                                    handleSubmitLicence({
+                                        url: `${process.env.API_URL}sendLicence`,
+                                        body: globalState.photoLicence,
+                                    })
+                                }}
 
-                    <GradientButton text="Signature"
-                        handlePress={() => navigation.navigate("addSignature")} />
+                            />
+                        </>
+                    }
+
+                </View>
+
+                <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
+
+                    <StyledText>Signature</StyledText>
+
+                    <View style={{ marginTop: 10 }}>
+
+                        <GradientButton text="Signature"
+                            handlePress={() => navigation.navigate("addSignature")} />
+
+                    </View>
+
+                    {globalState.signature.length > 0 &&
+
+                        <>
+                            <PicsFromSVG
+                                svg={globalState.signature[0]}
+                                dispatch={delSignature} />
+
+                            <GradientButton text="Envoyer votre signature"
+                                color={['#7cb9e8', '#7cb9e8']}
+                                width={300}
+                                handlePress={() => {
+                                    handleSubmitSignature({
+                                        url: `${process.env.API_URL}sendSignature`,
+                                        body: globalState.signature[0],
+                                    })
+                                }}
+                            />
+                        </>
+                    }
 
                 </View>
 
                 {globalState.signature.length > 0 &&
+                    globalState.photoLicence.length > 0 &&
+                    globalState.photoID.length > 0 &&
 
-                    <>
-                        <PicsFromSVG
-                            svg={globalState.signature[0]}
-                            dispatch={delSignature} />
-
-                        <GradientButton text="Envoyer votre signature"
-                            color={['#7cb9e8', '#7cb9e8']}
-                            width={300}
-                            handlePress={() => {
-                                handleSubmitSignature({
-                                    url: `${process.env.API_URL}sendSignature`,
-                                    body: globalState.signature[0],
-                                })
-                            }}
-                        />
-                    </>
+                    <GradientButton text="Envoyer Tous les documents"
+                        color={['#7cb9e8', '#7cb9e8']}
+                        width={300}
+                        handlePress={() => {
+                            handleSubmitAll({
+                                url: `${process.env.API_URL}sendAll`,
+                                body: {
+                                    id: globalState.photoID,
+                                    licence: globalState.photoLicence,
+                                    signature: globalState.signature[0]
+                                }
+                            })
+                        }} />
                 }
 
-            </View>
-
-            {globalState.signature.length > 0 &&
-                globalState.photoLicence.length > 0 &&
-                globalState.photoID.length > 0 &&
-
-                <GradientButton text="Envoyer Tous les documents"
-                    color={['#7cb9e8', '#7cb9e8']}
-                    width={300}
-                    handlePress={() => {
-                        handleSubmitAll({
-                            url: `${process.env.API_URL}sendAll`,
-                            body: {
-                                id: globalState.photoID,
-                                licence: globalState.photoLicence,
-                                signature: globalState.signature[0]
-                            }
-                        })
-                    }} />
-            }
-
-        </ScrollView >
+            </ScrollView>
+        </View>
     );
 }
-
-export default ActivateAccount;

@@ -21,7 +21,7 @@ export default function Notifs() {
 
         <View style={[generalStyles.container]}>
 
-            <ScrollView style={[generalStyles.container, { marginTop: 10, flexGrow: 1 }]}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1, width: '100%' }}>
 
                 <Text style={generalStyles.title}>Notifications</Text>
 

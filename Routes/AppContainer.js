@@ -8,15 +8,17 @@ import RootNavigator from "./RootNavigator";
 import AppNavigator from "./AppNavigator";
 import useGlobalContext from '../Hooks/useGlobalContext';
 
+import { darkgreyish } from '../Shared/css';
+
 export default function AppContainer() {
 
     const { globalState } = useGlobalContext();
     const isLogged = React.useMemo(() => globalState.isLogged, [globalState.isLogged]);
 
     return (
-        <SafeAreaProvider>
+        <SafeAreaProvider style={{ backgroundColor: darkgreyish }}>
 
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: darkgreyish }}>
 
                 {isLogged ? <AppNavigator /> : <RootNavigator />}
 

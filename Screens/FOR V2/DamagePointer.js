@@ -31,7 +31,7 @@ export default function DamagePointer({ navigation }) {
 
     return (
 
-        <ScrollView style={[generalStyles.container, { marginTop: 10, marginBottom: 65 }]}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1, width: '100%' }}>
 
             <Text style={generalStyles.title}>
                 Emplacement dommages

@@ -63,7 +63,7 @@ export default function Costs({ navigation, route }) {
 
     return (
 
-        <ScrollView style={[generalStyles.container]}>
+        <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
             <Text style={generalStyles.title}>Coûts de la voiture</Text>
 

@@ -5,6 +5,8 @@ export const blackA = "#171919"
 
 export const blue = "#4daafe"
 export const greenblue = '#94ecd3'
+export const greyish = "#efefef"
+export const darkgreyish = "#d6d6d6"
 
 export const flatgreen = [primaryColor2, primaryColor2]
 
@@ -24,7 +26,7 @@ export const generalStyles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: "#d6d6d6",
+        backgroundColor: darkgreyish,
     },
     container2: {
         flex: 2,
@@ -41,21 +43,19 @@ export const generalStyles = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10,
         borderRadius: 25,
-        backgroundColor: "#efefef",
+        backgroundColor: darkgreyish,
         justifyContent: 'center',
     },
-    topGreyContainer: {
+    topBorderContainer: {
         alignItems: "center",
         justifyContent: "space-between",
-        backgroundColor: "#efefef",
         padding: 10,
         marginLeft: 5,
         marginRight: 5,
         borderTopEndRadius: 15,
         borderTopStartRadius: 15,
     },
-    bottomWhiteContainer: {
-        backgroundColor: "white",
+    bottomBorderContainer: {
         padding: 10,
         marginLeft: 5,
         marginRight: 5,
@@ -71,6 +71,12 @@ export const generalStyles = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10,
         marginBottom: 5,
+    },
+    scrollViewStyle: {
+        flexGrow: 1,
+        width: '100%',
+        marginBottom: 65,
+        backgroundColor: darkgreyish,
     },
 
     ////////////////
@@ -116,10 +122,12 @@ export const generalStyles = StyleSheet.create({
     inputs: {
         height: 40,
         width: Dimensions.get('screen').width - 110,
-        margin: 5,
-        padding: 5,
+        margin: 7,
+        padding: 7,
         borderRadius: 3,
-        backgroundColor: "#efefef",
+        borderWidth: 0.5,
+        color: blackA,
+        backgroundColor: darkgreyish,
     },
 
     //////////////// 
@@ -236,6 +244,10 @@ export const generalStyles = StyleSheet.create({
 
     mbgeneral65: {
         marginBottom: 65
+    },
+
+    marginOverall: {
+        marginTop: 30
     },
 
     ////////////////

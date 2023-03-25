@@ -78,7 +78,7 @@ export default function MakeReservation({ route }) {
 
     return (
 
-        <ScrollView style={[generalStyles.container]}>
+        <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
             <StyledText style={generalStyles.title}>Reservez</StyledText>
 

@@ -45,7 +45,7 @@ export default function VirtualPouch() {
             */}
 
 
-            <ScrollView style={[generalStyles.container, generalStyles.mbgeneral65]}>
+            <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
                 {globalState?.currentCar?.[0]?.virutualPouch.map((document, index) => (
 
@@ -71,53 +71,53 @@ export default function VirtualPouch() {
                     </View>
                 ))}
 
-            </ScrollView>
 
-            {/* 
+
+                {/* 
             ////////////////
             /// MODAL STUFF
             //////////////// 
             */}
 
 
-            <Modal visible={isModalVisible} transparent={true}>
+                <Modal visible={isModalVisible} transparent={true}>
 
-                <View style={generalStyles.modalContainer}>
+                    <View style={generalStyles.modalContainer}>
 
-                    <View style={generalStyles.modalContent}>
+                        <View style={generalStyles.modalContent}>
 
-                        {selectedImage &&
+                            {selectedImage &&
 
-                            <>
-                                <ScrollView horizontal={true}>
+                                <>
+                                    <ScrollView horizontal={true}>
 
-                                    <View>
+                                        <View>
 
-                                        <Image
-                                            source={{ uri: `${selectedImage.picJPG}` }}
-                                            style={[styles.fullScreenImage]}
-                                        />
+                                            <Image
+                                                source={{ uri: `${selectedImage.picJPG}` }}
+                                                style={[styles.fullScreenImage]}
+                                            />
 
-                                    </View>
+                                        </View>
 
-                                </ScrollView>
+                                    </ScrollView>
 
-                                <GradientButton text={`Fermer ${selectedImage.docType}`}
-                                    width={Dimensions.get('window').width - 10}
-                                    handlePress={() => {
-                                        setIsModalVisible(c => !c)
-                                        setSelectedImage()
-                                    }} />
+                                    <GradientButton text={`Fermer ${selectedImage.docType}`}
+                                        width={Dimensions.get('window').width - 10}
+                                        handlePress={() => {
+                                            setIsModalVisible(c => !c)
+                                            setSelectedImage()
+                                        }} />
 
-                            </>
-                        }
+                                </>
+                            }
+
+                        </View>
 
                     </View>
 
-                </View>
-
-            </Modal>
-
+                </Modal>
+            </ScrollView>
         </>
 
     );

@@ -129,7 +129,7 @@ export default function VehiculeCalendar({ navigation, route }) {
 
     return (
 
-        <ScrollView style={[generalStyles.container, generalStyles.mbgeneral65, { flexGrow: 1 }]}>
+        <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
             <View style={[generalStyles.colorContainer, generalStyles.globalShadow, { marginTop: 10 }]}>
 

@@ -41,7 +41,7 @@ export default function PicsFromB64({
                             }}>
 
                             <Image
-                                source={{ uri: `data:image/jpg;base64,${pics.jpgFile.base64}` }}
+                                source={{ uri: `data:image/jpg;base64,${pics.jpgFile}` }}
                                 style={{ width: 100, height: 100 }}
                             />
 

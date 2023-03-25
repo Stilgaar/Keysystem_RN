@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, Text, ActivityIndicator, BackHandler } from 'react-native';
+import { View, StyleSheet, BackHandler } from 'react-native';
+
+import RNFS from 'react-native-fs';
 
 // general styles to get the components a bit cleaner
 import { generalStyles } from './css';
 
-// react-native-camera package
-// import { Camera } from 'react-native-vision-camera';
+import { Camera, CameraType } from 'react-native-camera-kit';
 
 // Buttons, but gradient
 import { GradientButton } from '../comps';
@@ -25,25 +26,6 @@ export default function MyCamera({
     navigation,
     indexInventory
 }) {
-
-    ////////////////
-    // Chose Camera Type state (for now it will be only the back one)
-    ////////////////
-
-    const [cameraPermission, setCameraPermission] = React.useState(null);
-
-    ////////////////
-    // To avoid flickering
-    ////////////////
-
-    const [isLoading, setLoading] = React.useState(true);
-
-    // React.useEffect(() => {
-    //     async () => {
-    //         const cameraPermission = await Camera.requestCameraPermission();
-    //         setCameraPermission(cameraPermission);
-    //     };
-    // }, []);
 
     ////////////////
     // Back Button Handler (in CHECK IN // CHECKOUT)
@@ -85,89 +67,85 @@ export default function MyCamera({
     // Function to get the pictures (its put in the globalContext)
     ////////////////
 
+    const takePhoto = async () => {
 
-    // const takePhoto = async () => {
-    //     if (cameraRef.current) {
-    //         const options = { quality: 0.5, base64: true };
-    //         const data = await cameraRef.current.takePictureAsync(options);
-    //         globalDispatch(dispatch(data, dispatchGeneralType, dispatchType));
-    //     }
-    // };
+        if (cameraRef.current) {
+
+            const data = await cameraRef.current.capture();
+
+            try {
+                // Read the file from the file system
+                // with a BRAND NEW PACKAGE !!
+                const fileContent = await RNFS.readFile(data.uri, 'base64');
+
+                // Send base64 image to the global dispatch
+                globalDispatch(dispatch(fileContent, dispatchGeneralType, dispatchType));
+            } catch (error) {
+                console.error('Error reading file:', error);
+            }
+
+        }
+    }
 
     ////////////////
     // JSX
     ////////////////
 
-    if (isLoading) {
-        return (
-            <View style={[generalStyles.container, generalStyles.colorContainer, generalStyles.center]}>
-                <ActivityIndicator size="large" color="blue" />
-            </View>
-        );
-    }
+    return (
 
-    if (cameraPermission !== 'authorized') {
-        return (
-            <View>
-                <Text>You have denied camera permission.</Text>
-            </View>
-        );
-    }
+        <View style={styles.container}>
 
-    if (cameraPermission === 'authorized') {
+            <Camera
+                style={{ flex: 1 }}
+                ref={cameraRef}
+                cameraType={CameraType.Back} // front/back(default)
+            />
 
-        return (
-
-            <View style={styles.container}>
-
-                {/* <Camera
+            {/* <Camera
                     style={styles.camera}
                     device={Camera.device.back}
-                    isActive={true}
+                   
                     onCapturedPhoto={newPhoto => {
                         globalDispatch(dispatch(newPhoto, dispatchGeneralType, dispatchType));
                     }}
                 > */}
 
-                {dispatchGeneralType === "attributionInventory" &&
+            {dispatchGeneralType === "attributionInventory" &&
 
-                    <GradientButton width={350}
-                        handlePress={() => navigation.replace((indexInventory + 1) === inventoryArray.length ? routeType : inventoryArray[indexInventory + 1].key, { routeType: routeType })}
-                        text={`${(indexInventory + 1) === inventoryArray.length ? "Fin" : "vers " + inventoryArray[indexInventory + 1].text}`} />
-                }
+                <GradientButton width={350}
+                    handlePress={() => navigation.replace((indexInventory + 1) === inventoryArray.length ? routeType : inventoryArray[indexInventory + 1].key, { routeType: routeType })}
+                    text={`${(indexInventory + 1) === inventoryArray.length ? "Fin" : "vers " + inventoryArray[indexInventory + 1].text}`} />
+            }
 
 
-                <View style={generalStyles.buttonContainer}>
+            <View style={generalStyles.buttonContainer}>
 
-                    {goBackCondition ? (
+                {goBackCondition ? (
 
-                        <GradientButton width={70}
-                            borderRadius={20}
-                            handlePress={() => navigation.goBack()}>
+                    <GradientButton width={70}
+                        borderRadius={20}
+                        handlePress={() => navigation.goBack()}>
 
-                            <FontAwesome5 name="backspace" size={30} color="white" />
+                        <FontAwesome5 name="backspace" size={30} color="white" />
 
-                        </GradientButton>
+                    </GradientButton>
 
-                    ) : (
+                ) : (
 
-                        <GradientButton width={70}
-                            borderRadius={50}
-                            handlePress={takePhoto}>
+                    <GradientButton width={70}
+                        borderRadius={50}
+                        handlePress={takePhoto}>
 
-                            <MaterialIcons name="add-a-photo" size={30} color="white" />
+                        <MaterialIcons name="add-a-photo" size={30} color="white" />
 
-                        </GradientButton>
+                    </GradientButton>
 
-                    )}
+                )}
 
-                </View>
+            </View>
 
-                {/* </Camera> */}
-
-            </View >
-        );
-    }
+        </View >
+    );
 }
 
 const styles = StyleSheet.create({

@@ -77,9 +77,11 @@ export default function Damage({ navigation, route }) {
 
     return (
 
-        <ScrollView style={[generalStyles.container]}>
+        <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-            <Text style={generalStyles.title}>Ajouter un sinistre</Text>
+            <Text style={generalStyles.title}>
+                Ajouter un sinistre
+            </Text>
 
             <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 

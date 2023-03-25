@@ -7,19 +7,19 @@ export const vehicleInfoArray = [
 
 export const vehiculeKmArray = [
     {
-        text: "Kilomètres éfféctués",
+        text: "Km",
         key: "vehiculeKmTotalDone",
     },
     {
-        text: "Kilomètre pendant la location",
+        text: "Location",
         key: "vehiculeKmTotalDoneThis"
     },
     {
-        text: "Kilomètres par jours",
+        text: "Jour",
         key: "vehiculeKmTotalDonePerDay",
     },
     {
-        text: "Kilomètres par mois",
+        text: "Mois",
         key: "vehiculeKmTotalDonePerMonth",
     },
 ]

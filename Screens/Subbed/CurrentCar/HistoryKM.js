@@ -1,25 +1,67 @@
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 
-import { generalStyles } from "../../../Shared/css";
-
-import { TextInfo } from "../../../comps";
-
+import { generalStyles, greyish } from "../../../Shared/css";
 import { vehiculeKmArray } from "../../../JSON/Fr/CurrentVehiculeArray";
+
+import BottomBorderContainer from "../../../Shared/BottomBorderContainer";
+import TopBorderContainer from "../../../Shared/TopBorderContainer";
+import StyledText from "../../../Shared/StyledText";
 
 // Historique des relevés kilométriques
 // Nombre de km effectués depuis l'obtention du véhicule
 // Nombre de KM par jour / par mois
 
 
-function HistoryKM({ data }) {
-    return (
+export default function HistoryKM({
+    data,
+    style,
+}) {
 
+    return (
         <>
-            <Text style={generalStyles.titleInfo}>Historique Kilomètriques</Text>
-            <TextInfo array={vehiculeKmArray} data={data} />
+            <TopBorderContainer style={[style, {
+                flexDirection: "row",
+                justifyContent: "space-between",
+                backgroundColor: greyish,
+                alignItems: "center",
+                paddingLeft: 30,
+                paddingRight: 30
+            }]}>
+
+                {vehiculeKmArray.map(info => (
+
+                    <StyledText style={{ fontSize: 25 }}
+
+                        key={info.text}>{data?.[`${info.key}`]}
+
+                    </StyledText>
+
+                ))}
+
+            </TopBorderContainer>
+
+            <BottomBorderContainer style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                backgroundColor: "white",
+                marginBottom: 5,
+                paddingLeft: 30,
+                paddingRight: 30
+            }}>
+
+                {vehiculeKmArray.map(info => (
+
+                    <StyledText style={{ fontSize: 15 }} key={info.text}>
+
+                        {info.text}
+
+                    </StyledText>
+
+                ))}
+
+            </BottomBorderContainer>
         </>
 
     );
 }
-
-export default HistoryKM;

@@ -94,7 +94,7 @@ export default function AccordeonSingleItem({ route }) {
                     </View>
                 }
 
-                <ScrollView style={[generalStyles.container, { marginTop: 10, flexGrow: 1 }]}>
+                <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
                     {filteredArray.length > 0 ?
 
