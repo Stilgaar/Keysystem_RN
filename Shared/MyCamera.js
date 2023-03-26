@@ -80,6 +80,7 @@ export default function MyCamera({
 
                 // Send base64 image to the global dispatch
                 globalDispatch(dispatch(fileContent, dispatchGeneralType, dispatchType));
+
             } catch (error) {
                 console.error('Error reading file:', error);
             }
@@ -101,20 +102,12 @@ export default function MyCamera({
                 cameraType={CameraType.Back} // front/back(default)
             />
 
-            {/* <Camera
-                    style={styles.camera}
-                    device={Camera.device.back}
-                   
-                    onCapturedPhoto={newPhoto => {
-                        globalDispatch(dispatch(newPhoto, dispatchGeneralType, dispatchType));
-                    }}
-                > */}
-
             {dispatchGeneralType === "attributionInventory" &&
-
-                <GradientButton width={350}
-                    handlePress={() => navigation.replace((indexInventory + 1) === inventoryArray.length ? routeType : inventoryArray[indexInventory + 1].key, { routeType: routeType })}
-                    text={`${(indexInventory + 1) === inventoryArray.length ? "Fin" : "vers " + inventoryArray[indexInventory + 1].text}`} />
+                <View style={generalStyles.buttonTopContainer}>
+                    <GradientButton width={350}
+                        handlePress={() => navigation.replace((indexInventory + 1) === inventoryArray.length ? routeType : inventoryArray[indexInventory + 1].key, { routeType: routeType })}
+                        text={`${(indexInventory + 1) === inventoryArray.length ? "Fin" : "vers " + inventoryArray[indexInventory + 1].text}`} />
+                </View>
             }
 
 

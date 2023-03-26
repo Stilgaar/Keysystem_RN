@@ -199,11 +199,23 @@ export const generalStyles = StyleSheet.create({
         position: "absolute",
         alignSelf: "center",
         flexDirection: 'row', // set the flexDirection to row
-        justifyContent: 'center', // set the justifyContent to space-between
+        justifyContent: 'center', // set the justifyContent to space-betweenz
         bottom: 5, // set the bottom to 0
         left: 0, // set the left to 0
         right: 0, // set the right to 0
     },
+
+    buttonTopContainer: {
+        position: "absolute",
+        alignSelf: "center",
+        flexDirection: 'row', // set the flexDirection to row
+        justifyContent: 'center', // set the justifyContent to space-between
+        top: 1, // set the bottom to 0
+        left: 0, // set the left to 0
+        right: 0, // set the right to 0
+    },
+
+
 
     buttonSeparated: {
         flexDirection: "row",

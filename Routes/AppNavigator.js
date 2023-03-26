@@ -77,6 +77,8 @@ import useGlobalContext from '../Hooks/useGlobalContext';
 import { addNotification } from '../Reducer/GlobalReducer/globalDispatch';
 import { Notifications } from 'react-native-notifications';
 
+import { request, PERMISSIONS, check } from 'react-native-permissions';
+
 // Thats the bottom navigation
 const Tab = createBottomTabNavigator();
 // These are the only on that can be given a header 
@@ -92,10 +94,35 @@ export default function AppNavigator() {
     const { globalDispatch } = useGlobalContext()
 
     React.useEffect(() => {
+
+        const requestNotificationPermission = async () => {
+            // Determine the appropriate permission based on the platform
+            const permission = Platform.OS === 'ios' ? PERMISSIONS.IOS.NOTIFICATIONS : PERMISSIONS.ANDROID.ACCESS_NOTIFICATION_POLICY;
+
+            // First, check if permission has already been granted or not
+            const permissionStatus = await check(permission);
+
+            console.log(permissionStatus)
+
+            // If permission is not granted yet, request for permission
+            if (permissionStatus !== 'granted') {
+                const result = await request(permission);
+                if (result === 'granted') {
+                    console.log('Notification permission granted');
+                } else {
+                    console.log('Notification permission denied');
+                }
+            }
+        };
+
+        requestNotificationPermission()
+
         const ws = new WebSocket('wss://socketsbay.com/wss/v2/1/demo/');
 
         ws.addEventListener('message', event => {
-            makeANofitication(JSON.parse(event.data));
+            if (event.data.includes("title") || event.data.includes("body")) {
+                makeANofitication(JSON.parse(event.data)); c
+            }
         });
 
     }, []);
