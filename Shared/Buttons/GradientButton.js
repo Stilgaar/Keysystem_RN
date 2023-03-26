@@ -4,8 +4,6 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import { generalStyles, greyGradientColor, flatgreen } from '../css';
 
-import StyledText from '../StyledText';
-
 function GradientButton({
     text,
     handlePress,

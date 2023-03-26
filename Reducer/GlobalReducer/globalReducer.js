@@ -9,6 +9,19 @@ export const globalReducer = (prevState, action) => {
 
     switch (action.type) {
 
+
+        case 'SET_GLOBAL_STATE': {
+
+            const { storedState } = action.payload
+
+            console.log(storedState.notificationsList)
+
+            return {
+                ...storedState
+            }
+
+        }
+
         ////////////////
         // LOGIN STUFF (nof finished)
         ////////////////
@@ -325,6 +338,7 @@ export const globalReducer = (prevState, action) => {
 
             state.push(newNotification)
 
+
             return {
                 ...prevState,
                 notificationsList: state
@@ -396,7 +410,17 @@ export const globalReducer = (prevState, action) => {
             console.warn(`HI JEFF, JSAUCE HERE, YOU SHOULND GET THAT (or you forgot somehting)`)
             return prevState
     }
+
+
+    try {
+        AsyncStorage.setItem('globalState', JSON.stringify(state));
+    } catch (error) {
+        console.log('Error saving data to AsyncStorage: ', error);
+    }
+
+
 }
+
 
 
 /* const { info, dispatchGeneralType, dispatchType, infoType } = action.payload;

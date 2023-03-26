@@ -1,18 +1,20 @@
 import React from "react";
 import { StateContext, DispatchContext } from "../../../Context/StateContext";
 
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native";
 
 import { Input, Avatar } from "react-native-elements";
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Sélectionner un véhicule et voir toutes ses informations
 // Demander la reservation d'un véhicule 
 
+import VehiculesInfo from "../CurrentCar/VehiculeInfos";
+
 import { GradientButton } from "../../../comps";
 
-import { generalStyles, primaryColor2 } from "../../../Shared/css";
-
-import StyledText from "../../../Shared/StyledText";
+import { generalStyles, primaryColor2, greyish } from "../../../Shared/css";
 
 import { FilterEverything } from "../../../Functions/FilterAll";
 import { getSelectedVehiculeReseravation } from "../../../Reducer/GlobalReducer/globalDispatch";
@@ -24,7 +26,6 @@ import vehiculeList from "../../../JSON/CAR_MOCK_DATA.json"
 
 function SelectVehicle({ navigation }) {
 
-
     const [selectedVehicule, setSelectedVehicule] = React.useState({})
     const [searchVechicule, setSearchVehicule] = React.useState()
 
@@ -33,22 +34,41 @@ function SelectVehicle({ navigation }) {
 
     // const { data: vehiculeList } = useFetch(`${process.env.API_URL}resetapiroad`)
 
+    const [state, setGlobalState] = React.useState(globalState);
+
+    React.useEffect(() => {
+
+        setTimeout(
+
+            async () => {
+                const state = await AsyncStorage.getItem('globalState');
+                setGlobalState(JSON.parse(state));
+            },
+
+            10)
+
+    }, [globalState]);
+
+
     return (
 
         <>
-            {globalState.user[0].isVerified ?
+            {state.user[0].isVerified ?
                 <>
                     {vehiculeList ?
 
-                        <View style={generalStyles.container}>
+                        <KeyboardAvoidingView
+                            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                            style={[generalStyles.container]}
+                        >
 
                             <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
                                 <Text style={generalStyles.title}>Véhicules disponibles</Text>
 
-                                <View style={[generalStyles.center, generalStyles.colorContainer]}>
+                                <View style={[generalStyles.center, { backgroundColor: "white", padding: 4, margin: 5, borderRadius: 15 }]}>
 
-                                    <Input placeholder={`Rechercher un véhicule`}
+                                    <Input placeholder={`Cherchez par modèle, type, plaque`}
                                         onChangeText={(text) => setSearchVehicule(text)} />
 
                                 </View>
@@ -59,72 +79,40 @@ function SelectVehicle({ navigation }) {
                                     })
                                     .map((vehicule, i) => (
 
-                                        <TouchableOpacity key={i}
-                                            onPress={() => {
-                                                if (selectedVehicule.vehiculeGUID === vehicule.vehiculeGUID) {
-                                                    setSelectedVehicule({})
-                                                }
-                                                else { setSelectedVehicule(vehicule) }
-                                            }}
-                                            style={[generalStyles.colorContainer, generalStyles.globalShadow, { marginLeft: 10, marginRight: 10, marginBottom: 2, marginTop: 2 },
-                                            selectedVehicule.vehiculeGUID === vehicule.vehiculeGUID && { backgroundColor: primaryColor2 }]}>
+                                        <React.Fragment key={i}>
 
-                                            <View style={generalStyles.spbetween}>
-
-                                                <View style={{ flex: 1, marginLeft: 10, marginRight: 10 }}>
-
-                                                    <View style={generalStyles.spbetween}>
-                                                        <StyledText>Véhicule</StyledText>
-                                                        <StyledText>{vehicule.vehiculeBrand} - {vehicule.vehiculeModel}</StyledText>
-                                                    </View>
-
-                                                    <View style={generalStyles.spbetween}>
-                                                        <StyledText>Type</StyledText>
-                                                        <StyledText> {vehicule.vehiculeType}</StyledText>
-                                                    </View>
-
-                                                    <View style={generalStyles.spbetween}>
-                                                        <StyledText>Immatriculation</StyledText>
-                                                        <StyledText>{vehicule.vehiculeImmatriculation}</StyledText>
-                                                    </View>
-                                                    <View style={generalStyles.spbetween}>
-                                                        <StyledText>Kilométrage</StyledText>
-                                                        <StyledText>{vehicule.vehiculeKmTotalDone}</StyledText>
-                                                    </View>
-
-                                                    {vehicule.vehiculeIsUsed &&
-                                                        <View style={generalStyles.center}>
-                                                            <StyledText style={{ marginTop: 5, color: "crimson" }}>En cours d'utilisation</StyledText>
-                                                        </View>
+                                            <TouchableOpacity key={i}
+                                                onPress={() => {
+                                                    if (selectedVehicule.vehiculeGUID === vehicule.vehiculeGUID) {
+                                                        setSelectedVehicule({})
                                                     }
+                                                    else { setSelectedVehicule(vehicule) }
+                                                }}
+                                                style={{ marginLeft: 10, marginRight: 10, marginBottom: 2, marginTop: 2 }}>
 
-                                                </View>
+                                                <VehiculesInfo
+                                                    vehicule={vehicule}
+                                                    bgcolor={selectedVehicule.vehiculeGUID === vehicule.vehiculeGUID ? primaryColor2 : greyish}
+                                                    type={`fromSelectCar`} />
 
-                                                <View style={[generalStyles.center]}>
+                                            </TouchableOpacity>
 
-                                                    <Avatar size={65}
-                                                        rounded
-                                                        source={{ uri: vehicule.vehiculeSRC }}
-                                                    />
-
-                                                </View>
-
-                                            </View>
-
-                                        </TouchableOpacity>
+                                        </React.Fragment>
                                     ))}
 
                             </ScrollView>
 
                             {Object.keys(selectedVehicule).length > 0 &&
 
-                                <View style={[generalStyles.mbgeneral65, { flexDirection: "row" }]}>
+                                <View style={[generalStyles.mbgeneral65, { flexDirection: "row", justifyContent: "space-around" }]}>
 
-                                    <GradientButton text={`Voir disponibilités`}
+                                    <GradientButton text={`Disponibilités`}
+                                        width={170}
                                         handlePress={() => navigation.navigate("VehiculeCalendar", { vehiculeGUID: selectedVehicule.vehiculeGUID })}
                                     />
 
                                     <GradientButton text={`Reservez`}
+                                        width={170}
                                         handlePress={() => {
                                             globalDispatch(getSelectedVehiculeReseravation(selectedVehicule))
                                             navigation.navigate("MakeReservation", { vehicule: selectedVehicule })
@@ -133,7 +121,7 @@ function SelectVehicle({ navigation }) {
                                 </View>
                             }
 
-                        </View>
+                        </KeyboardAvoidingView>
 
                         :
 

@@ -77,7 +77,8 @@ import useGlobalContext from '../Hooks/useGlobalContext';
 import { addNotification } from '../Reducer/GlobalReducer/globalDispatch';
 import { Notifications } from 'react-native-notifications';
 
-import { request, PERMISSIONS, check } from 'react-native-permissions';
+import { PermissionsAndroid } from 'react-native';
+import { request, PERMISSIONS } from 'react-native-permissions';
 
 // Thats the bottom navigation
 const Tab = createBottomTabNavigator();
@@ -93,37 +94,57 @@ export default function AppNavigator() {
 
     const { globalDispatch } = useGlobalContext()
 
+    const [notificationPermission, setNotificationPermission] = React.useState(null)
+
+    const requestNotificationPermission = async () => {
+        if (Platform.OS === 'ios') {
+            return request(PERMISSIONS.IOS.NOTIFICATIONS);
+        } else {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+            );
+
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                setNotificationPermission('granted');
+                return 'granted';
+            } else {
+                setNotificationPermission('denied');
+                return 'denied';
+            }
+        }
+    };
+
     React.useEffect(() => {
 
-        const requestNotificationPermission = async () => {
-            // Determine the appropriate permission based on the platform
-            const permission = Platform.OS === 'ios' ? PERMISSIONS.IOS.NOTIFICATIONS : PERMISSIONS.ANDROID.ACCESS_NOTIFICATION_POLICY;
+        const getNotif = async () => {
+            const status = await requestNotificationPermission();
 
-            // First, check if permission has already been granted or not
-            const permissionStatus = await check(permission);
-
-            console.log(permissionStatus)
-
-            // If permission is not granted yet, request for permission
-            if (permissionStatus !== 'granted') {
-                const result = await request(permission);
-                if (result === 'granted') {
-                    console.log('Notification permission granted');
-                } else {
-                    console.log('Notification permission denied');
-                }
+            if (status !== 'granted') {
+                // Handle the case when notification permission is denied
+                // For example, you can show an error message or a prompt to request permission again
+                console.log('Notification permission denied');
+                return;
+            } else {
+                // Handle the case when notification permission is granted
+                // For example, you can initialize your notification handling logic here
+                console.log('Notification permission granted');
             }
         };
 
-        requestNotificationPermission()
+        getNotif();
 
         const ws = new WebSocket('wss://socketsbay.com/wss/v2/1/demo/');
 
         ws.addEventListener('message', event => {
+
             if (event.data.includes("title") || event.data.includes("body")) {
-                makeANofitication(JSON.parse(event.data)); c
+
+                makeANofitication(JSON.parse(event.data));
+
             }
         });
+
+
 
     }, []);
 

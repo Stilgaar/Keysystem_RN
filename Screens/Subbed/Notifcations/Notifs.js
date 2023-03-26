@@ -1,21 +1,41 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import { GradientButton } from '../../../comps';
+
+import { StateContext, DispatchContext } from '../../../Context/StateContext';
 
 import StyledText from '../../../Shared/StyledText';
 
-import useGlobalContext from '../../../Hooks/useGlobalContext';
+import BottomBorderContainer from '../../../Shared/BottomBorderContainer';
+import TopBorderContainer from '../../../Shared/TopBorderContainer';
 
-import { generalStyles } from '../../../Shared/css';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import useGlobalContext from "../../../Hooks/useGlobalContext"
+
+import { generalStyles, greenblue } from '../../../Shared/css';
 
 import { delAllNotification, delNotification } from '../../../Reducer/GlobalReducer/globalDispatch';
 
 export default function Notifs() {
 
-    const { globalDispatch, globalState } = useGlobalContext()
-
     const id = React.useId()
 
+    const { globalState, globalDispatch } = useGlobalContext()
+
+    const [state, setGlobalState] = React.useState(globalState);
+
+    React.useEffect(() => {
+
+        setTimeout(
+
+            async () => {
+                const state = await AsyncStorage.getItem('globalState');
+                setGlobalState(JSON.parse(state));
+            },
+
+            200)
+
+    }, [globalState]);
 
     return (
 
@@ -25,49 +45,74 @@ export default function Notifs() {
 
                 <Text style={generalStyles.title}>Notifications</Text>
 
-                {globalState?.notificationsList.length > 0 ?
+                {state?.notificationsList?.length > 0 ?
 
-                    globalState?.notificationsList.map((notif, index) => (
+                    state?.notificationsList?.map((notif, index) => (
 
                         <React.Fragment key={`${index}-${id}`}>
-                            {(notif.title || notif.body) &&
 
-                                <TouchableOpacity onPress={() => globalDispatch(delNotification(index))}
-                                    style={[generalStyles.colorContainer, generalStyles.globalShadow, { marginLeft: 10, marginRight: 10, marginBottom: 2, marginTop: 2 }]}>
+                            <View style={{ marginBottom: 5 }}>
 
-                                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                <TopBorderContainer
+                                    style={{ backgroundColor: greenblue, flexDirection: "row", justifyContent: "space-between", }}
+                                >
 
-                                        <View>
+                                    <StyledText style={{ fontSize: 25 }}>
+                                        {notif.title}
+                                    </StyledText>
 
-                                            <StyledText style={{ fontSize: 25 }}>{notif.title}</StyledText>
+                                    <GradientButton
+                                        handlePress={() => globalDispatch(delNotification(index))}
+                                        text={`vu`}
+                                        width={70}
+                                        buttonPadding={4}
+                                    />
 
-                                            <StyledText style={{ opacity: 0.7, marginLeft: 10, paddingTop: 5 }}>{notif.body}</StyledText>
+                                </TopBorderContainer>
 
-                                        </View>
 
-                                        <View>
+                                <BottomBorderContainer style={{ flexDirection: "row", justifyContent: "space-between", backgroundColor: "white" }}>
 
-                                            <StyledText>{notif.date}</StyledText>
+                                    <StyledText style={{ opacity: 0.7, marginLeft: 10, paddingTop: 5 }}>
 
-                                            <GradientButton
-                                                handlePress={() => globalDispatch(delNotification(index))}
-                                                text={`vu`}
-                                                width={50} />
-                                        </View>
+                                        {notif.body}
 
-                                    </View>
+                                    </StyledText>
 
-                                </TouchableOpacity>
+                                    <StyledText>
 
-                            }
+                                        {notif.date}
+
+                                    </StyledText>
+
+                                </BottomBorderContainer>
+                            </View>
 
                         </React.Fragment>
                     ))
 
                     :
 
-                    <View style={[generalStyles.colorContainer, { justifyContent: "center", alignItems: "center", flex: 1 }]} >
-                        <StyledText style={{ textAlign: 'center', textAlignVertical: 'center' }}>Vous n'avez pas de notifications</StyledText>
+                    <View style={{ flex: 1, justifyContent: "center", alignContent: "center" }}>
+
+                        <View style={[generalStyles.colorContainer,
+                        {
+                            borderWidth: 5,
+                            borderColor: "black",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            flex: 0.5,
+                            backgroundColor: 'white'
+                        }]} >
+
+                            <StyledText style={{ textAlign: 'center', textAlignVertical: 'center', fontSize: 30 }}>
+
+                                Vous n'avez pas de notifications
+
+                            </StyledText>
+
+                        </View>
+
                     </View>
 
                 }
@@ -75,14 +120,14 @@ export default function Notifs() {
 
             </ScrollView>
 
-            {globalState?.notificationsList.length > 1 &&
+            {state?.notificationsList.length > 1 &&
 
                 <GradientButton handlePress={() => globalDispatch(delAllNotification())}
                     text={`Effacer tous`}
-                    addStyle={{ marginBottom: 65, position: "fixed" }} />
+                    addStyle={{ marginBottom: 65 }} />
             }
 
-        </View>
+        </View >
     );
 }
 

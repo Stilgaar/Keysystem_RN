@@ -10,13 +10,15 @@ import { StateContext, DispatchContext } from "../../../Context/StateContext";
 
 import { getSelectedVehicule } from "../../../Reducer/GlobalReducer/globalDispatch";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import {
     GradientButton,
 } from "../../../comps";
 
 import VehiculesInfo from "./VehiculeInfos";
 
-import StyledText from "../../../Shared/StyledText";
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import vehicules from "../../../JSON/CAR_MOCK_DATA.json"
 
@@ -43,7 +45,22 @@ export default function SelectedVehicule({ navigation, route }) {
 
     }, [])
 
-    // 
+    const [state, setGlobalState] = React.useState(globalState);
+
+    React.useEffect(() => {
+
+        setTimeout(
+
+            async () => {
+                const state = await AsyncStorage.getItem('globalState');
+                console.log('THIS', state)
+                setGlobalState(JSON.parse(state));
+            },
+
+            40)
+
+    }, [globalState]);
+
 
     ////////////////
     // JSX
@@ -54,50 +71,72 @@ export default function SelectedVehicule({ navigation, route }) {
         <View style={[generalStyles.container]}>
             <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-                {globalState?.currentCar ?
+                {state?.currentCar ?
                     <>
                         {/* <Text style={[generalStyles.title, { marginBottom: 5 }]}>Véhicule Séléctionné</Text> */}
 
-                        <VehiculesInfo style={[generalStyles.marginOverall]} globalState={globalState} navigation={navigation} />
+                        <VehiculesInfo style={[generalStyles.marginOverall]} vehicule={state.currentCar?.[0]} navigation={navigation} />
 
-                        <HistoryKM style={[generalStyles.marginOverall]} data={globalState.currentCar?.[0]} />
+                        <HistoryKM style={[generalStyles.marginOverall]} data={state.currentCar?.[0]} />
 
                         <View style={[generalStyles.marginOverall, { flexDirection: "row", justifyContent: 'space-around' }]}>
 
                             <GradientButton text="action"
-                                width={170}
-                                buttonPadding={40}
-                                addStyle={{ marginBottom: 5 }}
-                                handlePress={() => navigation.navigate("Actions", { vehiculeGUID, virtualKeyGUID })} />
+                                width={150}
+                                buttonPadding={25}
+                                addStyle={{ marginBottom: 30 }}
+                                handlePress={() => navigation.navigate("Actions", { vehiculeGUID, virtualKeyGUID })}>
+
+                                <FontAwesome5 name="play" size={25} color="black" />
+
+                            </GradientButton>
 
 
                             <GradientButton text="Sinistre"
-                                width={170}
-                                buttonPadding={40}
-                                addStyle={{ marginBottom: 5 }}
-                                handlePress={() => navigation.navigate("Damage")} />
+                                width={150}
+                                buttonPadding={25}
+                                addStyle={{ marginBottom: 30 }}
+                                handlePress={() => navigation.navigate("Damage")}>
+
+                                <FontAwesome5 name="car-crash" size={25} color="black" />
+
+                            </GradientButton>
+
+
 
                         </View>
 
                         <View style={{ flexDirection: "row", justifyContent: 'space-around' }}>
 
                             <GradientButton text="Check In"
-                                addStyle={{ marginBottom: 5 }}
-                                width={170}
-                                buttonPadding={40}
-                                handlePress={() => navigation.navigate("CheckIn")} />
+                                addStyle={{ marginBottom: 30 }}
+                                width={150}
+                                buttonPadding={25}
+                                handlePress={() => navigation.navigate("CheckIn")} >
+
+                                <FontAwesome5 name="check-circle" size={25} color="black" />
+
+                            </GradientButton>
                             {/* 
                         <GradientButton text="Check Out"
-                           width={170}
-                            buttonPadding={40}
+                           width={150}
+                                buttonPadding={25}
                             addStyle={{ marginBottom: 5 }}
-                            handlePress={() => navigation.navigate("CheckOut")} /> */}
+                            handlePress={() => navigation.navigate("CheckOut")} >
+                            
+                             <FontAwesome5 name="check-circle" size={25} color="black" />
+                             </GradientButton>*/}
 
                             <GradientButton text="Coûts"
-                                addStyle={{ marginBottom: 5 }}
-                                width={170}
-                                buttonPadding={40}
-                                handlePress={() => navigation.navigate("Costs")} />
+                                addStyle={{ marginBottom: 30 }}
+                                width={150}
+                                buttonPadding={25}
+                                handlePress={() => navigation.navigate("Costs")}>
+
+                                <FontAwesome5 name="euro-sign" size={25} color="black" />
+
+                            </GradientButton>
+
                         </View>
 
                     </>

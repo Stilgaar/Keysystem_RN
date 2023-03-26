@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, View, Dimensions } from "react-native";
 
 import { generalStyles, greyish } from "../../../Shared/css";
 import { vehiculeKmArray } from "../../../JSON/Fr/CurrentVehiculeArray";
@@ -17,50 +17,55 @@ export default function HistoryKM({
     style,
 }) {
 
+    const { width } = Dimensions.get('window');
+    const itemWidth = width / vehiculeKmArray.length;
+
     return (
         <>
-            <TopBorderContainer style={[style, {
-                flexDirection: "row",
-                justifyContent: "space-between",
-                backgroundColor: greyish,
-                alignItems: "center",
-                paddingLeft: 30,
-                paddingRight: 30
-            }]}>
+
+            <View style={{ flexDirection: "row", justifyContent: "center" }}>
 
                 {vehiculeKmArray.map(info => (
 
-                    <StyledText style={{ fontSize: 25 }}
+                    <View key={info.key} style={{ width: itemWidth }}>
 
-                        key={info.text}>{data?.[`${info.key}`]}
+                        <TopBorderContainer style={[style, {
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            backgroundColor: greyish,
+                            alignItems: "center",
+                        }]}>
 
-                    </StyledText>
+
+                            <StyledText style={{ fontSize: 13 }}>
+
+                                {data?.[`${info.key}`]}
+
+                            </StyledText>
+
+                        </TopBorderContainer>
+
+
+                        <BottomBorderContainer style={{
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            backgroundColor: "white",
+                        }}>
+
+                            <StyledText style={{ fontSize: 15 }}>
+
+                                {info.text}
+
+                            </StyledText>
+
+
+                        </BottomBorderContainer>
+                    </View>
 
                 ))}
+            </View>
 
-            </TopBorderContainer>
-
-            <BottomBorderContainer style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                backgroundColor: "white",
-                marginBottom: 5,
-                paddingLeft: 30,
-                paddingRight: 30
-            }}>
-
-                {vehiculeKmArray.map(info => (
-
-                    <StyledText style={{ fontSize: 15 }} key={info.text}>
-
-                        {info.text}
-
-                    </StyledText>
-
-                ))}
-
-            </BottomBorderContainer>
         </>
 
     );

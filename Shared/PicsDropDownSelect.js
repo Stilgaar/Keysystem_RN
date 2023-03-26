@@ -1,4 +1,5 @@
 import React from "react";
+import { View } from "react-native";
 import { DispatchContext } from "../Context/StateContext";
 import { addDropDownInfo } from "../Reducer/GlobalReducer/globalDispatch";
 
@@ -40,10 +41,13 @@ export default function PicsDropDownSelect({
     const { globalDispatch } = React.useContext(DispatchContext)
 
     return (
-        <>
+
+        <View style={{ zIndex: 50 - index }}>
+
             <DropDownPicker
-                zIndex={10 - index}
-                zIndexInverse={15 - index}
+                zIndex={45 + index}
+                zIndexInverse={50 + index}
+                elevation={50 - index}
                 //  multiple={true}
                 open={dropDownOpen}
                 setOpen={setDropDownOpen}
@@ -57,7 +61,7 @@ export default function PicsDropDownSelect({
                     nestedScrollEnabled: true,
                 }}
             />
-        </>
+        </View>
     )
 
 }

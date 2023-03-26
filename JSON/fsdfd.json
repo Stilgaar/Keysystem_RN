@@ -1,0 +1,92 @@
+{
+    "attributionCost": [
+        {
+            "costTotal": "",
+            "costTotalHT": "",
+            "costTotalTTC": "",
+            "costTotalTVA": "",
+            "userGUID": "1321324465",
+            "vehiculeGUID": ""
+        }
+    ],
+    "attributionDamage": [
+        {
+            "generalDamageInfo": [Array
+            ]
+        }
+    ],
+    "attributionInventory": [
+        {
+            "generalInventoryInfo": [Array
+            ]
+        }
+    ],
+    "currentCar": [],
+    "currentKeys": [
+        {
+            "vehiculeBrand": "Suzuki",
+            "vehiculeGUID": "d79803d4-f8fc-4f5f-8544-c3a581a25850",
+            "vehiculeImmatriculation": "FP-132-DP",
+            "vehiculeModel": "SJ",
+            "virtualKeyDateActivated": "13/12/23",
+            "virtualKeyDateDesactivated": "13/12/23",
+            "virtualKeyGUID": "4553432cxvxcv132",
+            "virtualKeysOnThisVehicule": 2
+        },
+        {
+            "vehiculeBrand": "Buick",
+            "vehiculeGUID": "f80c62bf-117f-455c-a4f1-3ad07e97bdde",
+            "vehiculeImmatriculation": "DP-132-AM",
+            "vehiculeModel": "Rendezvous",
+            "virtualKeyDateActivated": "13/12/23",
+            "virtualKeyDateDesactivated": "13/12/23",
+            "virtualKeyGUID": "4553bcvb132",
+            "virtualKeysOnThisVehicule": 1
+        }
+    ],
+    "isLogged": true,
+    "notificationsList": [
+        {
+            "body": "test2",
+            "date": "26-03-2023 - 15:47:30",
+            "title": "test"
+        },
+        {
+            "body": "test2",
+            "date": "26-03-2023 - 15:47:34",
+            "title": "test"
+        }
+    ],
+    "photoID": [],
+    "photoLicence": [],
+    "reservationSelectCar": [],
+    "signature": [],
+    "user": [
+        {
+            "birthdate": "1995-09-26",
+            "firstName": "admin",
+            "fullName": "Admin the administrator",
+            "isVerified": true,
+            "lastName": "test",
+            "password": "Admintest1234!",
+            "userAdress": "Impasse du test",
+            "userCity": "AdminCity",
+            "userCountry": "PaysAdminTest",
+            "userDriverLicenceCardNumber": "ZERZEF32F234T3E",
+            "userEmailAdress": "admin@test.com",
+            "userGUID": "1321324465",
+            "userHistory": [Array
+            ],
+            "userIdentityCardNumber": "AZDADAZ21315EF3534",
+            "userPostalCode": "06000"
+        }
+    ],
+    "validationReservation": [
+        {
+            "endDate": "2023-03-26T13:45:57.859Z",
+            "startDate": "2023-03-26T13:45:57.859Z",
+            "userGUID": "1321324465",
+            "vehiculeGUID": ""
+        }
+    ]
+}

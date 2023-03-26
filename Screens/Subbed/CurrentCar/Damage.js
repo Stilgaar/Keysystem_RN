@@ -145,6 +145,7 @@ export default function Damage({ navigation, route }) {
                 {damageArray.map((text, i) => (
 
                     <DamageCheckBoxes
+                        index={i}
                         key={text.key}
                         navigation={navigation}
                         text={text.text}

@@ -21,7 +21,8 @@ export default function DamageCheckBoxes({
     text,
     nav,
     route,
-    globalState
+    globalState,
+    index
 }) {
 
     ////////////////
@@ -48,7 +49,7 @@ export default function DamageCheckBoxes({
 
     return (
 
-        <View>
+        <View style={{ zIndex: index + 50 }}>
 
             <CheckBox
                 title={text}

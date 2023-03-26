@@ -13,15 +13,17 @@ import BottomBorderContainer from "../../../Shared/BottomBorderContainer";
 import TopBorderContainer from "../../../Shared/TopBorderContainer";
 
 function VehiculesInfo({
-    globalState,
+    vehicule,
     navigation,
-    style
+    style,
+    bgcolor = greyish,
+    type
 }) {
 
     return (
 
         <>
-            <TopBorderContainer style={[style, { backgroundColor: greyish }]}>
+            <TopBorderContainer style={[style, { backgroundColor: bgcolor }]}>
 
                 <View style={{ justifyContent: "center", alignItems: "center" }}>
 
@@ -38,8 +40,8 @@ function VehiculesInfo({
 
                                 <View>
 
-                                    <StyledText>{globalState.currentCar?.[0]?.vehiculeContractType}</StyledText>
-                                    <StyledText>{globalState.currentCar?.[0]?.vehiculeContractRenter}</StyledText>
+                                    <StyledText>{vehicule?.vehiculeContractType}</StyledText>
+                                    <StyledText>{vehicule?.vehiculeContractRenter}</StyledText>
 
                                 </View>
 
@@ -49,9 +51,9 @@ function VehiculesInfo({
 
                         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
 
-                            {globalState.currentCar.length > 0 && globalState.currentCar[0].vehiculeSRC ?
+                            {vehicule?.vehiculeSRC ?
 
-                                <Image source={{ uri: `${globalState.currentCar[0].vehiculeSRC}` }}
+                                <Image source={{ uri: `${vehicule.vehiculeSRC}` }}
                                     style={{ width: 70, height: 70, borderRadius: 50 }}
                                 />
                                 :
@@ -62,11 +64,13 @@ function VehiculesInfo({
 
                         <View style={{ flex: 0.5, justifyContent: "center", alignItems: "center" }}>
 
-                            {(globalState?.currentCar?.[0]?.vehiculeType === "Electrique" || globalState.currentCar?.[0]?.vehiculeType === "Hybride") &&
+                            {vehicule && (vehicule?.vehiculeType === "Electrique" || vehicule.vehiculeType === "Hybride") &&
+
                                 <MaterialCommunityIcons name={"car-electric"} size={30} color={"black"} />
                             }
 
-                            {(globalState?.currentCar?.[0]?.vehiculeType === "Essence" || globalState.currentCar?.[0]?.vehiculeType === "Hybride") &&
+                            {vehicule && (vehicule?.vehiculeType === "Essence" || vehicule.vehiculeType === "Hybride") &&
+
                                 <MaterialCommunityIcons name={"gas-station"} size={30} color={"black"} />
                             }
 
@@ -78,49 +82,55 @@ function VehiculesInfo({
 
             </TopBorderContainer>
 
-            <BottomBorderContainer style={[globalState.center,
+            <BottomBorderContainer style={[generalStyles.center,
             { flexDirection: 'row', marginBottom: 5, backgroundColor: "white" }]}>
 
-                <View style={{ flex: 0.5, justifyContent: "center", alignItems: "center" }}>
+                {type !== 'fromSelectCar' &&
 
-                    <GradientButton width={60}
-                        borderRadius={50}
-                        buttonPadding={5}
-                        handlePress={() => navigation.navigate("CarMap")}>
+                    <View style={{ flex: 0.5, justifyContent: "center", alignItems: "center" }}>
 
-                        <MaterialCommunityIcons name={"target"} size={25} color={"black"} />
+                        <GradientButton width={60}
+                            borderRadius={50}
+                            buttonPadding={5}
+                            handlePress={() => navigation.navigate("CarMap")}>
 
-                    </GradientButton>
+                            <MaterialCommunityIcons name={"target"} size={25} color={"black"} />
 
-                </View>
+                        </GradientButton>
+
+                    </View>
+                }
 
                 <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
 
                     <StyledText style={{ fontSize: 20, textAlign: "center" }}>
 
-                        {globalState.currentCar?.[0]?.vehiculeBrand} - {globalState.currentCar?.[0]?.vehiculeModel}
+                        {vehicule?.vehiculeBrand} - {vehicule?.vehiculeModel}
 
                     </StyledText>
 
                     <StyledText style={{ textAlign: "center" }}>
 
-                        {globalState.currentCar?.[0]?.vehiculeImmatriculation}
+                        {vehicule?.vehiculeImmatriculation}
 
                     </StyledText>
                 </View>
 
-                <View style={{ flex: 0.5, justifyContent: "center", alignItems: "center" }}>
+                {type !== 'fromSelectCar' &&
 
-                    <GradientButton width={60}
-                        borderRadius={50}
-                        buttonPadding={5}
-                        handlePress={() => navigation.navigate("VirtualPouch")}>
+                    <View style={{ flex: 0.5, justifyContent: "center", alignItems: "center" }}>
 
-                        <MaterialCommunityIcons name={"file-document-multiple"} size={25} color={"black"} />
+                        <GradientButton width={60}
+                            borderRadius={50}
+                            buttonPadding={5}
+                            handlePress={() => navigation.navigate("VirtualPouch")}>
 
-                    </GradientButton>
+                            <MaterialCommunityIcons name={"file-document-multiple"} size={25} color={"black"} />
 
-                </View>
+                        </GradientButton>
+
+                    </View>
+                }
 
             </BottomBorderContainer>
 

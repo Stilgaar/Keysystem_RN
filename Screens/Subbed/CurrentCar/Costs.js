@@ -35,7 +35,6 @@ export default function Costs({ navigation, route }) {
     ////////////////
 
     const [dropDownOpen, setDropDownOpen] = React.useState(false)
-    const [value, setValue] = React.useState(null);
 
     ////////////////
     // Language Picker (not bad !)
@@ -81,23 +80,25 @@ export default function Costs({ navigation, route }) {
 
             <View style={[generalStyles.colorContainer, generalStyles.globalShadow, generalStyles.mbgeneral65]}>
 
-                <DropDownPicker
-                    zIndex={10000}
-                    zIndexInverse={50000}
-                    //  multiple={true}
-                    open={dropDownOpen}
-                    value={globalState?.[`${dispatchGeneralType}`]?.[0]?.costType}
-                    setOpen={setDropDownOpen}
-                    items={items}
-                    onSelectItem={(item) => globalDispatch(costSelectType(item))}
-                    setItems={setItems}
-                    // BORDEL
-                    listMode="SCROLLVIEW"
-                    scrollViewProps={{
-                        nestedScrollEnabled: true,
-                    }}
-                />
-
+                <View style={{ zIndex: 50 }}>
+                    <DropDownPicker
+                        //  multiple={true}
+                        open={dropDownOpen}
+                        value={globalState?.[`${dispatchGeneralType}`]?.[0]?.costType}
+                        zIndex={5000}
+                        zIndexInverse={1000}
+                        elevation={5000} // Add elevation for Android
+                        setOpen={setDropDownOpen}
+                        items={items}
+                        onSelectItem={(item) => globalDispatch(costSelectType(item))}
+                        setItems={setItems}
+                        // BORDEL
+                        listMode="SCROLLVIEW"
+                        scrollViewProps={{
+                            nestedScrollEnabled: true,
+                        }}
+                    />
+                </View>
 
                 <>
                     {globalState?.[`${dispatchGeneralType}`]?.[0]?.costType ?
