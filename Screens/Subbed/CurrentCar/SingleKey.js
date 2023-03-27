@@ -9,7 +9,10 @@ import TopBorderContainer from "../../../Shared/TopBorderContainer";
 import BottomBorderContainer from "../../../Shared/BottomBorderContainer";
 
 
-export default function SingleKey({ vehicule, navigation }) {
+export default function SingleKey({
+    vehicule,
+    navigation
+}) {
 
     return (
 

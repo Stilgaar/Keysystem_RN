@@ -33,7 +33,7 @@ function GradientButton({
         >
 
             <LinearGradient // Button Linear Gradient
-                colors={color}
+                colors={disabled ? greyGradientColor : color}
                 style={{ padding: buttonPadding, borderRadius: borderRadius, }}>
 
 

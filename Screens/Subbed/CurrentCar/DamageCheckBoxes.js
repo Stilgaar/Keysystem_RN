@@ -49,13 +49,13 @@ export default function DamageCheckBoxes({
 
     return (
 
-        <View style={{ zIndex: index + 50 }}>
+        <View style={{ zIndex: index + 1 }}>
 
             <CheckBox
                 title={text}
                 checked={checked || open}
                 onPress={() => setIsOpen(c => !c)}
-                containerStyle={{ marginBottom: 10 }}
+                containerStyle={{ marginBottom: 10, borderRadius: 15, padding: 10 }}
             />
 
             {(checked ? checked : open) &&

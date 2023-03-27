@@ -101,7 +101,7 @@ function VehiculesInfo({
                     </View>
                 }
 
-                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                <View style={{ flex: 1, justifyContent: type !== 'fromSelectCar' ? "center" : "space-between", alignItems: "center", flexDirection: type !== 'fromSelectCar' ? "column" : "row" }}>
 
                     <StyledText style={{ fontSize: 20, textAlign: "center" }}>
 

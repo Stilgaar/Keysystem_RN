@@ -1,17 +1,52 @@
 import user from "./FAKEPERSON.json"
 import keys from "./FAKEKEYS.json"
 
-export const initialGlobalState = {
+export const initialUserState = {
     isLogged: false,
     user: [],
+    notificationsList: [],
+}
+
+export const initialGlobalState = {
     photoID: [],
     photoLicence: [],
     signature: [],
+    currentKeys: keys,
     currentCar: [],
-    attributionDamage: [],
-    notificationsList: [],
-    attributionInventory: [],
-    currentKeys: [],
+    reservationSelectCar: [],
+    attributionDamage: [{
+        generalDamageInfo: [{
+            currentDate: new Date(),
+            commentDamage: "",
+            fullName: user[0].fullName,
+            location: "",
+            userGUID: user[0].userGUID,
+            vehiculeGUID: ""
+        }]
+    }],
+    attributionInventory: [{
+        generalInventoryInfo: [{
+            currentDate: new Date(),
+            commentInventory: "",
+            fullName: user[0].fullName,
+            userGUID: user[0].userGUID,
+            vehiculeGUID: ""
+        }]
+    }],
+    attributionCost: [{
+        costTotalHT: "",
+        costTotalTTC: "",
+        costTotalTVA: "",
+        costTotal: "",
+        userGUID: user[0].userGUID,
+        vehiculeGUID: "",
+    }],
+    validationReservation: [{
+        vehiculeGUID: "",
+        userGUID: user[0].userGUID,
+        startDate: new Date(),
+        endDate: new Date()
+    }]
 }
 
 // Faudra penser au moment du login ou je ne sais pas comment

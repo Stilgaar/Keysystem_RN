@@ -12,8 +12,11 @@ import { darkgreyish } from '../Shared/css';
 
 export default function AppContainer() {
 
-    const { globalState } = useGlobalContext();
-    const isLogged = React.useMemo(() => globalState.isLogged, [globalState.isLogged]);
+    const { userState } = useGlobalContext();
+
+    console.log(userState)
+
+    const isLogged = React.useMemo(() => userState.isLogged, [userState.isLogged]);
 
     return (
         <SafeAreaProvider style={{ backgroundColor: darkgreyish }}>

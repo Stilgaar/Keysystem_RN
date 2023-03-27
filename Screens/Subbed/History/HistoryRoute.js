@@ -4,6 +4,8 @@ import StyledText from "../../../Shared/StyledText";
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
+import { generalStyles, greyish } from "../../../Shared/css";
+
 import { blue } from "../../../Shared/css";
 
 export default function HistoryRoute({ item }) {
@@ -12,8 +14,7 @@ export default function HistoryRoute({ item }) {
     return (
 
         <>
-            <View style={styles.container}>
-
+            <View style={[styles.container]}>
                 {(item.departureTime || item.departureLocation) &&
 
                     <View style={{ flexDirection: "row" }}>
@@ -103,8 +104,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: "center",
-        alignContent: "center"
+
     },
     row: {
         flex: 1,
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     cell: {
         flex: 1,
         borderWidth: 1,
-        borderColor: 'lightgrey',
+        borderColor: 'black',
         alignItems: 'center',
         justifyContent: 'center',
     },

@@ -1,4 +1,5 @@
-import { useContext } from "react";
+
+import React from "react";
 import { StateContext } from "../../../Context/StateContext";
 
 import { View, Text, ScrollView } from "react-native";
@@ -18,6 +19,7 @@ import {
     GradientButton,
 } from "../../../comps"
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { delSignature } from "../../../Reducer/GlobalReducer/globalDispatch";
 
@@ -29,7 +31,22 @@ import { delSignature } from "../../../Reducer/GlobalReducer/globalDispatch";
 
 export default function ActivateAccount({ navigation }) {
 
-    const { globalState } = useContext(StateContext)
+    const { globalState } = React.useContext(StateContext)
+
+    const [state, setGlobalState] = React.useState(globalState);
+
+    React.useEffect(() => {
+
+        setTimeout(
+
+            async () => {
+                const state = await AsyncStorage.getItem('globalState');
+                setGlobalState(JSON.parse(state));
+            },
+
+            10)
+
+    }, [globalState]);
 
     const { handleSubmit: handleSubmitID } = useGlobalContext()
     const { handleSubmit: handleSubmitLicence } = useGlobalContext()
@@ -38,7 +55,7 @@ export default function ActivateAccount({ navigation }) {
 
     return (
 
-        <View style={[generalStyles.container, { marginBottom: 25 }]}>
+        <View style={[generalStyles.container, generalStyles.mbgeneral65]}>
 
             <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
@@ -63,9 +80,7 @@ export default function ActivateAccount({ navigation }) {
 
                 </View>
 
-                <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
-
-                    <StyledText>Carte d'identité</StyledText>
+                <View style={[generalStyles.colorContainer, generalStyles.globalShadow, { backgroundColor: "white" }]}>
 
                     <View style={{ marginTop: 10 }}>
 
@@ -74,10 +89,10 @@ export default function ActivateAccount({ navigation }) {
 
                     </View>
 
-                    {globalState.photoID.length > 0 &&
+                    {state.photoID.length > 0 &&
 
                         <>
-                            <PicsFromB64 picsArray={globalState.photoID}
+                            <PicsFromB64 picsArray={state.photoID}
                                 dispatchGeneralType={`photoID`} />
 
                             <GradientButton text="Envoyer Identité"
@@ -87,7 +102,7 @@ export default function ActivateAccount({ navigation }) {
                                 handlePress={() => {
                                     handleSubmitID({
                                         url: `${process.env.API_URL}sendId`,
-                                        body: globalState.photoID,
+                                        body: state.photoID,
                                     })
                                 }}
                             />
@@ -96,9 +111,7 @@ export default function ActivateAccount({ navigation }) {
 
                 </View>
 
-                <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
-
-                    <StyledText>Permis de conduire</StyledText>
+                <View style={[generalStyles.colorContainer, generalStyles.globalShadow, { backgroundColor: "white" }]}>
 
                     <View style={{ marginTop: 10 }}>
 
@@ -107,11 +120,11 @@ export default function ActivateAccount({ navigation }) {
 
                     </View>
 
-                    {globalState.photoLicence.length > 0 &&
+                    {state.photoLicence.length > 0 &&
 
                         <>
                             <PicsFromB64
-                                picsArray={globalState.photoLicence}
+                                picsArray={state.photoLicence}
                                 dispatchGeneralType={`photoLicence`} />
 
                             <GradientButton
@@ -121,7 +134,7 @@ export default function ActivateAccount({ navigation }) {
                                 handlePress={() => {
                                     handleSubmitLicence({
                                         url: `${process.env.API_URL}sendLicence`,
-                                        body: globalState.photoLicence,
+                                        body: state.photoLicence,
                                     })
                                 }}
 
@@ -131,9 +144,7 @@ export default function ActivateAccount({ navigation }) {
 
                 </View>
 
-                <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
-
-                    <StyledText>Signature</StyledText>
+                <View style={[generalStyles.colorContainer, generalStyles.globalShadow, { backgroundColor: "white" }]}>
 
                     <View style={{ marginTop: 10 }}>
 
@@ -142,11 +153,11 @@ export default function ActivateAccount({ navigation }) {
 
                     </View>
 
-                    {globalState.signature.length > 0 &&
+                    {state.signature.length > 0 &&
 
                         <>
                             <PicsFromSVG
-                                svg={globalState.signature[0]}
+                                svg={state.signature[0]}
                                 dispatch={delSignature} />
 
                             <GradientButton text="Envoyer votre signature"
@@ -155,7 +166,7 @@ export default function ActivateAccount({ navigation }) {
                                 handlePress={() => {
                                     handleSubmitSignature({
                                         url: `${process.env.API_URL}sendSignature`,
-                                        body: globalState.signature[0],
+                                        body: state.signature[0],
                                     })
                                 }}
                             />
@@ -164,9 +175,9 @@ export default function ActivateAccount({ navigation }) {
 
                 </View>
 
-                {globalState.signature.length > 0 &&
-                    globalState.photoLicence.length > 0 &&
-                    globalState.photoID.length > 0 &&
+                {state.signature.length > 0 &&
+                    state.photoLicence.length > 0 &&
+                    state.photoID.length > 0 &&
 
                     <GradientButton text="Envoyer Tous les documents"
                         color={['#7cb9e8', '#7cb9e8']}
@@ -175,9 +186,9 @@ export default function ActivateAccount({ navigation }) {
                             handleSubmitAll({
                                 url: `${process.env.API_URL}sendAll`,
                                 body: {
-                                    id: globalState.photoID,
-                                    licence: globalState.photoLicence,
-                                    signature: globalState.signature[0]
+                                    id: state.photoID,
+                                    licence: state.photoLicence,
+                                    signature: state.signature[0]
                                 }
                             })
                         }} />

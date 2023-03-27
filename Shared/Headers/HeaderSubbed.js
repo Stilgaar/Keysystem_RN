@@ -12,6 +12,7 @@ export default function HeaderUnsub({
 }) {
 
     return (
+
         <View style={[styles.header, generalStyles.globalShadow]}>
 
             {!initial && <ButtonGoBack onPress={() => navigation.goBack()} />}

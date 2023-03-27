@@ -6,6 +6,10 @@ export const loginDispatch = (loginInfo) => {
     return { type: "LOGIN_GLOBAL_REDUCER", payload: { loginInfo } }
 }
 
+export const logoutDispatch = () => {
+    return { type: "LOGOUT_GLOBAL_DISPATCH" }
+}
+
 ////////////////////////////////
 ////////////////
 // SELECT VEHICULES

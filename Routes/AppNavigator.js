@@ -92,7 +92,7 @@ import { StyleSheet } from 'react-native';
 // Principal Navigation
 export default function AppNavigator() {
 
-    const { globalDispatch } = useGlobalContext()
+    const { userDispatch } = useGlobalContext()
 
     const [notificationPermission, setNotificationPermission] = React.useState(null)
 
@@ -137,25 +137,24 @@ export default function AppNavigator() {
 
         ws.addEventListener('message', event => {
 
-            if (event.data.includes("title") || event.data.includes("body")) {
+            if (event.data.includes("title") && event.data.includes("body")) {
 
                 makeANofitication(JSON.parse(event.data));
 
             }
         });
 
-
-
     }, []);
 
     function makeANofitication(notif) {
 
-        globalDispatch(addNotification(notif))
+        userDispatch(addNotification(notif))
 
         Notifications.postLocalNotification({
             title: notif.title,
             body: notif.body,
         });
+
 
     }
 

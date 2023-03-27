@@ -6,20 +6,24 @@ import * as Yup from 'yup';
 // Icons Lib
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { emailRegex, passwordRegex, nameRegex } from '../../../Shared/regex';
 import { generalStyles } from '../../../Shared/css';
 
 import { GradientButton } from "../../../comps";
 
 import { StateContext } from '../../../Context/StateContext';
+import useGlobalContext from '../../../Hooks/useGlobalContext';
 
 function ModifyAccount() {
 
     const [showPassword, setShowPassword] = React.useState(false);
     const [showVerifPassword, setShowVerifPassword] = React.useState(false);
 
-    const { globalState } = React.useContext(StateContext)
-    const user = globalState.user[0]
+    const { userState } = useGlobalContext()
+
+    const user = userState.user[0]
 
     const validationSchema = Yup
         .object()
@@ -48,7 +52,8 @@ function ModifyAccount() {
 
     return (
 
-        <View style={generalStyles.container}>
+        <View style={[generalStyles.container]}>
+
             <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
                 <Formik
@@ -72,9 +77,14 @@ function ModifyAccount() {
                             <KeyboardAvoidingView
                                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                                 style={[generalStyles.container]}>
-                                <View style={[generalStyles.colorContainer, generalStyles.center, generalStyles.globalShadow]}>
 
-                                    <View style={styles.form}>
+                                <View style={
+                                    [generalStyles.colorContainer,
+                                    generalStyles.center,
+                                    generalStyles.globalShadow,
+                                    { backgroundColor: 'white' }]}>
+
+                                    <View style={[styles.form]}>
                                         <TextInput
                                             style={generalStyles.inputs}
                                             onChangeText={handleChange('lastname')}
@@ -134,7 +144,7 @@ function ModifyAccount() {
 
                                         {errors.password && <Text style={generalStyles.error}>{errors.password}</Text>}
 
-                                        <View style={generalStyles.fdr}>
+                                        <View style={[generalStyles.fdr]}>
 
                                             <TextInput
                                                 style={generalStyles.inputs}

@@ -42,26 +42,24 @@ export default function PicsDropDownSelect({
 
     return (
 
-        <View style={{ zIndex: 50 - index }}>
+        <DropDownPicker
+            zIndex={45 - index}
+            zIndexInverse={50 - index}
+            elevation={50 - index}
+            //  multiple={true}
+            open={dropDownOpen}
+            setOpen={setDropDownOpen}
+            value={pics.damageTypes}
+            items={items}
+            onSelectItem={(item) => globalDispatch(addDropDownInfo(item, dispatchGeneralType, dispatchType, "damageTypes", index))}
+            setItems={setItems}
+            // BORDEL
+            listMode="SCROLLVIEW"
+            scrollViewProps={{
+                nestedScrollEnabled: true,
+            }}
+        />
 
-            <DropDownPicker
-                zIndex={45 + index}
-                zIndexInverse={50 + index}
-                elevation={50 - index}
-                //  multiple={true}
-                open={dropDownOpen}
-                setOpen={setDropDownOpen}
-                value={pics.damageTypes}
-                items={items}
-                onSelectItem={(item) => globalDispatch(addDropDownInfo(item, dispatchGeneralType, dispatchType, "damageTypes", index))}
-                setItems={setItems}
-                // BORDEL
-                listMode="SCROLLVIEW"
-                scrollViewProps={{
-                    nestedScrollEnabled: true,
-                }}
-            />
-        </View>
     )
 
 }

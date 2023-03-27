@@ -14,7 +14,7 @@ import { emailRegex } from '../../Shared/regex';
 
 import { loginDispatch } from '../../Reducer/GlobalReducer/globalDispatch';
 
-import { DispatchContext } from '../../Context/StateContext';
+import useGlobalContext from "../../Hooks/useGlobalContext"
 
 import fakePerson from "../../JSON/FAKEPERSON.json"
 
@@ -33,7 +33,7 @@ const Login = ({ navigation }) => {
             .required('Password is required'),
     });
 
-    const { globalDispatch } = React.useContext(DispatchContext)
+    const { userDispatch } = useGlobalContext()
 
     return (
         <Formik
@@ -42,7 +42,7 @@ const Login = ({ navigation }) => {
             onSubmit={(values, { setSubmitting }) => {
 
                 if (values.password === "0000" && values.email.toLowerCase() === "stil@stil.ar") {
-                    globalDispatch(loginDispatch(fakePerson))
+                    userDispatch(loginDispatch(fakePerson))
                 }
                 else {
                     setErrorLog("Erreur de mot de passe ou email")

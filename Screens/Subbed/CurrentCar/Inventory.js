@@ -4,6 +4,8 @@ import { View, Text, ScrollView } from "react-native";
 
 import StyledText from "../../../Shared/StyledText";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { generalStyles } from "../../../Shared/css";
 
 import { GradientButton } from "../../../comps";
@@ -36,6 +38,21 @@ export default function Inventory({ navigation, route }) {
 
     const { globalState } = React.useContext(StateContext)
     const { globalDispatch } = React.useContext(DispatchContext)
+
+    const [state, setGlobalState] = React.useState(globalState);
+
+    React.useEffect(() => {
+
+        setTimeout(
+
+            async () => {
+                const state = await AsyncStorage.getItem('globalState');
+                setGlobalState(JSON.parse(state));
+            },
+
+            10)
+
+    }, [globalState]);
 
     const [lectureArray, setLectureArray] = React.useState()
 
@@ -83,7 +100,7 @@ export default function Inventory({ navigation, route }) {
                     handlePress={() => navigation.navigate("inventoryGeneralFrontPanel", { routeType: route.name })}
                     text={`Commencer l'état des lieux`} />
 
-                {globalState?.[`${dispatchGeneralType}`]
+                {state?.[`${dispatchGeneralType}`]
                     .some(obj => inventoryArray.map(item => item.key).includes(Object.keys(obj)[0])
                     ) &&
 
@@ -99,12 +116,12 @@ export default function Inventory({ navigation, route }) {
                         />
                     ))}
 
-                {globalState[`${dispatchGeneralType}`].length > 10 ?
+                {state[`${dispatchGeneralType}`].length > 10 ?
 
                     <GradientButton text={`Envoyer Etat des lieux`}
                         handlePress={() => {
                             console.log("INVENTORY TYPE :", route.name)
-                            console.log("INVENTORY : ", globalState[`${dispatchGeneralType}`])
+                            console.log("INVENTORY : ", state[`${dispatchGeneralType}`])
                         }} />
 
                     :

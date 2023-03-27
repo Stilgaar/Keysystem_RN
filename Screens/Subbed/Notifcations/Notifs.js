@@ -1,15 +1,11 @@
 import React from 'react';
 import { Text, View, ScrollView } from 'react-native';
 import { GradientButton } from '../../../comps';
-
-import { StateContext, DispatchContext } from '../../../Context/StateContext';
-
 import StyledText from '../../../Shared/StyledText';
 
 import BottomBorderContainer from '../../../Shared/BottomBorderContainer';
 import TopBorderContainer from '../../../Shared/TopBorderContainer';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import useGlobalContext from "../../../Hooks/useGlobalContext"
 
 import { generalStyles, greenblue } from '../../../Shared/css';
@@ -20,22 +16,9 @@ export default function Notifs() {
 
     const id = React.useId()
 
-    const { globalState, globalDispatch } = useGlobalContext()
+    const { userState, userDispatch } = useGlobalContext()
 
-    const [state, setGlobalState] = React.useState(globalState);
-
-    React.useEffect(() => {
-
-        setTimeout(
-
-            async () => {
-                const state = await AsyncStorage.getItem('globalState');
-                setGlobalState(JSON.parse(state));
-            },
-
-            200)
-
-    }, [globalState]);
+    console.log("userState", userState)
 
     return (
 
@@ -45,9 +28,9 @@ export default function Notifs() {
 
                 <Text style={generalStyles.title}>Notifications</Text>
 
-                {state?.notificationsList?.length > 0 ?
+                {userState?.notificationsList?.length > 0 ?
 
-                    state?.notificationsList?.map((notif, index) => (
+                    userState?.notificationsList?.map((notif, index) => (
 
                         <React.Fragment key={`${index}-${id}`}>
 
@@ -62,7 +45,7 @@ export default function Notifs() {
                                     </StyledText>
 
                                     <GradientButton
-                                        handlePress={() => globalDispatch(delNotification(index))}
+                                        handlePress={() => userDispatch(delNotification(index))}
                                         text={`vu`}
                                         width={70}
                                         buttonPadding={4}
@@ -120,9 +103,9 @@ export default function Notifs() {
 
             </ScrollView>
 
-            {state?.notificationsList.length > 1 &&
+            {userState?.notificationsList?.length > 1 &&
 
-                <GradientButton handlePress={() => globalDispatch(delAllNotification())}
+                <GradientButton handlePress={() => userDispatch(delAllNotification())}
                     text={`Effacer tous`}
                     addStyle={{ marginBottom: 65 }} />
             }

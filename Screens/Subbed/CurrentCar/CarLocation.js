@@ -24,6 +24,21 @@ export default function CarLocation() {
     const [errorMsg, setErrorMsg] = React.useState(null);
     const [locationPermission, setLocationPermission] = React.useState(null);
 
+    const [state, setGlobalState] = React.useState(globalState);
+
+    React.useEffect(() => {
+
+        setTimeout(
+
+            async () => {
+                const state = await AsyncStorage.getItem('globalState');
+                setGlobalState(JSON.parse(state));
+            },
+
+            10)
+
+    }, [globalState]);
+
 
     const requestLocationPermission = async () => {
 
@@ -116,8 +131,8 @@ export default function CarLocation() {
 
                         <Marker
                             coordinate={{
-                                latitude: globalState?.currentCar?.[0]?.latitude,
-                                longitude: globalState?.currentCar?.[0]?.longitude,
+                                latitude: state?.currentCar?.[0]?.latitude,
+                                longitude: state?.currentCar?.[0]?.longitude,
                             }}
 
                         >

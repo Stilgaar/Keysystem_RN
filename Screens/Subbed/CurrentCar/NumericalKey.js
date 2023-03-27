@@ -1,7 +1,7 @@
 import React from "react";
 import { StateContext } from "../../../Context/StateContext";
 
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, Text } from "react-native";
 
 import { generalStyles } from "../../../Shared/css";
 
@@ -9,6 +9,9 @@ import StyledText from "../../../Shared/StyledText";
 import SingleKey from "./SingleKey";
 
 import { GradientButton } from "../../../comps";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import useGlobalContext from "../../../Hooks/useGlobalContext";
 
 // Clé numérique
 // Information sur la clé active
@@ -23,15 +26,42 @@ function NumericalKey({
 }) {
 
     const { globalState } = React.useContext(StateContext)
+    const { userState } = useGlobalContext()
+
+    const [loading, setLoading] = React.useState(true);
+    const [state, setGlobalState] = React.useState(globalState);
+
+    React.useEffect(() => {
+        setLoading(true);
+        setTimeout(
+
+            async () => {
+                const state = await AsyncStorage.getItem('globalState');
+                setGlobalState(JSON.parse(state));
+                setLoading(false)
+            },
+
+            10)
+
+    }, []);
+
+    if (loading) {
+
+        return (
+            <View style={[generalStyles.center, { flex: 1 }]}>
+                <Text>Loading</Text>
+            </View>
+        );
+    }
 
     return (
 
         <>
-            {globalState.user[0].isVerified ?
+            {userState?.user?.[0]?.isVerified ?
 
                 <>
 
-                    {globalState.currentKeys.length > 0 ?
+                    {state?.currentKeys?.length > 0 ?
 
                         <View style={[generalStyles.container]}>
 
@@ -43,7 +73,7 @@ function NumericalKey({
 
                                 </View>
 
-                                {globalState?.currentKeys.map((vehicule) => (
+                                {state?.currentKeys.map((vehicule) => (
 
                                     <SingleKey vehicule={vehicule} navigation={navigation} key={vehicule.vehiculeGUID} />
 
@@ -61,7 +91,7 @@ function NumericalKey({
 
                             <GradientButton handlePress={() => navigation.navigate('Vehicules')}
                                 addStyle={{ marginTop: 65 }}
-                                StyledText={`Séléctionnez une voiture`} />
+                                text={`Séléctionnez une voiture`} />
 
                         </View>
 
@@ -77,7 +107,7 @@ function NumericalKey({
 
                     <GradientButton handlePress={() => navigation.navigate('Account', { screen: "ActivateAccount" })}
                         addStyle={{ marginTop: 65 }}
-                        StyledText={`Envoyer vos documents`} />
+                        text={`Envoyer vos documents`} />
 
                 </View>
 

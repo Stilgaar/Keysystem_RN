@@ -67,22 +67,27 @@ export default function MyCamera({
     // Function to get the pictures (its put in the globalContext)
     ////////////////
 
+    const [isLoading, setIsLoading] = React.useState(false);
+
     const takePhoto = async () => {
 
         if (cameraRef.current) {
-
+            setIsLoading(true);
             const data = await cameraRef.current.capture();
 
             try {
                 // Read the file from the file system
                 // with a BRAND NEW PACKAGE !!
-                const fileContent = await RNFS.readFile(data.uri, 'base64');
+                //  const fileContent = await RNFS.readFile(data.uri, 'base64');
 
                 // Send base64 image to the global dispatch
-                globalDispatch(dispatch(fileContent, dispatchGeneralType, dispatchType));
+                globalDispatch(dispatch(data, dispatchGeneralType, dispatchType));
 
             } catch (error) {
                 console.error('Error reading file:', error);
+            }
+            finally {
+                setIsLoading(false);
             }
 
         }
@@ -103,10 +108,13 @@ export default function MyCamera({
             />
 
             {dispatchGeneralType === "attributionInventory" &&
+
                 <View style={generalStyles.buttonTopContainer}>
+
                     <GradientButton width={350}
                         handlePress={() => navigation.replace((indexInventory + 1) === inventoryArray.length ? routeType : inventoryArray[indexInventory + 1].key, { routeType: routeType })}
                         text={`${(indexInventory + 1) === inventoryArray.length ? "Fin" : "vers " + inventoryArray[indexInventory + 1].text}`} />
+
                 </View>
             }
 
@@ -125,7 +133,9 @@ export default function MyCamera({
 
                 ) : (
 
-                    <GradientButton width={70}
+                    <GradientButton
+                        disabled={isLoading}
+                        width={70}
                         borderRadius={50}
                         handlePress={takePhoto}>
 

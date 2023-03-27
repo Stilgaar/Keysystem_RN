@@ -7,7 +7,7 @@ import { View, Text, ScrollView, Animated, Image, Modal, StyleSheet, Dimensions,
 import { generalStyles } from "../../../Shared/css";
 import { GradientButton } from "../../../comps";
 
-import { GestureDetector } from "react-native-gesture-handler";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Pochette virtuelle (accès au stockage virtuel des papiers importants du véhicule)
 // Carte grise
@@ -22,6 +22,21 @@ export default function VirtualPouch() {
     ////////////////
 
     const { globalState } = React.useContext(StateContext)
+
+    const [state, setGlobalState] = React.useState(globalState);
+
+    React.useEffect(() => {
+
+        setTimeout(
+
+            async () => {
+                const state = await AsyncStorage.getItem('globalState');
+                setGlobalState(JSON.parse(state));
+            },
+
+            10)
+
+    }, [globalState]);
 
     ////////////////
     // State for modal (selected image // open close modal)
@@ -48,7 +63,7 @@ export default function VirtualPouch() {
 
                 <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-                    {globalState?.currentCar?.[0]?.virutualPouch.map((document, index) => (
+                    {state?.currentCar?.[0]?.virutualPouch.map((document, index) => (
 
                         <View key={index}
                             style={[generalStyles.colorContainer, generalStyles.center]}>

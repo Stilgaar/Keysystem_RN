@@ -2,6 +2,7 @@
     {
         "fullName": "Admin the administrator",
         "isVerified": true,
+        "SRC": "",
         "userGUID": "1321324465",
         "userEmailAdress": "admin@test.com",
         "password": "Admintest1234!",
@@ -12,8 +13,8 @@
         "userDriverLicenceCardNumber": "ZERZEF32F234T3E",
         "userAdress": "Impasse du test",
         "userPostalCode": "06000",
-        "userCity": "AdminCity",
-        "userCountry": "PaysAdminTest",
+        "userCity": "Nice",
+        "userCountry": "France",
         "userHistory": [
             {
                 "userRoutes": [

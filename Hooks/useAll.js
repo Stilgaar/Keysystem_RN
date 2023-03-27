@@ -4,21 +4,21 @@ import useSubmit from "./useSubmit";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { globalReducer } from "../Reducer/GlobalReducer/globalReducer";
-import { initialGlobalState, initialGlobalState1 } from "../JSON/globalArray";
+import { globalUserReducer } from "../Reducer/GlobalReducer/globalReducer";
+import { initialUserState, initialGlobalState1 } from "../JSON/globalArray";
 
 function useAll() {
   // NEED TO TRANSFER TO USEASYNCSTORAGE
   // const { theme, setTheme } = useTheme();
-  const [globalState, globalDispatch] = React.useReducer(globalReducer, initialGlobalState1);
+  const [userState, userDispatch] = React.useReducer(globalUserReducer, initialUserState);
 
   React.useEffect(() => {
 
     const fetchStoredState = async () => {
       try {
-        const storedState = await AsyncStorage.getItem('globalState');
+        const storedState = await AsyncStorage.getItem('userState');
         if (storedState !== null) {
-          globalDispatch({ type: 'SET_GLOBAL_STATE', payload: { storedState: JSON.parse(storedState) } });
+          userDispatch({ type: 'SET_GLOBAL_STATE', payload: { storedState: JSON.parse(storedState) } });
         }
       } catch (error) {
         console.error(error);
@@ -28,23 +28,19 @@ function useAll() {
 
   }, []);
 
-  console.log("NOTIFLIST USEALL CONTEXT ", globalState.notificationsList)
-
-
   React.useEffect(() => {
 
     const storeGlobalState = async () => {
-      console.log("HERE")
       try {
-        await AsyncStorage.setItem('globalState', JSON.stringify(globalState));
+        await AsyncStorage.setItem('userState', JSON.stringify(userState));
+
       } catch (error) {
         console.error(error);
       }
     };
     storeGlobalState();
 
-  }, [globalState]);
-
+  }, [userState]);
 
 
   // for all the sumbits and changes in inputs
@@ -52,8 +48,8 @@ function useAll() {
 
   const all = {
     // user state. Will be transfered to a globalReducer later
-    globalState,
-    globalDispatch,
+    userState,
+    userDispatch,
 
     // for the inputs. Get them with handleChange and submit them with .. will you guess .
     data,

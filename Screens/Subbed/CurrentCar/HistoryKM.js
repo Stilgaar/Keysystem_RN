@@ -1,6 +1,6 @@
 import { Text, View, Dimensions } from "react-native";
 
-import { generalStyles, greyish } from "../../../Shared/css";
+import { greyish } from "../../../Shared/css";
 import { vehiculeKmArray } from "../../../JSON/Fr/CurrentVehiculeArray";
 
 import BottomBorderContainer from "../../../Shared/BottomBorderContainer";

@@ -4,6 +4,8 @@ import { StateContext } from "../../Context/StateContext";
 
 import { blackA, generalStyles } from "../css";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 function HeadersPics({
     title,
     info,
@@ -13,23 +15,38 @@ function HeadersPics({
 
     const { globalState } = React.useContext(StateContext)
 
+    const [state, setGlobalState] = React.useState(globalState);
+
+    React.useEffect(() => {
+
+        setTimeout(
+
+            async () => {
+                const state = await AsyncStorage.getItem('globalState');
+                setGlobalState(JSON.parse(state));
+            },
+
+            10)
+
+    }, [globalState]);
+
     function getWhat() {
 
         if (numberLenghtChecker === "attributionDamage") {
 
-            return globalState?.["attributionDamage"].find(obj => obj[`${info}`])?.[`${info}`].length
+            return state?.["attributionDamage"].find(obj => obj[`${info}`])?.[`${info}`].length
 
         } else if (numberLenghtChecker === "attributionInventory") {
 
-            return globalState?.["attributionInventory"].find(obj => obj[`${info}`])?.[`${info}`].length
+            return state?.["attributionInventory"].find(obj => obj[`${info}`])?.[`${info}`].length
 
         } else if (numberLenghtChecker === "attributionCost") {
 
-            return globalState?.["attributionCost"].find(obj => obj[`${info}`])?.[`${info}`].length
+            return state?.["attributionCost"].find(obj => obj[`${info}`])?.[`${info}`].length
 
         } else {
 
-            return globalState?.[`${numberLenghtChecker}`]?.length
+            return state?.[`${numberLenghtChecker}`]?.length
         }
     }
 

@@ -30,6 +30,7 @@ export default function PicsFromB64({
             {picsArray
                 ?.map((pics, index) => (
 
+
                     <View key={`${index}-${id}`}>
 
                         <View
@@ -38,35 +39,52 @@ export default function PicsFromB64({
                                 flexDirection: "row",
                                 justifyContent: "space-around",
                                 marginTop: 5,
-                            }}>
+                                alignItems: "center",
+                            }}
+                        >
 
-                            <Image
-                                source={{ uri: `data:image/jpg;base64,${pics.jpgFile}` }}
-                                style={{ width: 100, height: 100 }}
-                            />
+                            {console.log(pics)}
 
-                            <View style={{ justifyContent: "center", alignSelf: "center" }}>
+                            <View style={{ position: "relative" }}>
 
-                                <GradientButton
-                                    handlePress={() => globalDispatch(delPictureDispatch(index, dispatchGeneralType, dispatchType))}
-                                    color={['#ff0000', '#ff0000']}
-                                    text='X'
-                                    width={40}
-                                    alignSelf={`baseline`} />
+                                <Image
+                                    source={{ uri: `${pics.jpgFile.uri}` }}
+                                    style={{ width: 300, height: 200 }}
+                                />
+
+                                <View
+                                    style={{
+                                        position: "absolute",
+                                        top: 0,
+                                        right: 0,
+                                    }}
+                                >
+                                    <GradientButton
+                                        handlePress={() =>
+                                            globalDispatch(
+                                                delPictureDispatch(index, dispatchGeneralType, dispatchType)
+                                            )
+                                        }
+                                        color={["#ff0000", "#ff0000"]}
+                                        text="X"
+                                        width={50}
+                                        buttonPadding={10}
+                                    />
+
+                                </View>
 
                             </View>
-
                         </View>
 
-                        {checked &&
 
+                        {checked && (
                             <PicsDropDownSelect
                                 index={index}
                                 pics={pics}
                                 dispatchType={dispatchType}
-                                dispatchGeneralType={dispatchGeneralType} />
-
-                        }
+                                dispatchGeneralType={dispatchGeneralType}
+                            />
+                        )}
 
                     </View>
                 ))}

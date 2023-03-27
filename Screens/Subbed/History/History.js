@@ -29,14 +29,20 @@ export default function History({ navigation }) {
 
                 <GradientButton handlePress={() => navigation.navigate("HistoryRoutes")}
                     width={windowWidth - 15}
+                    buttonPadding={65}
+                    addStyle={{ marginTop: 15, marginBottom: 15 }}
                     text={`Précédents Trajets`} />
 
                 <GradientButton handlePress={() => navigation.navigate("HistoryKeys")}
                     width={windowWidth - 15}
+                    buttonPadding={65}
+                    addStyle={{ marginBottom: 15 }}
                     text={`Précédentes clefs`} />
 
                 <GradientButton handlePress={() => navigation.navigate("HistoryNexReservation")}
                     width={windowWidth - 15}
+                    buttonPadding={65}
+                    addStyle={{ marginBottom: 15 }}
                     text={`Futures Locations`} />
 
             </ScrollView>

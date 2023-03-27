@@ -1,20 +1,20 @@
 import { format } from 'date-fns'
 
-export const globalReducer = (prevState, action) => {
+import { initialGlobalState, initialUserState } from '../../JSON/globalArray';
+
+import keys from "../../JSON/FAKEKEYS.json"
+
+export const globalUserReducer = (prevState, action) => {
 
     let state;
 
-    // makes life easier
     console.log("ACTION.TYPE", action.type)
 
     switch (action.type) {
 
-
         case 'SET_GLOBAL_STATE': {
 
             const { storedState } = action.payload
-
-            console.log(storedState.notificationsList)
 
             return {
                 ...storedState
@@ -29,11 +29,103 @@ export const globalReducer = (prevState, action) => {
         case "LOGIN_GLOBAL_REDUCER": {
 
             return {
-                ...prevState,
                 isLogged: true,
-                user: action.payload.loginInfo
+                user: action.payload.loginInfo,
+                currentKeys: keys,
+                notificationsList: []
             }
         }
+
+        case "LOGOUT_GLOBAL_DISPATCH": {
+
+            return {
+                isLogged: false,
+                user: [],
+                currentKeys: [],
+                notificationsList: []
+            }
+
+        }
+
+        ////////////////
+        // NOTIFICATION REDUCERS
+        ////////////////
+
+        case "NOTIFICATION_ADD_ONE": {
+
+            const { notification } = action.payload
+
+            console.log("REDUCER", notification)
+            console.log("preveState", prevState)
+
+            state = [...prevState.notificationsList]
+
+            const date = new Date()
+
+            let newNotification = {
+                body: notification.body,
+                title: notification.title,
+                date: format(date, "dd-MM-yyyy - HH:mm:ss")
+            }
+
+            state.push(newNotification)
+
+
+            return {
+                ...prevState,
+                notificationsList: state
+            }
+        }
+
+        case "NOTIFICATIONS_DEL_ONE": {
+
+            const { notificationIndex } = action.payload
+
+            state = [...prevState.notificationsList]
+            state.splice(notificationIndex, 1)
+
+
+            return {
+                ...prevState,
+                notificationsList: state
+            }
+        }
+
+        case "NOTIFICATION_DEL_ALLS": {
+
+            return {
+                ...prevState,
+                notificationsList: []
+            }
+        }
+
+        default:
+            console.warn(`HI JEFF, JSAUCE HERE, YOU SHOULND GET THAT (or you forgot somehting)`)
+            return prevState
+    }
+
+
+}
+
+export const globalReducer = (prevState, action) => {
+
+    let state;
+
+    // makes life easier
+    console.log("ACTION.TYPE", action.type)
+
+    switch (action.type) {
+
+        case 'SET_GLOBAL_STATE': {
+
+            const { storedState } = action.payload
+
+            return {
+                ...storedState
+            }
+
+        }
+
 
         ////////////////
         // SELECT VEHICULES FROM VIRTUAL KEY
@@ -112,6 +204,7 @@ export const globalReducer = (prevState, action) => {
         ////////////////
 
         case "ADD_ANY_PICTURE": {
+
             const { picture, dispatchGeneralType, dispatchType } = action.payload;
 
             state = [...prevState[`${dispatchGeneralType}`]]
@@ -319,56 +412,6 @@ export const globalReducer = (prevState, action) => {
         }
 
         ////////////////
-        // NOTIFICATION REDUCERS
-        ////////////////
-
-        case "NOTIFICATION_ADD_ONE": {
-
-            const { notification } = action.payload
-
-            state = [...prevState.notificationsList]
-
-            const date = new Date()
-
-            let newNotification = {
-                body: notification.body,
-                title: notification.title,
-                date: format(date, "dd-MM-yyyy - HH:mm:ss")
-            }
-
-            state.push(newNotification)
-
-
-            return {
-                ...prevState,
-                notificationsList: state
-            }
-        }
-
-        case "NOTIFICATIONS_DEL_ONE": {
-
-            const { notificationIndex } = action.payload
-
-            state = [...prevState.notificationsList]
-            state.splice(notificationIndex, 1)
-
-
-            return {
-                ...prevState,
-                notificationsList: state
-            }
-        }
-
-        case "NOTIFICATION_DEL_ALLS": {
-
-            return {
-                ...prevState,
-                notificationsList: []
-            }
-        }
-
-
-        ////////////////
         // COSTS
         ////////////////
 
@@ -409,13 +452,6 @@ export const globalReducer = (prevState, action) => {
         default:
             console.warn(`HI JEFF, JSAUCE HERE, YOU SHOULND GET THAT (or you forgot somehting)`)
             return prevState
-    }
-
-
-    try {
-        AsyncStorage.setItem('globalState', JSON.stringify(state));
-    } catch (error) {
-        console.log('Error saving data to AsyncStorage: ', error);
     }
 
 

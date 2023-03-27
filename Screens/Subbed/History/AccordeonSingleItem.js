@@ -5,15 +5,17 @@ import { StateContext } from "../../../Context/StateContext";
 import { View, Text, ScrollView, Dimensions } from "react-native";
 import StyledText from "../../../Shared/StyledText";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import format from "date-fns/format";
 
-import { generalStyles } from "../../../Shared/css";
+import { generalStyles, greyish } from "../../../Shared/css";
 
 import HistoryRoute from "./HistoryRoute";
 import HistoryNextReservation from "./HistoryNexReservations";
 import HistoryOldKey from "./HistoryOldKey";
 import { GradientButton } from "../../../comps";
+import useGlobalContext from "../../../Hooks/useGlobalContext";
 
 export default function AccordeonSingleItem({ route }) {
 
@@ -27,20 +29,20 @@ export default function AccordeonSingleItem({ route }) {
     // GlobalState
     ////////////////
 
-    const { globalState } = React.useContext(StateContext)
+    const { userState } = useGlobalContext()
 
     ////////////////
     // For expanding the tabs
     ////////////////
 
-    const [expanded, setExpanded] = React.useState(false)
+
     const [thisDate, setThisDate] = React.useState(new Date())
 
     ////////////////
     // Where the array is stored
     ////////////////
 
-    const historyArray = globalState?.user?.[0]?.userHistory?.find(name => Object.keys(name)[0] === mapType)?.[mapType] || []
+    const historyArray = userState?.user?.[0]?.userHistory?.find(name => Object.keys(name)[0] === mapType)?.[mapType] || []
 
 
     const filteredArray = historyArray.filter(date => {
@@ -60,7 +62,53 @@ export default function AccordeonSingleItem({ route }) {
             case "userNexReservations": return "Vous n'avez pas de réservation en attente"
 
         }
+    }
 
+    const ListCustom = ({ history, index }) => {
+
+        const [expanded, setExpanded] = React.useState(false)
+
+        return (
+
+            <ListItem.Accordion
+                containerStyle={[generalStyles.globalShadow, generalStyles.colorContainer, { backgroundColor: "white" }]}
+                content={
+                    <>
+                        <ListItem.Content>
+                            <ListItem.Title>{title} {index + 1}</ListItem.Title>
+                        </ListItem.Content>
+                    </>
+                }
+                isExpanded={expanded}
+                onPress={() => {
+                    setExpanded(!expanded);
+                }}>
+
+                <ListItem containerStyle={(mapType === "userRoutes" ? [generalStyles.colorContainer, { backgroundColor: greyish }] : { backgroundColor: "transparent", justifyContent: "center", alignItems: 'center' })}>
+
+                    {mapType === "userRoutes" &&
+
+                        <HistoryRoute item={history} />
+
+                    }
+
+                    {mapType === "userOldKeys" &&
+
+                        <HistoryOldKey item={history} />
+                    }
+
+                    {mapType === "userNexReservations" &&
+
+                        <HistoryNextReservation item={history} />
+
+                    }
+
+                </ListItem>
+
+
+            </ListItem.Accordion>
+
+        )
     }
 
     ////////////////
@@ -94,54 +142,22 @@ export default function AccordeonSingleItem({ route }) {
                     </View>
                 }
 
-                <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
+                <ScrollView contentContainerStyle={generalStyles.scrollViewStyle} style={{ marginTop: 15, marginBottom: 15 }}>
 
                     {filteredArray.length > 0 ?
 
                         filteredArray.map((history, index) => (
 
-                            <ListItem.Accordion key={index}
-                                containerStyle={[generalStyles.globalShadow, generalStyles.colorContainer]}
-                                content={
-                                    <>
-                                        <ListItem.Content>
-                                            <ListItem.Title>{title} {index + 1}</ListItem.Title>
-                                        </ListItem.Content>
-                                    </>
-                                }
-                                isExpanded={expanded}
-                                onPress={() => {
-                                    setExpanded(!expanded);
-                                }}>
+                            <ListCustom key={index} index={index} history={history} />
 
-                                <ListItem containerStyle={{ flex: 1, justifyContent: "center", alignContent: "center" }}>
-
-                                    {mapType === "userRoutes" &&
-
-                                        <HistoryRoute item={history} />
-
-                                    }
-
-                                    {mapType === "userOldKeys" &&
-
-                                        <HistoryOldKey item={history} />
-                                    }
-
-                                    {mapType === "userNexReservations" &&
-
-                                        <HistoryNextReservation item={history} />
-
-                                    }
-
-                                </ListItem>
-
-                            </ListItem.Accordion>
                         ))
 
                         :
 
                         <View style={[generalStyles.center, generalStyles.colorContainer]}>
+
                             <StyledText>{typeEmpty()}</StyledText>
+
                         </View>
 
                     }

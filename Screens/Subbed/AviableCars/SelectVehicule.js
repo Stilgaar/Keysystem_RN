@@ -21,6 +21,7 @@ import { getSelectedVehiculeReseravation } from "../../../Reducer/GlobalReducer/
 
 // Faudra fetch ça plus tard
 import vehiculeList from "../../../JSON/CAR_MOCK_DATA.json"
+import useGlobalContext from "../../../Hooks/useGlobalContext";
 
 // import useFetch from "../../../Hooks/useFetch"
 
@@ -29,31 +30,15 @@ function SelectVehicle({ navigation }) {
     const [selectedVehicule, setSelectedVehicule] = React.useState({})
     const [searchVechicule, setSearchVehicule] = React.useState()
 
-    const { globalState } = React.useContext(StateContext)
     const { globalDispatch } = React.useContext(DispatchContext)
+    const { userState } = useGlobalContext()
 
     // const { data: vehiculeList } = useFetch(`${process.env.API_URL}resetapiroad`)
-
-    const [state, setGlobalState] = React.useState(globalState);
-
-    React.useEffect(() => {
-
-        setTimeout(
-
-            async () => {
-                const state = await AsyncStorage.getItem('globalState');
-                setGlobalState(JSON.parse(state));
-            },
-
-            10)
-
-    }, [globalState]);
-
 
     return (
 
         <>
-            {state.user[0].isVerified ?
+            {userState?.user?.[0]?.isVerified ?
                 <>
                     {vehiculeList ?
 

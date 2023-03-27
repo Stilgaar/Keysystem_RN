@@ -29,7 +29,10 @@ import vehicules from "../../../JSON/CAR_MOCK_DATA.json"
 // Type de contrat (location, en propre, etc.) + nom loueur + date de restitution
 // Date prochaine maintenance
 
-export default function SelectedVehicule({ navigation, route }) {
+export default function SelectedVehicule({
+    navigation,
+    route
+}) {
 
     const { globalState } = React.useContext(StateContext)
     const { globalDispatch } = React.useContext(DispatchContext)
@@ -53,11 +56,10 @@ export default function SelectedVehicule({ navigation, route }) {
 
             async () => {
                 const state = await AsyncStorage.getItem('globalState');
-                console.log('THIS', state)
                 setGlobalState(JSON.parse(state));
             },
 
-            40)
+            300)
 
     }, [globalState]);
 
@@ -69,15 +71,16 @@ export default function SelectedVehicule({ navigation, route }) {
     return (
 
         <View style={[generalStyles.container]}>
-            <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-                {state?.currentCar ?
+            <ScrollView contentContainerStyle={generalStyles.scrollViewStyle} style={{ marginTop: 25 }}>
+
+                {state ?
                     <>
                         {/* <Text style={[generalStyles.title, { marginBottom: 5 }]}>Véhicule Séléctionné</Text> */}
 
-                        <VehiculesInfo style={[generalStyles.marginOverall]} vehicule={state.currentCar?.[0]} navigation={navigation} />
+                        <VehiculesInfo style={[generalStyles.marginOverall]} vehicule={state?.currentCar?.[0]} navigation={navigation} />
 
-                        <HistoryKM style={[generalStyles.marginOverall]} data={state.currentCar?.[0]} />
+                        <HistoryKM style={[generalStyles.marginOverall]} data={state?.currentCar?.[0]} />
 
                         <View style={[generalStyles.marginOverall, { flexDirection: "row", justifyContent: 'space-around' }]}>
 

@@ -1,13 +1,4 @@
 export const accountArrayInfoText = [
-
-    {
-        text: "Nom Complet",
-        key: "fullName",
-    },
-    {
-        text: "Naissance",
-        key: "birthdate",
-    },
     {
         text: "Adresse Email",
         key: "userEmailAdress",

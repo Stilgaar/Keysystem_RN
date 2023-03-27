@@ -7,9 +7,11 @@ import StyledText from "../../../Shared/StyledText";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { CheckBox, Input } from 'react-native-elements';
 
-import { format } from 'date-fns';
+import { format, parseISO, isValid } from 'date-fns';
 
 import { GradientButton } from "../../../comps";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import DamageCheckBoxes from "./DamageCheckBoxes";
 import { damageArray } from "../../../JSON/Fr/DamageArray";
@@ -36,6 +38,42 @@ export default function Damage({ navigation, route }) {
 
     const { globalState } = React.useContext(StateContext)
     const { globalDispatch } = React.useContext(DispatchContext)
+
+    const [state, setGlobalState] = React.useState(globalState);
+    const [selectedDate, setSelectedDate] = React.useState()
+    const [dateObject, setDateObjec] = React.useState()
+
+    React.useEffect(() => {
+
+        setTimeout(
+
+            async () => {
+                const state = await AsyncStorage.getItem('globalState');
+                setGlobalState(JSON.parse(state));
+            },
+
+            10)
+
+    }, [globalState]);
+
+    React.useEffect(() => {
+
+        if (state) {
+
+            const dateValue = state?.attributionDamage?.[0]?.generalDamageInfo?.[0].currentDate;
+            if (dateValue && !isNaN(new Date(dateValue).getTime())) {
+
+                const dateObject = parseISO(dateValue);
+
+                if (isValid(dateObject)) {
+
+                    const formattedDate = format(dateObject, "yyyy-MM-dd, HH:mm");
+                    setDateObjec(dateObject)
+                    setSelectedDate(formattedDate);
+                }
+            }
+        }
+    }, [state]);
 
     ////////////////
     // States to get informations from inputs
@@ -99,9 +137,11 @@ export default function Damage({ navigation, route }) {
 
             <View style={[generalStyles.colorContainer, generalStyles.globalShadow, generalStyles.mbgeneral65]}>
 
+
                 <StyledText style={{ textAlign: "center", marginBottom: 5 }}>
-                    Date / Heure séléctionnée : {format(globalState?.attributionDamage?.[0]?.generalDamageInfo?.[0].currentDate, "dd-MM-yyyy - HH:mm:ss")}
+                    Date / Heure séléctionnée : {selectedDate}
                 </StyledText>
+
 
                 <GradientButton handlePress={() => showMode('date')}
                     addStyle={{ marginBottom: 5 }}
@@ -112,9 +152,10 @@ export default function Damage({ navigation, route }) {
                     text="Choisir heure" />
 
                 {show && (
+
                     <DateTimePicker
                         testID="dateTimePicker"
-                        value={globalState?.attributionDamage?.[0]?.generalDamageInfo?.[0].currentDate}
+                        value={dateObject}
                         mode={mode}
                         is24Hour={true}
                         onChange={onChange}
@@ -140,7 +181,7 @@ export default function Damage({ navigation, route }) {
                     onChangeText={value => globalDispatch(addInfoDispatch(value, dispatchGeneralType, "generalDamageInfo", "location"))} />
 
 
-                <StyledText style={{ marginBottom: 10 }}>Localisation des dommages</StyledText>
+                <StyledText style={{ marginBottom: 10 }}> Localisation des dommages </StyledText>
 
                 {damageArray.map((text, i) => (
 
@@ -151,7 +192,7 @@ export default function Damage({ navigation, route }) {
                         text={text.text}
                         nav={text.key}
                         route={route}
-                        globalState={globalState} />
+                        globalState={state} />
 
                 ))}
 
@@ -159,7 +200,7 @@ export default function Damage({ navigation, route }) {
                     multiline={true}
                     numberOfLines={5}
                     onChangeText={value => globalDispatch(addInfoDispatch(value, dispatchGeneralType, "generalDamageInfo", "commentDamage"))}
-                    value={globalState?.attributionDamage?.[0]?.generalDamageInfo?.[0].commentDamage}
+                    value={state?.attributionDamage?.[0]?.generalDamageInfo?.[0].commentDamage}
                     placeholder="Commentaire"
                     containerStyle={[generalStyles.textAeraContainer, { marginTop: 10 }]}
                     inputContainerStyle={generalStyles.textAeraContentContainer}
@@ -167,10 +208,10 @@ export default function Damage({ navigation, route }) {
 
 
                 {/* ICI RAJOTUER DES IFS SUR LES CHAMPS PAR EXEMPLE OU QU'IL Y AIE AU MOINS UNE TOFF !! */}
-                {globalState[`${dispatchGeneralType}`].length > 0 ?
+                {state[`${dispatchGeneralType}`].length > 0 ?
 
                     <GradientButton text={`Envoyer Sinistre`}
-                        handlePress={() => console.log("DAMAGE", globalState[`${dispatchGeneralType}`])} />
+                        handlePress={() => console.log("DAMAGE", state[`${dispatchGeneralType}`])} />
 
                     :
 
