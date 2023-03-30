@@ -1,7 +1,7 @@
 import { TouchableOpacity, View } from "react-native"
 import StyledText from "../../../Shared/StyledText"
 
-import { generalStyles, greenblue } from "../../../Shared/css";
+import { generalStyles, primaryColor2 } from "../../../Shared/css";
 
 import Octicons from 'react-native-vector-icons/Octicons';
 
@@ -24,15 +24,15 @@ export default function SingleKey({
             }}>
 
             <TopBorderContainer
-                style={{ backgroundColor: greenblue, flexDirection: "row" }}
+                style={{ backgroundColor: primaryColor2, flexDirection: "row" }}
             >
 
                 <View style={{ flex: 0.3 }}>
-                    <Octicons name="key" size={30} color="black" />
+                    <Octicons name="key" size={30} color="white" />
                 </View>
 
                 <View style={{ flex: 2 }}>
-                    <StyledText style={{ textAlign: "center", fontSize: 30 }}>
+                    <StyledText style={{ textAlign: "center", color: "white", fontSize: 30 }}>
                         {vehicule.vehiculeBrand} {vehicule.vehiculeModel}
                     </StyledText>
                 </View>
@@ -40,7 +40,7 @@ export default function SingleKey({
 
                 <View style={{ flex: 0.3 }}>
 
-                    <Octicons name="check-circle" size={30} color="black" />
+                    <Octicons name="check-circle" size={30} color="white" />
 
                 </View>
             </TopBorderContainer>

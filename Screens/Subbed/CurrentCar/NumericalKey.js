@@ -67,12 +67,6 @@ function NumericalKey({
 
                             <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-                                <View>
-
-                                    <StyledText style={[generalStyles.title, { marginBottom: 5 }]}>Clef(s) numériques</StyledText>
-
-                                </View>
-
                                 {state?.currentKeys.map((vehicule) => (
 
                                     <SingleKey vehicule={vehicule} navigation={navigation} key={vehicule.vehiculeGUID} />

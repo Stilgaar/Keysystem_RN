@@ -1,20 +1,18 @@
 import React from "react";
-import { StateContext, DispatchContext } from "../../../Context/StateContext";
+import { DispatchContext } from "../../../Context/StateContext";
 
 import { View, Text, ScrollView, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native";
 
-import { Input, Avatar } from "react-native-elements";
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Input } from "react-native-elements"
 
 // Sélectionner un véhicule et voir toutes ses informations
 // Demander la reservation d'un véhicule 
 
-import VehiculesInfo from "../CurrentCar/VehiculeInfos";
+import VehiculeSelect from "./VehiculeSelect";
 
 import { GradientButton } from "../../../comps";
 
-import { generalStyles, primaryColor2, greyish } from "../../../Shared/css";
+import { generalStyles } from "../../../Shared/css";
 
 import { FilterEverything } from "../../../Functions/FilterAll";
 import { getSelectedVehiculeReseravation } from "../../../Reducer/GlobalReducer/globalDispatch";
@@ -23,12 +21,16 @@ import { getSelectedVehiculeReseravation } from "../../../Reducer/GlobalReducer/
 import vehiculeList from "../../../JSON/CAR_MOCK_DATA.json"
 import useGlobalContext from "../../../Hooks/useGlobalContext";
 
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 // import useFetch from "../../../Hooks/useFetch"
 
 function SelectVehicle({ navigation }) {
 
     const [selectedVehicule, setSelectedVehicule] = React.useState({})
     const [searchVechicule, setSearchVehicule] = React.useState()
+    const [searchModal, setSearchModal] = React.useState(false)
+
+    const [filterType, setFilterType] = React.useState("all")
 
     const { globalDispatch } = React.useContext(DispatchContext)
     const { userState } = useGlobalContext()
@@ -49,18 +51,62 @@ function SelectVehicle({ navigation }) {
 
                             <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-                                <Text style={generalStyles.title}>Véhicules disponibles</Text>
+                                <View style={[generalStyles.center, { backgroundColor: "white" }]}>
 
-                                <View style={[generalStyles.center, { backgroundColor: "white", padding: 4, margin: 5, borderRadius: 15 }]}>
+                                    <View style={{ flexDirection: "row", paddingBottom: 5 }}>
 
-                                    <Input placeholder={`Cherchez par modèle, type, plaque`}
-                                        onChangeText={(text) => setSearchVehicule(text)} />
+                                        <GradientButton width={80}
+                                            text={`Toutes`}
+                                            buttonPadding={10}
+                                            disabled={filterType === "all"}
+                                            handlePress={() => setFilterType("all")} />
+
+                                        <GradientButton
+                                            width={80}
+                                            buttonPadding={10}
+                                            disabled={filterType === "used"}
+                                            text={`Passée`} handlePress={() => setFilterType("used")} />
+
+                                        <GradientButton width={80}
+                                            buttonPadding={10}
+                                            text={`Libre`}
+                                            disabled={filterType === "free"}
+                                            handlePress={() => setFilterType("free")} />
+
+                                    </View>
+
+                                    <View style={{ position: 'absolute', right: 7 }}>
+
+                                        <TouchableOpacity onPress={() => setSearchModal(c => !c)}>
+
+                                            <FontAwesome5 name="search" size={30} color="black" />
+
+                                        </TouchableOpacity>
+
+                                    </View>
+
+                                </View>
+
+                                <View style={[{ backgroundColor: "white", paddingTop: 5 }]}>
+
+                                    {searchModal &&
+                                        <Input placeholder={`Cherchez par modèle, type, plaque`}
+                                            onChangeText={(text) => setSearchVehicule(text)} />
+                                    }
 
                                 </View>
 
                                 {vehiculeList
                                     ?.filter(value => {
                                         return FilterEverything(value, searchVechicule)
+                                    })?.filter(value => {
+                                        if (filterType === "all") {
+                                            return value
+                                        } else if (filterType === "free") {
+                                            return !value.vehiculeIsUsed
+                                        } else if (filterType === "used") {
+                                            return value.vehiculeUsed
+                                        }
                                     })
                                     .map((vehicule, i) => (
 
@@ -73,12 +119,11 @@ function SelectVehicle({ navigation }) {
                                                     }
                                                     else { setSelectedVehicule(vehicule) }
                                                 }}
-                                                style={{ marginLeft: 10, marginRight: 10, marginBottom: 2, marginTop: 2 }}>
+                                                style={{ marginLeft: 3, marginRight: 3, marginBottom: 2, marginTop: i === 0 ? 3 : 0 }}>
 
-                                                <VehiculesInfo
-                                                    vehicule={vehicule}
-                                                    bgcolor={selectedVehicule.vehiculeGUID === vehicule.vehiculeGUID ? primaryColor2 : greyish}
-                                                    type={`fromSelectCar`} />
+
+                                                <VehiculeSelect vehicule={vehicule} selectedVehicule={selectedVehicule} />
+
 
                                             </TouchableOpacity>
 
@@ -89,7 +134,7 @@ function SelectVehicle({ navigation }) {
 
                             {Object.keys(selectedVehicule).length > 0 &&
 
-                                <View style={[generalStyles.mbgeneral65, { flexDirection: "row", justifyContent: "space-around" }]}>
+                                <View style={[, { flexDirection: "row", justifyContent: "space-around" }]}>
 
                                     <GradientButton text={`Disponibilités`}
                                         width={170}

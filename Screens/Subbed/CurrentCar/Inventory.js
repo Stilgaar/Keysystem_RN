@@ -64,57 +64,62 @@ export default function Inventory({ navigation, route }) {
 
     return (
 
-        <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-            {lectureArray?.map(display => (
-                <React.Fragment key={display.title}>
-                    <Text style={generalStyles.title}>{display.title}</Text>
+        <View style={[generalStyles.container]}>
+            <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-                    <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
+                {lectureArray?.map(display => (
+                    <React.Fragment key={display.title}>
+                        <Text style={generalStyles.title}>{display.title}</Text>
 
-                        <StyledText style={generalStyles.titleInfo}>
-                            {display.text1}
-                        </StyledText>
+                        <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
-                        <StyledText>
-                            {display.text2}
-                        </StyledText>
+                            <StyledText style={generalStyles.titleInfo}>
+                                {display.text1}
+                            </StyledText>
 
-                    </View>
-                </React.Fragment>
-            ))}
+                            <StyledText>
+                                {display.text2}
+                            </StyledText>
 
-            <View style={[generalStyles.colorContainer, generalStyles.globalShadow, generalStyles.mbgeneral65]}>
+                        </View>
+                    </React.Fragment>
+                ))}
 
-                <Input
-                    multiline={true}
-                    numberOfLines={5}
-                    onChangeText={value => globalDispatch(addInfoDispatch(value, dispatchGeneralType, "generalInventoryInfo", "commentInventory"))}
-                    value={globalState?.[`${dispatchGeneralType}`]?.[0]?.generalInventoryInfo?.[0].commentInventory}
-                    placeholder="Commentaire"
-                    containerStyle={[generalStyles.textAeraContainer, { marginTop: 10 }]}
-                    inputContainerStyle={generalStyles.textAeraContentContainer}
-                />
+                <View style={[generalStyles.colorContainer, generalStyles.globalShadow,]}>
 
-                <GradientButton width={250}
-                    handlePress={() => navigation.navigate("inventoryGeneralFrontPanel", { routeType: route.name })}
-                    text={`Commencer l'état des lieux`} />
+                    <Input
+                        multiline={true}
+                        numberOfLines={5}
+                        onChangeText={value => globalDispatch(addInfoDispatch(value, dispatchGeneralType, "generalInventoryInfo", "commentInventory"))}
+                        value={globalState?.[`${dispatchGeneralType}`]?.[0]?.generalInventoryInfo?.[0].commentInventory}
+                        placeholder="Commentaire"
+                        containerStyle={[generalStyles.textAeraContainer, { marginTop: 10 }]}
+                        inputContainerStyle={generalStyles.textAeraContentContainer}
+                    />
 
-                {state?.[`${dispatchGeneralType}`]
-                    .some(obj => inventoryArray.map(item => item.key).includes(Object.keys(obj)[0])
-                    ) &&
+                    <GradientButton width={250}
+                        handlePress={() => navigation.navigate("inventoryGeneralFrontPanel", { routeType: route.name })}
+                        text={`Commencer l'état des lieux`} />
 
-                    inventoryArray.map(text => (
+                    {state?.[`${dispatchGeneralType}`]
+                        .some(obj => inventoryArray.map(item => item.key).includes(Object.keys(obj)[0])
+                        ) &&
 
-                        <DamageCheckBoxes
-                            key={text.key}
-                            navigation={navigation}
-                            text={text.text}
-                            nav={text.key}
-                            route={route}
-                            globalState={globalState}
-                        />
-                    ))}
+                        inventoryArray.map((text, index) => (
+
+                            <DamageCheckBoxes
+                                index={index}
+                                key={text.key}
+                                navigation={navigation}
+                                text={text.text}
+                                nav={text.key}
+                                route={route}
+                                globalState={globalState}
+                            />
+                        ))}
+
+                </View>
 
                 {state[`${dispatchGeneralType}`].length > 10 ?
 
@@ -122,17 +127,14 @@ export default function Inventory({ navigation, route }) {
                         handlePress={() => {
                             console.log("INVENTORY TYPE :", route.name)
                             console.log("INVENTORY : ", state[`${dispatchGeneralType}`])
+
                         }} />
-
                     :
-
                     null
                 }
 
-            </View>
-
-        </ScrollView>
-
+            </ScrollView>
+        </View>
 
     );
 }

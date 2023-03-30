@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 
-import { generalStyles, greyGradientColor, flatgreen } from '../css';
+import { generalStyles, primaryColor2, greyish } from '../css';
 
 function GradientButton({
     text,
@@ -11,7 +10,7 @@ function GradientButton({
     borderRadius = 8,
     alignSelf = "center",
     addStyle = {},
-    color = flatgreen,
+    color = primaryColor2,
     children,
     disabled = false,
     buttonPadding = 15
@@ -26,26 +25,19 @@ function GradientButton({
                 width: width,
                 borderRadius: borderRadius,
                 alignSelf: alignSelf,
-                borderWidth: 4,
-                borderColor: "black",
-                backgroundColor: color,
+                backgroundColor: disabled ? greyish : color,
             }]}
         >
 
-            <LinearGradient // Button Linear Gradient
-                colors={disabled ? greyGradientColor : color}
-                style={{ padding: buttonPadding, borderRadius: borderRadius, }}>
-
-
+            <View style={{ padding: buttonPadding, borderRadius: borderRadius }}>
                 {text &&
                     <Text style={styles.buttonText}>{text}</Text>
                 }
-
                 {children &&
                     <View style={generalStyles.center}>{children}</View>
                 }
 
-            </LinearGradient>
+            </View>
 
         </TouchableOpacity>
     );

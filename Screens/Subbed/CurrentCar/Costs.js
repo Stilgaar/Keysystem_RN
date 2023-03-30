@@ -78,7 +78,7 @@ export default function Costs({ navigation, route }) {
 
             </View>
 
-            <View style={[generalStyles.colorContainer, generalStyles.globalShadow, generalStyles.mbgeneral65]}>
+            <View style={[generalStyles.colorContainer, generalStyles.globalShadow,]}>
 
                 <View style={{ zIndex: 50 }}>
                     <DropDownPicker

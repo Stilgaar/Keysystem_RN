@@ -129,22 +129,73 @@ export default function VehiculeCalendar({ navigation, route }) {
 
     return (
 
-        <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
+        <View style={[generalStyles.container]}>
 
-            <View style={[generalStyles.colorContainer, generalStyles.globalShadow, { marginTop: 10 }]}>
+            <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-                <Text style={generalStyles.title}>Disponibilités</Text>
+                <View style={[generalStyles.colorContainer, generalStyles.globalShadow, { marginTop: 10 }]}>
 
-                {period &&
+                    <Text style={generalStyles.title}>Disponibilités</Text>
 
-                    <Calendar
-                        onDayPress={day => setSelectedDay(day)}
-                        markingType="multi-period"
-                        markedDates={period}
-                    />
-                }
+                    {period &&
 
-            </View>
+                        <Calendar
+                            onDayPress={day => setSelectedDay(day)}
+                            markingType="multi-period"
+                            markedDates={period}
+                        />
+                    }
+
+                </View>
+
+                <Modal visible={!!selectedDay} transparent={true} animation="slide" >
+
+                    <View style={generalStyles.modalContainer}>
+
+                        <View style={generalStyles.modalContent}>
+
+                            {period?.[`${selectedDay?.dateString?.toString()}`]?.["periods"].length > 0 ?
+
+                                <>
+                                    <StyledText style={{ margin: 10 }}>Reservations ce jour {selectedDay.dateString.toString()}</StyledText>
+
+                                    {period[`${selectedDay?.dateString?.toString()}`]["periods"]
+                                        .map((thisDay, index) => (
+
+                                            <View key={index} style={[generalStyles.colorContainer, { width: windowWidth - 90, padding: 10, flexDirection: "row" }]}>
+
+                                                <View style={[generalStyles.badge, { margin: 5, backgroundColor: thisDay.color }]} />
+
+                                                <StyledText style={{ margin: 5 }}> Reservé par : {thisDay.fullName} </StyledText>
+
+                                            </View>
+                                        ))
+                                    }
+
+                                </>
+
+                                :
+
+                                <>
+                                    <View style={[generalStyles.colorContainer]}>
+
+                                        <StyledText>Pas de reservations ce jour là</StyledText>
+
+                                    </View>
+
+                                </>
+
+                            }
+
+                            <GradientButton handlePress={() => setSelectedDay()} text={`ok`} />
+
+                        </View>
+
+                    </View>
+
+                </Modal >
+
+            </ScrollView >
 
             <GradientButton text={`Reserver`}
                 handlePress={() => {
@@ -152,53 +203,6 @@ export default function VehiculeCalendar({ navigation, route }) {
                     navigation.navigate("MakeReservation", { vehicule })
                 }} />
 
-            <Modal visible={!!selectedDay} transparent={true} animation="slide" >
-
-                <View style={generalStyles.modalContainer}>
-
-                    <View style={generalStyles.modalContent}>
-
-                        {period?.[`${selectedDay?.dateString?.toString()}`]?.["periods"].length > 0 ?
-
-                            <>
-                                <StyledText style={{ margin: 10 }}>Reservations ce jour {selectedDay.dateString.toString()}</StyledText>
-
-                                {period[`${selectedDay?.dateString?.toString()}`]["periods"]
-                                    .map((thisDay, index) => (
-
-                                        <View key={index} style={[generalStyles.colorContainer, { width: windowWidth - 90, padding: 10, flexDirection: "row" }]}>
-
-                                            <View style={[generalStyles.badge, { margin: 5, backgroundColor: thisDay.color }]} />
-
-                                            <StyledText style={{ margin: 5 }}> Reservé par : {thisDay.fullName} </StyledText>
-
-                                        </View>
-                                    ))
-                                }
-
-                            </>
-
-                            :
-
-                            <>
-                                <View style={[generalStyles.colorContainer]}>
-
-                                    <StyledText>Pas de reservations ce jour là</StyledText>
-
-                                </View>
-
-                            </>
-
-                        }
-
-                        <GradientButton handlePress={() => setSelectedDay()} text={`ok`} />
-
-                    </View>
-
-                </View>
-
-            </Modal >
-
-        </ScrollView >
+        </View>
     );
 }

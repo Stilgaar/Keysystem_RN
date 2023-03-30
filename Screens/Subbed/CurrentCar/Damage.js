@@ -135,7 +135,7 @@ export default function Damage({ navigation, route }) {
             </View>
 
 
-            <View style={[generalStyles.colorContainer, generalStyles.globalShadow, generalStyles.mbgeneral65]}>
+            <View style={[generalStyles.colorContainer, generalStyles.globalShadow,]}>
 
 
                 <StyledText style={{ textAlign: "center", marginBottom: 5 }}>

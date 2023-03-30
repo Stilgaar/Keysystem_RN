@@ -26,8 +26,6 @@ export default function Notifs() {
 
             <ScrollView contentContainerStyle={{ flexGrow: 1, width: '100%' }}>
 
-                <Text style={generalStyles.title}>Notifications</Text>
-
                 {userState?.notificationsList?.length > 0 ?
 
                     userState?.notificationsList?.map((notif, index) => (
@@ -76,7 +74,7 @@ export default function Notifs() {
 
                     :
 
-                    <View style={{ flex: 1, justifyContent: "center", alignContent: "center" }}>
+                    <View style={{ flex: 0.8, justifyContent: "center", alignContent: "center" }}>
 
                         <View style={[generalStyles.colorContainer,
                         {
@@ -88,7 +86,7 @@ export default function Notifs() {
                             backgroundColor: 'white'
                         }]} >
 
-                            <StyledText style={{ textAlign: 'center', textAlignVertical: 'center', fontSize: 30 }}>
+                            <StyledText style={{ textAlign: 'center', textAlignVertical: 'center', fontSize: 20 }}>
 
                                 Vous n'avez pas de notifications
 

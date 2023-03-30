@@ -6,7 +6,6 @@ import keys from "../../JSON/FAKEKEYS.json"
 
 export const globalUserReducer = (prevState, action) => {
 
-    let state;
 
     console.log("ACTION.TYPE", action.type)
 
@@ -53,10 +52,9 @@ export const globalUserReducer = (prevState, action) => {
 
         case "NOTIFICATION_ADD_ONE": {
 
-            const { notification } = action.payload
+            let state;
 
-            console.log("REDUCER", notification)
-            console.log("preveState", prevState)
+            const { notification } = action.payload
 
             state = [...prevState.notificationsList]
 
@@ -78,6 +76,8 @@ export const globalUserReducer = (prevState, action) => {
         }
 
         case "NOTIFICATIONS_DEL_ONE": {
+
+            let state;
 
             const { notificationIndex } = action.payload
 
@@ -108,8 +108,6 @@ export const globalUserReducer = (prevState, action) => {
 }
 
 export const globalReducer = (prevState, action) => {
-
-    let state;
 
     // makes life easier
     console.log("ACTION.TYPE", action.type)
@@ -205,6 +203,8 @@ export const globalReducer = (prevState, action) => {
 
         case "ADD_ANY_PICTURE": {
 
+            let state;
+
             const { picture, dispatchGeneralType, dispatchType } = action.payload;
 
             state = [...prevState[`${dispatchGeneralType}`]]
@@ -240,6 +240,8 @@ export const globalReducer = (prevState, action) => {
 
         case "DELL_ANY_PICTURE": {
 
+            let state;
+
             const { pictureIndex, dispatchGeneralType, dispatchType } = action.payload;
 
             state = [...prevState[`${dispatchGeneralType}`]]
@@ -270,6 +272,8 @@ export const globalReducer = (prevState, action) => {
         ////////////////
 
         case "ADD_ANY_INFO": {
+
+            let state;
 
             const { info, dispatchGeneralType, dispatchType, infoType } = action.payload;
 
@@ -354,6 +358,7 @@ export const globalReducer = (prevState, action) => {
         ////////////////
 
         case "DEL_DROPDOWN_INFO": {
+
             const { removeItem, dispatchGeneralType, dispatchType, infoType, selectorIndex } = action.payload;
 
             return {
@@ -418,6 +423,8 @@ export const globalReducer = (prevState, action) => {
 
         case "COST_SELECT_TYPE": {
 
+            let state;
+
             const { selected } = action.payload
 
             state = [...prevState.attributionCost]
@@ -431,6 +438,8 @@ export const globalReducer = (prevState, action) => {
         }
 
         case "COST_ADD_PRICE": {
+
+            let state;
 
             const { price, infoType } = action.payload
 

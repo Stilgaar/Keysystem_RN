@@ -129,99 +129,102 @@ export default function MakeReservation({ route }) {
 
     return (
 
-        <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-            <StyledText style={generalStyles.title}>Reservez</StyledText>
+        <View style={[generalStyles.container]}>
 
-            <VehiculesInfo vehicule={vehicule} type={'fromSelectCar'} />
+            <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-            <TopBorderContainer style={{ flexDirection: "row", justifyContent: "space-around", backgroundColor: "white", marginTop: 35 }}>
+                <StyledText style={generalStyles.title}>Reservez</StyledText>
 
-                <GradientButton
-                    width={170}
-                    buttonPadding={30}
-                    handlePress={() => showModeStart('date')}
-                    addStyle={{ marginBottom: 5 }}
-                    text="date début" />
+                <VehiculesInfo vehicule={vehicule} type={'fromSelectCar'} />
 
-                <GradientButton
-                    width={170}
-                    buttonPadding={30}
-                    handlePress={() => showModeStart('time')}
-                    addStyle={{ marginBottom: 5 }}
-                    text="heure début" />
+                <TopBorderContainer style={{ flexDirection: "row", justifyContent: "space-around", backgroundColor: "white", marginTop: 35 }}>
 
-            </TopBorderContainer>
+                    <GradientButton
+                        width={170}
+                        buttonPadding={30}
+                        handlePress={() => showModeStart('date')}
+                        addStyle={{ marginBottom: 5 }}
+                        text="date début" />
 
-            <BottomBorderContainer style={{ flexDirection: "row", justifyContent: "space-around", backgroundColor: greyish }}>
+                    <GradientButton
+                        width={170}
+                        buttonPadding={30}
+                        handlePress={() => showModeStart('time')}
+                        addStyle={{ marginBottom: 5 }}
+                        text="heure début" />
 
-                <GradientButton
-                    width={170}
-                    buttonPadding={30}
-                    handlePress={() => showModeEnd('date')}
-                    addStyle={{ marginBottom: 5 }}
-                    text="Date Fin" />
+                </TopBorderContainer>
 
-                <GradientButton
-                    width={170}
-                    buttonPadding={30}
-                    handlePress={() => showModeEnd('time')}
-                    addStyle={{ marginBottom: 5 }}
-                    text="Heure Fin" />
+                <BottomBorderContainer style={{ flexDirection: "row", justifyContent: "space-around", backgroundColor: greyish }}>
 
-            </BottomBorderContainer>
+                    <GradientButton
+                        width={170}
+                        buttonPadding={30}
+                        handlePress={() => showModeEnd('date')}
+                        addStyle={{ marginBottom: 5 }}
+                        text="Date Fin" />
 
+                    <GradientButton
+                        width={170}
+                        buttonPadding={30}
+                        handlePress={() => showModeEnd('time')}
+                        addStyle={{ marginBottom: 5 }}
+                        text="Heure Fin" />
 
-
-            {/* THIS IS THE START */}
-
-            {showStart && (
-                <DateTimePicker
-                    testID="dateTimePicker"
-                    value={globalState.validationReservation[0].startDate}
-                    mode={mode}
-                    is24Hour={true}
-                    onChange={onChangeStart}
-                />
-            )}
-
-            {/* THIS IS THE END */}
-
-            {showEnd && (
-                <DateTimePicker
-                    testID="dateTimePicker"
-                    value={globalState.validationReservation[0].endDate}
-                    mode={mode}
-                    is24Hour={true}
-                    onChange={onChangeEnd}
-                />
-            )}
-
-            <View style={[generalStyles.colorContainer, generalStyles.globalShadow, { backgroundColor: "white", marginTop: 25 }]}>
-
-                {startDateFromGlobal === endDateFromGlobal ?
-
-                    <StyledText style={[generalStyles.textCenter]}>Le début et la fin de la reservation sont les mêmes</StyledText>
-                    :
-                    <>
-                        <StyledText style={[generalStyles.textCenter]}>Vous pouvez procèder à la reservation</StyledText>
-                        <StyledText style={[generalStyles.textCenter]}>Début de la reservation : {startDateFromGlobal} </StyledText>
-                        <StyledText style={[generalStyles.textCenter]}>Fin de la reservation : {endDateFromGlobal} </StyledText>
-
-                    </>
-                }
-
-            </View>
-
-            <View style={[generalStyles.buttonContainer]}>
-                <GradientButton
-                    disabled={startDateFromGlobal === endDateFromGlobal}
-                    text={`Demandez la reservation`}
-                    handlePress={() => console.log("SEND RESA", globalState.validationReservation)} />
-
-            </View>
+                </BottomBorderContainer>
 
 
-        </ScrollView >
+
+                {/* THIS IS THE START */}
+
+                {showStart && (
+                    <DateTimePicker
+                        testID="dateTimePicker"
+                        value={globalState.validationReservation[0].startDate}
+                        mode={mode}
+                        is24Hour={true}
+                        onChange={onChangeStart}
+                    />
+                )}
+
+                {/* THIS IS THE END */}
+
+                {showEnd && (
+                    <DateTimePicker
+                        testID="dateTimePicker"
+                        value={globalState.validationReservation[0].endDate}
+                        mode={mode}
+                        is24Hour={true}
+                        onChange={onChangeEnd}
+                    />
+                )}
+
+                <View style={[generalStyles.colorContainer, generalStyles.globalShadow, { backgroundColor: "white", marginTop: 25 }]}>
+
+                    {startDateFromGlobal === endDateFromGlobal ?
+
+                        <StyledText style={[generalStyles.textCenter]}>Le début et la fin de la reservation sont les mêmes</StyledText>
+                        :
+                        <>
+                            <StyledText style={[generalStyles.textCenter]}>Vous pouvez procèder à la reservation</StyledText>
+                            <StyledText style={[generalStyles.textCenter]}>Début de la reservation : {startDateFromGlobal} </StyledText>
+                            <StyledText style={[generalStyles.textCenter]}>Fin de la reservation : {endDateFromGlobal} </StyledText>
+
+                        </>
+                    }
+
+                </View>
+
+            </ScrollView >
+
+
+            <GradientButton
+                disabled={startDateFromGlobal === endDateFromGlobal}
+                text={`Demandez la reservation`}
+                handlePress={() => console.log("SEND RESA", globalState.validationReservation)} />
+
+
+        </View>
     )
 }

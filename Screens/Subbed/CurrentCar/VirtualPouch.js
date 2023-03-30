@@ -59,7 +59,7 @@ export default function VirtualPouch() {
             //////////////// 
             */}
 
-            <View style={[generalStyles.mbgeneral65]}>
+            <View style={[]}>
 
                 <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 

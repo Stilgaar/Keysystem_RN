@@ -1,8 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, BackHandler } from 'react-native';
 
-import RNFS from 'react-native-fs';
-
 // general styles to get the components a bit cleaner
 import { generalStyles } from './css';
 
@@ -26,6 +24,10 @@ export default function MyCamera({
     navigation,
     indexInventory
 }) {
+
+    const [isCameraVisible, setIsCameraVisible] = React.useState(true);
+
+    console.log("camera", isCameraVisible)
 
     ////////////////
     // Back Button Handler (in CHECK IN // CHECKOUT)
@@ -77,7 +79,7 @@ export default function MyCamera({
 
             try {
                 // Read the file from the file system
-                // with a BRAND NEW PACKAGE !!
+                // with a BRAND NEW PACKAGE !! // NOT USED : GO FOR THE URI
                 //  const fileContent = await RNFS.readFile(data.uri, 'base64');
 
                 // Send base64 image to the global dispatch
@@ -101,23 +103,33 @@ export default function MyCamera({
 
         <View style={styles.container}>
 
-            <Camera
-                style={{ flex: 1 }}
-                ref={cameraRef}
-                cameraType={CameraType.Back} // front/back(default)
-            />
+            {isCameraVisible && (
+                <Camera
+                    style={{ flex: 1 }}
+                    ref={cameraRef}
+                    cameraType={CameraType.Back} // front/back(default)
+                />
+            )}
 
             {dispatchGeneralType === "attributionInventory" &&
 
                 <View style={generalStyles.buttonTopContainer}>
 
                     <GradientButton width={350}
-                        handlePress={() => navigation.replace((indexInventory + 1) === inventoryArray.length ? routeType : inventoryArray[indexInventory + 1].key, { routeType: routeType })}
+                        handlePress={() => {
+                            setIsCameraVisible(false);
+                            navigation.replace(
+                                (indexInventory + 1) === inventoryArray.length
+                                    ? routeType
+                                    : inventoryArray[indexInventory + 1].key,
+                                { routeType: routeType },
+                            );
+                            setTimeout(() => setIsCameraVisible(true), 100);
+                        }}
                         text={`${(indexInventory + 1) === inventoryArray.length ? "Fin" : "vers " + inventoryArray[indexInventory + 1].text}`} />
 
                 </View>
             }
-
 
             <View style={generalStyles.buttonContainer}>
 

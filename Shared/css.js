@@ -1,10 +1,12 @@
 import { StyleSheet, Dimensions } from "react-native";
 
-export const primaryColor2 = "#94ecd3"
+// export const primaryColor2 = "#94ecd3"
+export const primaryColor2 = "#11c9d9"
 export const blackA = "#171919"
 
 export const blue = "#4daafe"
-export const greenblue = '#94ecd3'
+// export const greenblue = '#94ecd3'
+export const greenblue = "#2cb0e1"
 export const greyish = "#efefef"
 export const darkgreyish = "#d6d6d6"
 
@@ -84,8 +86,8 @@ export const generalStyles = StyleSheet.create({
     ////////////////
 
     title: {
-        fontSize: 35,
-        marginLeft: 20,
+        fontSize: 20,
+        marginLeft: 10,
         marginTop: 10,
         marginBottom: 5,
         color: blackA,

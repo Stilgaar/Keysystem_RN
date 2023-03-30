@@ -5,7 +5,7 @@ import { View, Text, Dimensions, ScrollView } from "react-native";
 import { logoutDispatch } from "../../../Reducer/GlobalReducer/globalDispatch";
 import useGlobalContext from "../../../Hooks/useGlobalContext";
 
-import { generalStyles, greenblue, greyish } from "../../../Shared/css";
+import { generalStyles, primaryColor2, greyish } from "../../../Shared/css";
 
 import { GradientButton } from "../../../comps";
 
@@ -29,17 +29,13 @@ export default function MyAccount({ navigation }) {
 
     const windowWidth = Dimensions.get('window').width;
 
-    console.log(userState)
-
     return (
 
         <View style={[generalStyles.container]}>
 
-            <ScrollView contentContainerStyle={{ flexGrow: 1, width: '100%' }}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1, width: '100%', marginTop: 10 }}>
 
-                <Text style={generalStyles.title}>Mon Compte</Text>
-
-                <TopBorderContainer style={{ backgroundColor: greenblue, flexDirection: "row" }}>
+                <TopBorderContainer style={{ backgroundColor: primaryColor2, flexDirection: "row" }}>
 
 
                     <View style={{ flex: 1, justifyContent: "flex-start", alignItems: "flex-start", }}>
@@ -87,9 +83,9 @@ export default function MyAccount({ navigation }) {
 
                 <View style={{ marginTop: 10 }}>
 
-                    <Text style={generalStyles.title}>Modifier votre compte</Text>
-
                     <View style={[generalStyles.colorContainer, generalStyles.globalShadow, { backgroundColor: greyish }]}>
+
+                        <Text style={generalStyles.title}>Modifier votre compte</Text>
 
                         <View style={{ marginTop: 10 }}>
 

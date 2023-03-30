@@ -1,13 +1,13 @@
 import { Text, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-import { gradientColor, greenblue } from '../css';
+import { flatgreen } from '../css';
 
 export default function CustomTabBarButton({ children }) {
 
     return (
         <LinearGradient // Button Linear Gradient
-            colors={gradientColor}
+            colors={flatgreen}
             style={styles.button}>
 
             <Text>{children}</Text>

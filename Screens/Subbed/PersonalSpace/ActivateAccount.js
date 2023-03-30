@@ -55,7 +55,7 @@ export default function ActivateAccount({ navigation }) {
 
     return (
 
-        <View style={[generalStyles.container, generalStyles.mbgeneral65]}>
+        <View style={[generalStyles.container,]}>
 
             <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 

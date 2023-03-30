@@ -87,12 +87,15 @@ const Stack = createStackNavigator()
 
 // Tab icons
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
+
+const wheight = Dimensions.get("screen").height
 // Principal Navigation
 export default function AppNavigator() {
 
     const { userDispatch } = useGlobalContext()
+
 
     const [notificationPermission, setNotificationPermission] = React.useState(null)
 
@@ -204,8 +207,13 @@ export default function AppNavigator() {
                 <Stack.Screen name="MyAccount"
                     component={MyAccount}
                     options={{
-                        header: ({ navigation }) => {
-                        },
+                        header: ({ navigation }) => (
+
+                            <HeaderSubbed title={"Mon Compte"}
+                                navigation={navigation}
+                                route={route}
+                                initial={true} />
+                        ),
                     }}
                 />
 
@@ -360,9 +368,16 @@ export default function AppNavigator() {
                 <Stack.Screen name="NumericalKey"
                     component={NumericalKey}
                     options={{
-                        header: ({ navigation }) => {
-                        },
+                        header: ({ navigation }) => (
+                            <HeaderSubbed title={"Clef(s) numériques"}
+                                navigation={navigation}
+                                route={route}
+                                initial={true} />
+                        ),
                     }}
+
+
+
                 />
 
 
@@ -575,8 +590,13 @@ export default function AppNavigator() {
                 <Stack.Screen name="Notifs"
                     component={Notifs}
                     options={{
-                        header: ({ navigation }) => {
-                        },
+                        header: ({ navigation }) => (
+                            <HeaderSubbed title={"Notifications"}
+                                navigation={navigation}
+                                route={route}
+                                initial={true} />
+                        ),
+
                     }}
                 />
 
@@ -596,14 +616,14 @@ export default function AppNavigator() {
                     <Stack.Screen name="Select"
                         component={SelectVehicle}
                         options={{
-                            header: ({ navigation }) => {
+                            header: ({ navigation }) => (
                                 (
-                                    <HeaderSubbed
+                                    <HeaderSubbed title={`Véhicules disponibles`}
                                         navigation={navigation}
                                         route={route}
                                         initial={true} />
                                 )
-                            },
+                            ),
                         }}
                     />
 
@@ -725,12 +745,9 @@ export default function AppNavigator() {
 const styles = StyleSheet.create({
     tabBarStyles: {
         backgroundColor: blackA,
-        borderRadius: 20,
-        position: "absolute",
-        borderTopWidth: 0,
-        left: 5,
-        bottom: 10,
-        right: 5,
+        height: wheight / 12,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
     }
 
 })
