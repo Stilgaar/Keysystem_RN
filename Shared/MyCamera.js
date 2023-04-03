@@ -5,6 +5,7 @@ import { View, StyleSheet, BackHandler } from 'react-native';
 import { generalStyles } from './css';
 
 import { Camera, CameraType } from 'react-native-camera-kit';
+import { useFocusEffect } from '@react-navigation/native';
 
 // Buttons, but gradient
 import { GradientButton } from '../comps';
@@ -25,10 +26,6 @@ export default function MyCamera({
     indexInventory
 }) {
 
-    const [isCameraVisible, setIsCameraVisible] = React.useState(true);
-
-    console.log("camera", isCameraVisible)
-
     ////////////////
     // Back Button Handler (in CHECK IN // CHECKOUT)
     ////////////////
@@ -48,6 +45,18 @@ export default function MyCamera({
             return true; // Tell the OS that we handled the back button press
         }
     };
+
+    const [isCameraVisible, setIsCameraVisible] = React.useState(false);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            setIsCameraVisible(true);
+
+            return () => {
+                setIsCameraVisible(false);
+            };
+        }, [])
+    );
 
     React.useEffect(() => {
         dispatchGeneralType === "attributionInventory" &&
@@ -103,6 +112,7 @@ export default function MyCamera({
 
         <View style={styles.container}>
 
+
             {isCameraVisible && (
                 <Camera
                     style={{ flex: 1 }}
@@ -117,14 +127,12 @@ export default function MyCamera({
 
                     <GradientButton width={350}
                         handlePress={() => {
-                            setIsCameraVisible(false);
                             navigation.replace(
                                 (indexInventory + 1) === inventoryArray.length
                                     ? routeType
                                     : inventoryArray[indexInventory + 1].key,
                                 { routeType: routeType },
                             );
-                            setTimeout(() => setIsCameraVisible(true), 100);
                         }}
                         text={`${(indexInventory + 1) === inventoryArray.length ? "Fin" : "vers " + inventoryArray[indexInventory + 1].text}`} />
 

@@ -20,50 +20,50 @@ function Actions({ route }) {
 
     return (
 
-        <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
+        <View style={[generalStyles.container]}>
 
-            <Text style={generalStyles.title}>Activation Voiture</Text>
+            <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-            <View style={{ marginTop: 20, flexDirection: "row", justifyContent: "center" }}>
+                <View style={{ marginTop: 20, flexDirection: "row", justifyContent: "center" }}>
 
-                <GradientButton
-                    handlePress={() => console.log('poeut')}
-                    text="Klaxoner"
-                />
+                    <GradientButton
+                        handlePress={() => console.log('poeut')}
+                        text="Klaxoner"
+                    />
 
-                <GradientButton
-                    handlePress={() => console.log('Appel di Phares')}
-                    text="Phares"
-                />
+                    <GradientButton
+                        handlePress={() => console.log('Appel di Phares')}
+                        text="Phares"
+                    />
 
-            </View>
+                </View>
 
+                <View style={{ marginTop: 20, flexDirection: "row", justifyContent: "center" }}>
 
-            <View style={{ marginTop: 20, flexDirection: "row", justifyContent: "center" }}>
+                    <GradientButton
+                        handlePress={() => console.log('Action Open')}
+                        text="Ouvrir"
+                    />
 
-                <GradientButton
-                    handlePress={() => console.log('Action Open')}
-                    text="Ouvrir"
-                />
+                    <GradientButton
+                        handlePress={() => console.log('Action Close')}
+                        text="Fermer"
+                    />
 
+                </View>
 
-                <GradientButton
-                    handlePress={() => console.log('Action Close')}
-                    text="Fermer"
-                />
+                <View style={{ marginTop: 20 }}>
 
-            </View>
+                    <GradientButton
+                        handlePress={() => console.log('Action Start')}
+                        text="Démarer"
+                    />
 
-            <View style={{ marginTop: 20 }}>
+                </View>
 
-                <GradientButton
-                    handlePress={() => console.log('Action Start')}
-                    text="Démarer"
-                />
+            </ScrollView>
 
-            </View>
-
-        </ScrollView>
+        </View>
 
     );
 }

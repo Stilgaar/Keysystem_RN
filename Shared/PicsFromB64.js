@@ -65,10 +65,9 @@ export default function PicsFromB64({
                                                 delPictureDispatch(index, dispatchGeneralType, dispatchType)
                                             )
                                         }
-                                        color={["#ff0000", "#ff0000"]}
                                         text="X"
                                         width={50}
-                                        buttonPadding={10}
+                                        buttonPadding={1}
                                     />
 
                                 </View>
@@ -78,12 +77,15 @@ export default function PicsFromB64({
 
 
                         {checked && (
+
                             <PicsDropDownSelect
+                                picsArray={picsArray}
                                 index={index}
                                 pics={pics}
                                 dispatchType={dispatchType}
                                 dispatchGeneralType={dispatchGeneralType}
                             />
+
                         )}
 
                     </View>

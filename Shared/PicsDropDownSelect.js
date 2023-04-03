@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Platform } from "react-native";
 import { DispatchContext } from "../Context/StateContext";
 import { addDropDownInfo } from "../Reducer/GlobalReducer/globalDispatch";
 
@@ -42,23 +42,28 @@ export default function PicsDropDownSelect({
 
     return (
 
-        <DropDownPicker
-            zIndex={45 - index}
-            zIndexInverse={50 - index}
-            elevation={50 - index}
-            //  multiple={true}
-            open={dropDownOpen}
-            setOpen={setDropDownOpen}
-            value={pics.damageTypes}
-            items={items}
-            onSelectItem={(item) => globalDispatch(addDropDownInfo(item, dispatchGeneralType, dispatchType, "damageTypes", index))}
-            setItems={setItems}
-            // BORDEL
-            listMode="SCROLLVIEW"
-            scrollViewProps={{
-                nestedScrollEnabled: true,
-            }}
-        />
+        <View style={{
+            zIndex: (500 + index * 3),
+            elevation: 50000 + index * 3
+        }}>
+
+            <DropDownPicker
+                zIndex={0}
+                zIndexInverse={0}
+                open={dropDownOpen}
+                setOpen={setDropDownOpen}
+                value={pics.damageTypes}
+                items={items}
+                onSelectItem={(item) => globalDispatch(addDropDownInfo(item, dispatchGeneralType, dispatchType, "damageTypes", index))}
+                setItems={setItems}
+                // BORDEL
+                listMode="SCROLLVIEW"
+                scrollViewProps={{
+                    nestedScrollEnabled: true,
+                }}
+            />
+
+        </View>
 
     )
 

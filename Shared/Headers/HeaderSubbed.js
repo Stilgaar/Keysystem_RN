@@ -15,7 +15,11 @@ export default function HeaderUnsub({
 
         <View style={[styles.header]}>
 
-            {!initial && <ButtonGoBack onPress={() => navigation.goBack()} />}
+            {!initial &&
+
+                <ButtonGoBack onPress={() => navigation.goBack()} />
+
+            }
 
             <Text style={styles.headerText}>{title}</Text>
 
@@ -35,7 +39,7 @@ const styles = StyleSheet.create({
     headerText: {
         flex: 1,
         color: blackA,
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'bold',
         textAlign: "center"
     },

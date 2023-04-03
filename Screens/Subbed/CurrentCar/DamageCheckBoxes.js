@@ -1,6 +1,6 @@
 // React stuff
 import React from "react";
-import { View } from "react-native";
+import { View, Dimensions } from "react-native";
 
 // The button but gradient
 // the globalcontext also
@@ -22,7 +22,8 @@ export default function DamageCheckBoxes({
     nav,
     route,
     globalState,
-    index
+    index,
+    routeType
 }) {
 
     ////////////////
@@ -47,9 +48,11 @@ export default function DamageCheckBoxes({
     // JSX
     ////////////////
 
+    const windowWitdh = Dimensions.get("window").width
+
     return (
 
-        <View style={{ zIndex: index + 1 }}>
+        <View style={{ position: 'relative', zIndex: 1000 - index, elevation: 1000 - index }}>
 
             <CheckBox
                 title={text}
@@ -61,11 +64,14 @@ export default function DamageCheckBoxes({
             {(checked ? checked : open) &&
 
                 <GradientButton
+                    width={windowWitdh - 40}
+                    addStyle={{ marginBottom: 5 }}
                     text={`Photo ${text}`}
-                    handlePress={() => navigation.navigate(nav)} />
+                    handlePress={() => navigation.navigate(nav, { routeType })} />
             }
 
             {checked &&
+
                 <>
                     <PicsFromB64
                         picsArray={globalState[`${dispatchGeneralType}`]?.find(obj => obj[nav])?.[nav]}
@@ -75,9 +81,11 @@ export default function DamageCheckBoxes({
                     />
 
                 </>
+
             }
 
         </View>
+
     )
 
 }

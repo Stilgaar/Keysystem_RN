@@ -30,9 +30,11 @@ function GradientButton({
         >
 
             <View style={{ padding: buttonPadding, borderRadius: borderRadius }}>
+
                 {text &&
                     <Text style={styles.buttonText}>{text}</Text>
                 }
+
                 {children &&
                     <View style={generalStyles.center}>{children}</View>
                 }

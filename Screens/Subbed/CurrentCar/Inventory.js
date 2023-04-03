@@ -62,15 +62,20 @@ export default function Inventory({ navigation, route }) {
 
     }, [])
 
+    ////////////////
+    // JSX
+    ////////////////
+
+
     return (
 
-
         <View style={[generalStyles.container]}>
+
             <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
                 {lectureArray?.map(display => (
+
                     <React.Fragment key={display.title}>
-                        <Text style={generalStyles.title}>{display.title}</Text>
 
                         <View style={[generalStyles.colorContainer, generalStyles.globalShadow]}>
 
@@ -83,7 +88,9 @@ export default function Inventory({ navigation, route }) {
                             </StyledText>
 
                         </View>
+
                     </React.Fragment>
+
                 ))}
 
                 <View style={[generalStyles.colorContainer, generalStyles.globalShadow,]}>
@@ -98,7 +105,9 @@ export default function Inventory({ navigation, route }) {
                         inputContainerStyle={generalStyles.textAeraContentContainer}
                     />
 
-                    <GradientButton width={250}
+                    <GradientButton
+                        addStyle={{ marginBottom: 10 }}
+                        width={250}
                         handlePress={() => navigation.navigate("inventoryGeneralFrontPanel", { routeType: route.name })}
                         text={`Commencer l'état des lieux`} />
 
@@ -109,6 +118,7 @@ export default function Inventory({ navigation, route }) {
                         inventoryArray.map((text, index) => (
 
                             <DamageCheckBoxes
+                                routeType={route?.name}
                                 index={index}
                                 key={text.key}
                                 navigation={navigation}
