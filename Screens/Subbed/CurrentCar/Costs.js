@@ -44,7 +44,7 @@ export default function Costs({ navigation, route }) {
     DropDownPicker.setMode("BADGE");
 
     ////////////////
-    // Value of the items
+    // Value of the items route and get here needed
     ////////////////
 
     const [items, setItems] = React.useState([

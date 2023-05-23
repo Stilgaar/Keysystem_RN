@@ -163,9 +163,9 @@ dependencies {
 
    // JEFF && ALEXIS => CONTINENTAL STUFF THINGS
     // Continental ITS KaaS SDK
-     implementation("com.continental.kaas:library:1.2.5") {
-       exclude group: 'com.guardsquare', module: 'dexguard-runtime'
-    }
+    //  implementation("com.continental.kaas:library:1.2.5") {
+    //    exclude group: 'com.guardsquare', module: 'dexguard-runtime'
+    // }
 
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")

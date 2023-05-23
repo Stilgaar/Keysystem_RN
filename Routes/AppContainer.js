@@ -8,13 +8,20 @@ import RootNavigator from "./RootNavigator";
 import AppNavigator from "./AppNavigator";
 import useGlobalContext from '../Hooks/useGlobalContext';
 
+import SplashScreen from '../Screens/Unsub/Splash';
+
 import { darkgreyish } from '../Shared/css';
 
 export default function AppContainer() {
 
-    const { userState } = useGlobalContext();
+    // To control the splash screen
+    const [splash, setSplash] = React.useState(true);
 
-    console.log(userState)
+    React.useEffect(() => {
+        setTimeout(() => setSplash(false), 1000);
+    }, []);
+
+    const { userState } = useGlobalContext();
 
     const isLogged = React.useMemo(() => userState.isLogged, [userState.isLogged]);
 
@@ -23,8 +30,29 @@ export default function AppContainer() {
 
             <SafeAreaView style={{ flex: 1, backgroundColor: darkgreyish }}>
 
-                {isLogged ? <AppNavigator /> : <RootNavigator />}
+                <>
 
+                    {splash ?
+
+                        <SplashScreen />
+
+                        :
+                        <>
+
+                            {isLogged ?
+
+                                <AppNavigator />
+
+                                :
+
+                                <RootNavigator />
+
+                            }
+
+                        </>
+                    }
+
+                </>
             </SafeAreaView>
 
         </SafeAreaProvider>

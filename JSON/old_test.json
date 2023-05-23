@@ -11,14 +11,12 @@
     ],
     "attributionDamage": [
         {
-            "generalDamageInfo": [Array
-            ]
+            "generalDamageInfo": []
         }
     ],
     "attributionInventory": [
         {
-            "generalInventoryInfo": [Array
-            ]
+            "generalInventoryInfo": []
         }
     ],
     "currentCar": [],
@@ -75,8 +73,7 @@
             "userDriverLicenceCardNumber": "ZERZEF32F234T3E",
             "userEmailAdress": "admin@test.com",
             "userGUID": "1321324465",
-            "userHistory": [Array
-            ],
+            "userHistory": [],
             "userIdentityCardNumber": "AZDADAZ21315EF3534",
             "userPostalCode": "06000"
         }
