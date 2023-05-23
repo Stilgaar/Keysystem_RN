@@ -1,5 +1,4 @@
 package com.ffs;
-
 import androidx.annotation.NonNull;
 
 import com.continental.kaas.logging.Logger;
@@ -9,6 +8,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 public class CustomLogger implements Logger {
 
     private ReactContext mReactContext;
+    private final String LOG_EVENT = "kaas_log_event";
 
     public CustomLogger(ReactContext reactContext) {
         mReactContext = reactContext;
@@ -19,7 +19,7 @@ public class CustomLogger implements Logger {
         // tag                          --> tag
         // String.format(message, args) --> log message
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(KaaSModule.LOG_EVENT, String.format(message, args));
+                .emit(LOG_EVENT, String.format(message, args));
     }
 
     @Override
@@ -27,7 +27,7 @@ public class CustomLogger implements Logger {
         // tag                          --> tag
         // String.format(message, args) --> log message
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(KaaSModule.LOG_EVENT, String.format(message, args));
+                .emit(LOG_EVENT, String.format(message, args));
     }
 
     @Override
@@ -35,7 +35,7 @@ public class CustomLogger implements Logger {
         // tag                          --> tag
         // t.getMessage()               --> Throwable message
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(KaaSModule.LOG_EVENT,t.getMessage());
+                .emit(LOG_EVENT,t.getMessage());
     }
 
     @Override
@@ -43,7 +43,7 @@ public class CustomLogger implements Logger {
         // tag                          --> tag
         // String.format(message, args) --> log message
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(KaaSModule.LOG_EVENT, String.format(message, args));
+                .emit(LOG_EVENT, String.format(message, args));
     }
 
     @Override
@@ -51,7 +51,7 @@ public class CustomLogger implements Logger {
         // tag                          --> tag
         // String.format(message, args) --> log message
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(KaaSModule.LOG_EVENT, String.format(message, args));
+                .emit(LOG_EVENT, String.format(message, args));
     }
 
     @Override
@@ -59,7 +59,7 @@ public class CustomLogger implements Logger {
         // tag                          --> tag
         // t.getMessage()               --> Throwable message
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(KaaSModule.LOG_EVENT, t.getMessage());
+                .emit(LOG_EVENT, t.getMessage());
     }
 
     @Override
@@ -67,7 +67,7 @@ public class CustomLogger implements Logger {
         // tag                          --> tag
         // String.format(message, args) --> log message
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(KaaSModule.LOG_EVENT, String.format(message, args));
+                .emit(LOG_EVENT, String.format(message, args));
     }
 
     @Override
@@ -75,7 +75,7 @@ public class CustomLogger implements Logger {
         // tag                          --> tag
         // String.format(message, args) --> log message
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(KaaSModule.LOG_EVENT, String.format(message, args));
+                .emit(LOG_EVENT, String.format(message, args));
     }
 
     @Override
@@ -83,7 +83,7 @@ public class CustomLogger implements Logger {
         // tag                          --> tag
         // t.getMessage()               --> Throwable message
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(KaaSModule.LOG_EVENT, t.getMessage());
+                .emit(LOG_EVENT, t.getMessage());
     }
 
     @Override
@@ -91,7 +91,7 @@ public class CustomLogger implements Logger {
         // tag                          --> tag
         // String.format(message, args) --> log message
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(KaaSModule.LOG_EVENT, String.format(message, args));
+                .emit(LOG_EVENT, String.format(message, args));
     }
 
     @Override
@@ -99,7 +99,7 @@ public class CustomLogger implements Logger {
         // tag                          --> tag
         // String.format(message, args) --> log message
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(KaaSModule.LOG_EVENT, String.format(message, args));
+                .emit(LOG_EVENT, String.format(message, args));
     }
 
     @Override
@@ -107,7 +107,7 @@ public class CustomLogger implements Logger {
         // tag                          --> tag
         // t.getMessage()               --> Throwable message
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(KaaSModule.LOG_EVENT, t.getMessage());
+                .emit(LOG_EVENT, t.getMessage());
     }
 
     @Override
@@ -115,7 +115,7 @@ public class CustomLogger implements Logger {
         // tag                          --> tag
         // String.format(message, args) --> log message
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(KaaSModule.LOG_EVENT, String.format(message, args));
+                .emit(LOG_EVENT, String.format(message, args));
     }
 
     @Override
@@ -123,7 +123,7 @@ public class CustomLogger implements Logger {
         // tag                          --> tag
         // String.format(message, args) --> log message
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(KaaSModule.LOG_EVENT, String.format(message, args));
+                .emit(LOG_EVENT, String.format(message, args));
     }
 
     @Override
@@ -131,7 +131,7 @@ public class CustomLogger implements Logger {
         // tag                          --> tag
         // t.getMessage()               --> Throwable message
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(KaaSModule.LOG_EVENT, t.getMessage());
+                .emit(LOG_EVENT, t.getMessage());
     }
 
     @Override
@@ -139,7 +139,7 @@ public class CustomLogger implements Logger {
         // tag                          --> tag
         // String.format(message, args) --> log message
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(KaaSModule.LOG_EVENT, String.format(message, args));
+                .emit(LOG_EVENT, String.format(message, args));
     }
 
     @Override
@@ -147,7 +147,7 @@ public class CustomLogger implements Logger {
         // tag                          --> tag
         // String.format(message, args) --> log message
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(KaaSModule.LOG_EVENT, String.format(message, args));
+                .emit(LOG_EVENT, String.format(message, args));
     }
 
     @Override
@@ -155,7 +155,7 @@ public class CustomLogger implements Logger {
         // tag                          --> tag
         // t.getMessage()               --> Throwable message
         mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(KaaSModule.LOG_EVENT, t.getMessage());
+                .emit(LOG_EVENT, t.getMessage());
     }
 
 }

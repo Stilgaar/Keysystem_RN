@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from 'react';
 import { enableScreens } from 'react-native-screens';
 
 // Important for Swipe gesture - Pinch-to-zoom -Drag and drop- Long press- Double tap
@@ -12,14 +12,26 @@ import { StateContextProvider } from './Context/StateContext';
 
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
+import { KaaS } from "./ContinentalUtilities/KaasMethods";
+
 // Welcome to KeySystem App
 export default function App() {
 
-  ////////////////
+  /////////////////////////
   // Needed in React native
-  ////////////////
+  /////////////////////////
 
   enableScreens();
+
+  //////////////////////////////
+  // Init KaaS bridge connection
+  //////////////////////////////
+  console.log(KaaS.initCalled)
+  useEffect(()=>{
+    KaaS.init(true, true, false, true)
+    console.log(KaaS.initCalled)
+  }, []) // <-- empty dependency array
+  
 
   ////////////////
   // JSX

@@ -4,9 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.continental.kaas.library.KAAS;
+import com.continental.kaas.library.exception.NoSelectedVirtualKeyException;
+import com.continental.kaas.library.exception.VirtualKeyException;
 import com.continental.kaas.library.external.Command;
 import com.continental.kaas.library.external.SelectVirtualKeyRequest;
 import com.continental.kaas.library.external.SessionResponse;
+import com.continental.kaas.library.external.VirtualKey;
 import com.continental.kaas.logging.Plop;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
@@ -14,21 +17,40 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableNativeArray;
+import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
+import io.reactivex.exceptions.CompositeException;
 
 public class KaaSModule extends ReactContextBaseJavaModule {
 
-    static String BLUETOOTH_STATE_EVENT = "kaas_bluetooth_state_event";
-    static String CONNECTION_STATE_EVENT = "kaas_connection_state_event";
-    static String LOG_EVENT = "kaas_log_event";
+    private static KaaSModule instance;
+    private static CustomLogger customLogger;
+    private static String BLUETOOTH_STATE_EVENT = "kaas_bluetooth_state_event";
+    private static String CONNECTION_STATE_EVENT = "kaas_connection_state_event";
     private Disposable disposableBluetoothStateChange;
     private Disposable disposableConnectionStateChange;
+    private static GsonBuilder gsonBuilder = new GsonBuilder();
+    private static Gson gson = gsonBuilder.create();
+    private static boolean isInitialised = false;
 
+    public static KaaSModule getInstance(@Nullable ReactApplicationContext reactContext) {
+        if (instance == null) {
+            instance = new KaaSModule(reactContext);
+        }
+        return instance;
+    }
 
-    public KaaSModule(@Nullable ReactApplicationContext reactContext) {
+    private KaaSModule(@Nullable ReactApplicationContext reactContext) {
         super(reactContext);
     }
 
@@ -41,23 +63,29 @@ public class KaaSModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void _init(boolean allowDebugMode, boolean allowRooted,
                      boolean allowRunOnSimulator, boolean enableDebugLog, Promise promise) {
-        KAAS.Config config = new KAAS.Config(this.getCurrentActivity().getApplication());
+        if (isInitialised) {
+            promise.resolve(true);
+        } else {
+            KAAS.Config config = new KAAS.Config(this.getCurrentActivity().getApplication());
 
-        if (allowDebugMode) {
-            config.allowDebugMode();
-        }
-        if (allowRooted) {
-            config.allowRooted();
-        }
-        if (allowRunOnSimulator) {
-            config.allowRunOnSimulator();
-        }
-        if (enableDebugLog) {
-            config.setLogger(new Plop.Tree(Plop.Level.VERBOSE, new CustomLogger(getReactApplicationContext()), 3));
-        }
+            if (allowDebugMode) {
+                config.allowDebugMode();
+            }
+            if (allowRooted) {
+                config.allowRooted();
+            }
+            if (allowRunOnSimulator) {
+                config.allowRunOnSimulator();
+            }
+            if (enableDebugLog) {
+                customLogger = new CustomLogger(getReactApplicationContext());
+                config.setLogger(new Plop.Tree(Plop.Level.VERBOSE, customLogger, 3));
+            }
 
-        KAAS.shared.init(config);
-        promise.resolve(true);
+            KAAS.shared.init(config);
+            isInitialised = true;
+            promise.resolve(true);
+        }
     }
 
     @ReactMethod
@@ -113,7 +141,8 @@ public class KaaSModule extends ReactContextBaseJavaModule {
                 .rx()
                 .subscribe((virtualKey, throwable) -> {
                     if (virtualKey != null) {
-                        promise.resolve(virtualKey);
+                        String JSONObject = gson.toJson(virtualKey);
+                        promise.resolve(JSONObject);
                     } else {
                         promise.reject(throwable);
                     }
@@ -126,9 +155,18 @@ public class KaaSModule extends ReactContextBaseJavaModule {
                 .rx()
                 .subscribe((virtualKey, throwable) -> {
                     if (virtualKey != null) {
-                        promise.resolve(virtualKey);
+                        String JSONObject = gson.toJson(virtualKey);
+                        promise.resolve(JSONObject);
                     } else {
-                        promise.reject(throwable);
+                        WritableNativeMap writableNativeMap = new WritableNativeMap();
+                        if (throwable instanceof CompositeException) {
+                            writableNativeMap.putString("error_name", ((CompositeException) throwable).getExceptions().get(((CompositeException) throwable).size()-1).getClass().getSimpleName());
+                            writableNativeMap.putString("error_message", ((CompositeException) throwable).getExceptions().get(((CompositeException) throwable).size()-1).getMessage());
+                        } else {
+                            writableNativeMap.putString("error_name", throwable.getClass().getSimpleName());
+                            writableNativeMap.putString("error_message", throwable.getMessage());
+                        }
+                        promise.reject(throwable, writableNativeMap);
                     }
                 });
     }
@@ -136,8 +174,17 @@ public class KaaSModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getVirtualKeys(Promise promise) {
         Disposable disposable = KAAS.shared.getVirtualKeys()
-                .rx()
-                .subscribe(promise::resolve, promise::reject);
+                .rx().subscribe(virtualKeys -> {
+                    String JSONObject = gson.toJson(virtualKeys);
+                    // Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
+                    // String prettyJson = prettyGson.toJson(crunchify);
+                    promise.resolve(JSONObject);
+                }, throwable -> {
+                    WritableNativeMap writableNativeMap = new WritableNativeMap();
+                    writableNativeMap.putString("error_name", throwable.getClass().getSimpleName());
+                    writableNativeMap.putString("error_message", throwable.getMessage());
+                    promise.reject(throwable, writableNativeMap);
+                });
     }
 
     @ReactMethod
@@ -157,7 +204,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
     public void connect(int timeout, boolean disableTimeSync, Promise promise) {
         Disposable disposable = KAAS.shared.connect(timeout, disableTimeSync)
                 .rx()
-                .subscribe(promise::resolve, promise::reject);
+                .subscribe(connectionResult -> promise.resolve(connectionResult.isSuccessful()), throwable -> {
+                    WritableNativeMap writableNativeMap = new WritableNativeMap();
+                    writableNativeMap.putString("error_name", throwable.getClass().getSimpleName());
+                    writableNativeMap.putString("error_message", throwable.getMessage());
+                    promise.reject(throwable, writableNativeMap);
+                });
     }
 
     @ReactMethod

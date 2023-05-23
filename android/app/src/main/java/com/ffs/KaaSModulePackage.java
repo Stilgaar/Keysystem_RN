@@ -21,7 +21,7 @@ public class KaaSModulePackage implements ReactPackage {
             ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
 
-        modules.add(new KaaSModule(reactContext));
+        modules.add(KaaSModule.getInstance(reactContext));
 
         return modules;
     }
