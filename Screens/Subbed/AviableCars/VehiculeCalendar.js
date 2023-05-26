@@ -1,208 +1,212 @@
-import React from "react";
+import {Dimensions, Modal, ScrollView, Text, View} from 'react-native';
+import {eachDayOfInterval, format} from 'date-fns';
 
-import { DispatchContext } from "../../../Context/StateContext";
-import { getSelectedVehiculeReseravation } from "../../../Reducer/GlobalReducer/globalDispatch";
-
-import {
-    Calendar,
-    //CalendarList, Agenda 
-} from 'react-native-calendars';
-
-import tinycolor from "tinycolor2";
-
-import { eachDayOfInterval, format } from 'date-fns';
-
-import { View, Text, ScrollView, Modal, Dimensions } from "react-native";
-
-import StyledText from "../../../Shared/StyledText";
-
-import vehicules from "../../../JSON/CAR_MOCK_DATA.json"
-import { generalStyles } from "../../../Shared/css";
-import { GradientButton } from "../../../comps";
+import BottomBorderContainer from '../../../Shared/BottomBorderContainer';
+import {Calendar} from 'react-native-calendars';
+import {DispatchContext} from '../../../Context/StateContext';
+import {GradientButton} from '../../../comps';
+import React from 'react';
+import Spacer from '../../../Shared/Spacer';
+import StyledText from '../../../Shared/StyledText';
+import TopBorderContainer from '../../../Shared/TopBorderContainer';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {generalStyles} from '../../../Shared/css';
+import {getSelectedVehiculeReseravation} from '../../../Reducer/GlobalReducer/globalDispatch';
+import tinycolor from 'tinycolor2';
+import vehicules from '../../../JSON/CAR_MOCK_DATA.json';
 
 // Calendrier : listes des véhicules disponibles / jours
 
-export default function VehiculeCalendar({ navigation, route }) {
+export default function VehiculeCalendar({navigation, route}) {
+  ////////////////
+  // Route  & initialParmas props
+  ////////////////
 
-    ////////////////
-    // Route  & initialParmas props
-    ////////////////
+  const {vehiculeGUID} = route.params;
 
-    const { vehiculeGUID } = route.params
+  ////////////////
+  // Global Function
+  ////////////////
 
-    ////////////////
-    // Global Function
-    ////////////////
+  const {globalDispatch} = React.useContext(DispatchContext);
 
-    const { globalDispatch } = React.useContext(DispatchContext)
+  ////////////////
+  // States for the functions
+  ////////////////
 
-    ////////////////
-    // States for the functions
-    ////////////////
+  const [vehicule, setVehicule] = React.useState();
+  const [selectedDay, setSelectedDay] = React.useState();
+  const [period, setPeriod] = React.useState({});
 
-    const [vehicule, setVehicule] = React.useState()
-    const [selectedDay, setSelectedDay] = React.useState()
-    const [period, setPeriod] = React.useState({})
+  const windowWidth = Dimensions.get('window').width;
 
-    const windowWidth = Dimensions.get('window').width;
+  ////////////////
+  // ONLOAD
+  ////////////////
 
-    ////////////////
-    // ONLOAD
-    ////////////////
+  React.useEffect(() => {
+    // that will be a fetch soon
+    const selectedVehicule = vehicules.filter(
+      vechiule => vechiule.vehiculeGUID === vehiculeGUID,
+    );
 
-    React.useEffect(() => {
+    // stil need to put it there
+    setVehicule(...selectedVehicule);
+  }, []);
 
-        // that will be a fetch soon
-        const selectedVehicule = vehicules.filter(vechiule => vechiule.vehiculeGUID === vehiculeGUID)
+  ////////////////
+  // WHEN VEHICULES ARES SET
+  ////////////////
 
-        // stil need to put it there
-        setVehicule(...selectedVehicule)
+  React.useEffect(() => {
+    // To generate periods
+    const periods = {};
+    // To generate colors for each name
+    const fullNameColors = {};
 
-    }, [])
-
-    ////////////////
-    // WHEN VEHICULES ARES SET
-    ////////////////
-
-    React.useEffect(() => {
-
-        // To generate periods
-        const periods = {};
-        // To generate colors for each name
-        const fullNameColors = {};
-
-        if (vehicule && vehicule.vehiculeReservations) {
-            // loops
-            vehicule?.vehiculeReservations.forEach(reservation => {
-
-                // for color generations
-                const { fullName } = reservation;
-                if (!fullNameColors[fullName]) {
-                    fullNameColors[fullName] = tinycolor.random().saturate(25).lighten(10).toString({ format: 'hex' });
-                }
-
-                // days formatting (for lecture)
-                const startDate = new Date(reservation.reseravationStart.split('/').reverse().join('-'));
-                const endDate = new Date(reservation.reservationEnd.split('/').reverse().join('-'));
-                const days = eachDayOfInterval({ start: startDate, end: endDate });
-
-                // days mapping
-                days.forEach(date => {
-                    // days formatting
-                    const day = format(date, 'yyyy-MM-dd');
-
-                    // Still checks if its empty, so it returns an empty stuff.
-                    if (!periods[day]) {
-                        periods[day] = {
-                            periods: []
-                        }
-                    }
-
-                    // get the day (for the array name)
-                    const period = periods[day];
-                    // to get the true or false states
-                    const startingDay = date.getTime() === startDate.getTime();
-                    // to get the true or false states
-                    const endingDay = date.getTime() === endDate.getTime();
-                    // get the right colors
-                    const color = fullNameColors[reservation.fullName];
-
-                    // push'em in array
-                    period.periods.push({
-                        startingDay,
-                        endingDay,
-                        color: color,
-                        fullName: fullName
-                    });
-                });
-            });
-
-            // in the useState now !
-            setPeriod(periods)
+    if (vehicule && vehicule.vehiculeReservations) {
+      // loops
+      vehicule?.vehiculeReservations.forEach(reservation => {
+        // for color generations
+        const {fullName} = reservation;
+        if (!fullNameColors[fullName]) {
+          fullNameColors[fullName] = tinycolor
+            .random()
+            .saturate(25)
+            .lighten(10)
+            .toString({format: 'hex'});
         }
 
-    }, [vehicule])
+        // days formatting (for lecture)
+        const startDate = new Date(
+          reservation.reseravationStart.split('/').reverse().join('-'),
+        );
+        const endDate = new Date(
+          reservation.reservationEnd.split('/').reverse().join('-'),
+        );
+        const days = eachDayOfInterval({start: startDate, end: endDate});
 
-    ////////////////
-    // JSX
-    ////////////////
+        // days mapping
+        days.forEach(date => {
+          // days formatting
+          const day = format(date, 'yyyy-MM-dd');
 
-    return (
+          // Still checks if its empty, so it returns an empty stuff.
+          if (!periods[day]) {
+            periods[day] = {
+              periods: [],
+            };
+          }
 
-        <View style={[generalStyles.container]}>
+          // get the day (for the array name)
+          const period = periods[day];
+          // to get the true or false states
+          const startingDay = date.getTime() === startDate.getTime();
+          // to get the true or false states
+          const endingDay = date.getTime() === endDate.getTime();
+          // get the right colors
+          const color = fullNameColors[reservation.fullName];
 
-            <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
+          // push'em in array
+          period.periods.push({
+            startingDay,
+            endingDay,
+            color: color,
+            fullName: fullName,
+          });
+        });
+      });
 
-                <View style={[generalStyles.colorContainer, generalStyles.globalShadow, { marginTop: 10 }]}>
+      // in the useState now !
+      setPeriod(periods);
+    }
+  }, [vehicule]);
 
-                    <Text style={generalStyles.title}>Disponibilités</Text>
+  ////////////////
+  // JSX
+  ////////////////
 
-                    {period &&
+  return (
+    <View style={[generalStyles.container, {paddingVertical: 10}]}>
+      <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
+        <TouchableOpacity
+          activeOpacity={1}
+          style={[generalStyles.globalShadow]}>
+          <TopBorderContainer>
+            <Text style={generalStyles.title}>Disponibilités</Text>
+          </TopBorderContainer>
+          <BottomBorderContainer>
+            {period && (
+              <Calendar
+                onDayPress={day => setSelectedDay(day)}
+                markingType="multi-period"
+                markedDates={period}
+              />
+            )}
+          </BottomBorderContainer>
+        </TouchableOpacity>
 
-                        <Calendar
-                            onDayPress={day => setSelectedDay(day)}
-                            markingType="multi-period"
-                            markedDates={period}
-                        />
-                    }
+        <Modal visible={!!selectedDay} transparent={true} animation="slide">
+          <View style={generalStyles.modalContainer}>
+            <View style={generalStyles.modalContent}>
+              {period?.[`${selectedDay?.dateString?.toString()}`]?.['periods']
+                .length > 0 ? (
+                <>
+                  <StyledText style={{margin: 10}}>
+                    Réservations ce jour {selectedDay.dateString.toString()}
+                  </StyledText>
 
-                </View>
+                  {period[`${selectedDay?.dateString?.toString()}`][
+                    'periods'
+                  ].map((thisDay, index) => (
+                    <View
+                      key={index}
+                      style={[
+                        generalStyles.colorContainer,
+                        {
+                          width: windowWidth - 90,
+                          padding: 10,
+                          flexDirection: 'row',
+                        },
+                      ]}>
+                      <View
+                        style={[
+                          generalStyles.badge,
+                          {margin: 5, backgroundColor: thisDay.color},
+                        ]}
+                      />
 
-                <Modal visible={!!selectedDay} transparent={true} animation="slide" >
-
-                    <View style={generalStyles.modalContainer}>
-
-                        <View style={generalStyles.modalContent}>
-
-                            {period?.[`${selectedDay?.dateString?.toString()}`]?.["periods"].length > 0 ?
-
-                                <>
-                                    <StyledText style={{ margin: 10 }}>Reservations ce jour {selectedDay.dateString.toString()}</StyledText>
-
-                                    {period[`${selectedDay?.dateString?.toString()}`]["periods"]
-                                        .map((thisDay, index) => (
-
-                                            <View key={index} style={[generalStyles.colorContainer, { width: windowWidth - 90, padding: 10, flexDirection: "row" }]}>
-
-                                                <View style={[generalStyles.badge, { margin: 5, backgroundColor: thisDay.color }]} />
-
-                                                <StyledText style={{ margin: 5 }}> Reservé par : {thisDay.fullName} </StyledText>
-
-                                            </View>
-                                        ))
-                                    }
-
-                                </>
-
-                                :
-
-                                <>
-                                    <View style={[generalStyles.colorContainer]}>
-
-                                        <StyledText>Pas de reservations ce jour là</StyledText>
-
-                                    </View>
-
-                                </>
-
-                            }
-
-                            <GradientButton handlePress={() => setSelectedDay()} text={`ok`} />
-
-                        </View>
-
+                      <StyledText style={{margin: 5}}>
+                        {' '}
+                        Réservé par : {thisDay.fullName}{' '}
+                      </StyledText>
                     </View>
+                  ))}
+                </>
+              ) : (
+                <>
+                  <View style={[generalStyles.colorContainer]}>
+                    <StyledText>Pas de réservation ce jour-là</StyledText>
+                  </View>
+                </>
+              )}
+              <Spacer size={10} />
+              <GradientButton
+                handlePress={() => setSelectedDay()}
+                text={`ok`}
+              />
+            </View>
+          </View>
+        </Modal>
+      </ScrollView>
 
-                </Modal >
-
-            </ScrollView >
-
-            <GradientButton text={`Reserver`}
-                handlePress={() => {
-                    globalDispatch(getSelectedVehiculeReseravation(vehicule))
-                    navigation.navigate("MakeReservation", { vehicule })
-                }} />
-
-        </View>
-    );
+      <GradientButton
+        text={`Réserver`}
+        handlePress={() => {
+          globalDispatch(getSelectedVehiculeReseravation(vehicule));
+          navigation.navigate('MakeReservation', {vehicule});
+        }}
+      />
+    </View>
+  );
 }

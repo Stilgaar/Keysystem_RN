@@ -55,12 +55,13 @@
 	<array>
 		<string>BrandonBold.otf</string>
 		<string>BrandonLight.otf</string>
+		<string>Montserrat-Regular.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
-<array>
-  <string>remote-notification</string>
-</array>
-<key>NSUserNotificationAlertStyle</key>
-<string>alert</string>
+	<array>
+		<string>remote-notification</string>
+	</array>
+	<key>NSUserNotificationAlertStyle</key>
+	<string>alert</string>
 </dict>
 </plist>

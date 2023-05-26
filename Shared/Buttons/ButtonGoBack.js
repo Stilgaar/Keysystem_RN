@@ -1,25 +1,21 @@
-import React from "react";
+import {Dimensions, TouchableOpacity, View} from 'react-native';
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { TouchableOpacity, View, Dimensions } from 'react-native';
-import { generalStyles } from '../css';
+import React from 'react';
+import {generalStyles} from '../css';
 
-function ButtonGoBack({ onPress }) {
+function ButtonGoBack({onPress}) {
+  const wwidth = Dimensions.get('window').width;
 
-    const wwidth = Dimensions.get("window").width
-
-    return (
-
-        <TouchableOpacity style={{ position: "absolute", zIndex: 500 }} onPress={onPress}>
-
-            <View style={[generalStyles.smallcolorContainer, generalStyles.globalShadow]}>
-
-                <Ionicons name="arrow-back-circle" size={40} color="black" />
-
-            </View>
-
-        </TouchableOpacity>
-
-    );
+  return (
+    <TouchableOpacity
+      style={{position: 'absolute', zIndex: 500}}
+      onPress={onPress}>
+      <View style={{paddingLeft: 10}}>
+        <Ionicons name="arrow-back-circle" size={40} color="black" />
+      </View>
+    </TouchableOpacity>
+  );
 }
 
 export default ButtonGoBack;

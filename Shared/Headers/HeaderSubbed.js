@@ -1,46 +1,37 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import {StyleSheet, Text, View} from 'react-native';
+import {blackA, generalStyles} from '../css';
 
-import { blackA, generalStyles } from "../css";
-
-import { ButtonGoBack } from "../../comps"
+import {ButtonGoBack} from '../../comps';
+import React from 'react';
 
 export default function HeaderUnsub({
-    navigation, // if navigation needed incomment here  (for contact or RGPD later WE'LL SEEEE ?) 
-    title,
-    initial
+  navigation, // if navigation needed incomment here  (for contact or RGPD later WE'LL SEEEE ?)
+  title,
+  initial,
 }) {
+  return (
+    <View style={[styles.header, {}]}>
+      {!initial && <ButtonGoBack onPress={() => navigation.goBack()} />}
 
-    return (
-
-        <View style={[styles.header]}>
-
-            {!initial &&
-
-                <ButtonGoBack onPress={() => navigation.goBack()} />
-
-            }
-
-            <Text style={styles.headerText}>{title}</Text>
-
-        </View>
-    )
+      <Text style={styles.headerText}>{title}</Text>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    header: {
-        height: 60,
-        backgroundColor: "white",
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexDirection: "row",
-        paddingHorizontal: 20
-    },
-    headerText: {
-        flex: 1,
-        color: blackA,
-        fontSize: 20,
-        fontWeight: 'bold',
-        textAlign: "center"
-    },
+  header: {
+    height: 60,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+  },
+  headerText: {
+    flex: 1,
+    color: blackA,
+    fontSize: 20,
+    textAlign: 'center',
+    fontFamily: 'BrandonBold',
+  },
 });

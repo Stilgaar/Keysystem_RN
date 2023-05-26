@@ -1,291 +1,285 @@
-import { StyleSheet, Dimensions } from "react-native";
+import {Dimensions, StyleSheet} from 'react-native';
 
 // export const primaryColor2 = "#94ecd3"
-export const primaryColor2 = "#11c9d9"
-export const blackA = "#171919"
+export const primaryColor2 = '#11c9d9';
+export const blackA = '#171919';
 
-export const blue = "#4daafe"
+export const blue = '#4daafe';
 // export const greenblue = '#94ecd3'
-export const greenblue = "#2cb0e1"
-export const greyish = "#efefef"
-export const darkgreyish = "#d6d6d6"
+export const greenblue = '#2cb0e1';
+export const greyish = '#efefef';
+export const darkgreyish = '#d6d6d6';
 
-export const flatgreen = [primaryColor2, primaryColor2]
+export const flatgreen = [primaryColor2, primaryColor2];
 
-export const gradientColor = ['#0d7463', '#3ac1b1', '#94ecd3', '#128c7e']
-export const greyGradientColor = ['#e5e5e5', '#e5e5e5', '#e5e5e5']
+export const gradientColor = ['#0d7463', '#3ac1b1', '#94ecd3', '#128c7e'];
+export const greyGradientColor = ['#e5e5e5', '#e5e5e5', '#e5e5e5'];
 
 // OLD : ['#94ecd3', '#3ac1b1', '#128c7e']
 // NICE : ['#0d7463', '#3ac1b1', '#94ecd3', '#128c7e']
-const swidth = Dimensions.get('screen').width
-const sheight = Dimensions.get('screen').height
+const swidth = Dimensions.get('screen').width;
+const sheight = Dimensions.get('screen').height;
 
 export const generalStyles = StyleSheet.create({
+  ////////////////
+  // REGULAR CONTAINERS \\
+  ////////////////
 
-    ////////////////
-    // REGULAR CONTAINERS \\ 
-    ////////////////
+  container: {
+    flex: 1,
+    backgroundColor: darkgreyish,
+  },
+  container2: {
+    flex: 2,
+    backgroundColor: '#efefef',
+  },
+  container3: {
+    flex: 3,
+    backgroundColor: '#efefef',
+  },
+  colorContainer: {
+    padding: 20,
+    marginTop: 2,
+    marginBottom: 5,
+    marginLeft: 10,
+    marginRight: 10,
+    borderRadius: 10,
+    backgroundColor: darkgreyish,
+    justifyContent: 'center',
+  },
+  topBorderContainer: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 10,
+    marginLeft: 5,
+    marginRight: 5,
+    borderTopEndRadius: 10,
+    borderTopStartRadius: 10,
+  },
+  bottomBorderContainer: {
+    padding: 10,
+    marginLeft: 5,
+    marginRight: 5,
+    borderBottomEndRadius: 10,
+    borderBottomStartRadius: 10,
+  },
+  smallcolorContainer: {
+    backgroundColor: '#efefef',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 25,
+    padding: 3,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 5,
+  },
+  scrollViewStyle: {
+    flexGrow: 1,
+    width: '100%',
+    marginBottom: 65,
+    backgroundColor: darkgreyish,
+  },
 
-    container: {
-        flex: 1,
-        backgroundColor: darkgreyish,
-    },
-    container2: {
-        flex: 2,
-        backgroundColor: "#efefef",
-    },
-    container3: {
-        flex: 3,
-        backgroundColor: "#efefef",
-    },
-    colorContainer: {
-        padding: 20,
-        marginTop: 2,
-        marginBottom: 5,
-        marginLeft: 10,
-        marginRight: 10,
-        borderRadius: 25,
-        backgroundColor: darkgreyish,
-        justifyContent: 'center',
-    },
-    topBorderContainer: {
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: 10,
-        marginLeft: 5,
-        marginRight: 5,
-        borderTopEndRadius: 15,
-        borderTopStartRadius: 15,
-    },
-    bottomBorderContainer: {
-        padding: 10,
-        marginLeft: 5,
-        marginRight: 5,
-        borderBottomEndRadius: 15,
-        borderBottomStartRadius: 15
-    },
-    smallcolorContainer: {
-        backgroundColor: "#efefef",
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 25,
-        padding: 3,
-        marginLeft: 10,
-        marginRight: 10,
-        marginBottom: 5,
-    },
-    scrollViewStyle: {
-        flexGrow: 1,
-        width: '100%',
-        marginBottom: 65,
-        backgroundColor: darkgreyish,
-    },
+  ////////////////
+  /// TEXT
+  ////////////////
 
-    ////////////////
-    /// TEXT  
-    ////////////////
+  title: {
+    fontSize: 20,
+    marginLeft: 10,
+    marginTop: 10,
+    marginBottom: 5,
+    color: blackA,
+    fontFamily: 'BrandonBold',
+  },
+  titleInfo: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    padding: 6,
+    color: blackA,
+  },
+  textInfoStyles: {
+    fontFamily: 'BrandonBold',
+    fontSize: 15,
+    marginTop: 2,
+  },
+  textDataStyles: {
+    fontFamily: 'BrandonBold',
+    fontSize: 15,
+    marginTop: 2,
+    color: 'grey',
+  },
+  textCenter: {
+    textAlign: 'center',
+    fontFamily: 'BrandonBold',
+  },
 
-    title: {
-        fontSize: 20,
-        marginLeft: 10,
-        marginTop: 10,
-        marginBottom: 5,
-        color: blackA,
-        fontFamily: "BrandonBold",
-    },
-    titleInfo: {
-        fontSize: 17,
-        fontWeight: "bold",
-        padding: 6,
-        color: blackA,
-    },
-    textInfoStyles: {
-        fontFamily: "brandonBold",
-        fontWeight: "bold",
-        fontSize: 15,
-        marginTop: 2,
-    },
-    textDataStyles: {
-        fontFamily: "brandonBold",
-        fontWeight: "bold",
-        fontSize: 15,
-        marginTop: 2,
-        color: "grey",
-    },
-    textCenter: {
-        textAlign: "center",
-        fontFamily: "BrandonBold",
-    },
+  ////////////////
+  /// INPUTS
+  ////////////////
 
-    ////////////////
-    /// INPUTS  
-    ////////////////
+  inputs: {
+    height: 40,
+    width: Dimensions.get('screen').width - 110,
+    margin: 7,
+    padding: 7,
+    borderRadius: 3,
+    borderWidth: 0.5,
+    color: blackA,
+    backgroundColor: darkgreyish,
+  },
 
-    inputs: {
-        height: 40,
-        width: Dimensions.get('screen').width - 110,
-        margin: 7,
-        padding: 7,
-        borderRadius: 3,
-        borderWidth: 0.5,
-        color: blackA,
-        backgroundColor: darkgreyish,
-    },
+  ////////////////
+  /// ABOUT COLORS
+  ////////////////
 
-    //////////////// 
-    /// ABOUT COLORS  
-    ////////////////
+  error: {
+    color: 'crimson',
+  },
 
-    error: {
-        color: "crimson",
-    },
+  ////////////////
+  /// FLEX
+  ////////////////
 
-    ////////////////
-    /// FLEX  
-    //////////////// 
+  fdr: {
+    flexDirection: 'row',
+  },
+  fdc: {
+    flexDirection: 'column',
+  },
+  tCenter: {
+    textAlign: 'center',
+  },
+  center: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  spbetween: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 
-    fdr: {
-        flexDirection: "row",
-    },
-    fdc: {
-        flexDirection: "column",
-    },
-    tCenter: {
-        textAlign: "center",
-    },
-    center: {
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    spbetween: {
-        flexDirection: "row",
-        justifyContent: "space-between"
-    },
+  ////////////////
+  /// ICON POSITIONNING
+  ////////////////
 
-    ////////////////
-    /// ICON POSITIONNING 
-    ////////////////
+  iconEye: {
+    // Icon from the Login/Signup Screens
+    position: 'absolute',
+    top: 13,
+    zIndex: 9999,
+  },
 
-    iconEye: { // Icon from the Login/Signup Screens
-        position: "absolute",
-        top: 13,
-        zIndex: 9999,
-    },
+  ////////////////
+  /// FONTS
+  ////////////////
 
-    ////////////////
-    /// FONTS  
-    ////////////////
+  brandonBold: {
+    fontFamily: 'brandonBold',
+  },
 
-    brandonBold: {
-        fontFamily: "brandonBold"
-    },
+  ////////////////
+  /// SHADOOZZ
+  ////////////////
 
-    ////////////////
-    /// SHADOOZZ 
-    ////////////////
+  globalShadow: {
+    shadowOffset: {width: 0, height: 2},
+    shadowColor: '#000',
+    shadowOpacity: 1,
+    shadowRadius: 2,
+    elevation: 7,
+  },
 
-    globalShadow:
-    {
-        shadowOffset: { width: 0, height: 2 },
-        shadowColor: '#000',
-        shadowOpacity: 1,
-        shadowRadius: 2,
-        elevation: 7,
-    },
+  ////////////////
+  /// Button Stuff
+  ////////////////
 
-    ////////////////
-    /// Button Stuff
-    ////////////////
+  buttonContainer: {
+    position: 'absolute',
+    alignSelf: 'center',
+    flexDirection: 'row', // set the flexDirection to row
+    justifyContent: 'center', // set the justifyContent to space-betweenz
+    bottom: 5, // set the bottom to 0
+    left: 0, // set the left to 0
+    right: 0, // set the right to 0
+  },
 
-    buttonContainer: {
-        position: "absolute",
-        alignSelf: "center",
-        flexDirection: 'row', // set the flexDirection to row
-        justifyContent: 'center', // set the justifyContent to space-betweenz
-        bottom: 5, // set the bottom to 0
-        left: 0, // set the left to 0
-        right: 0, // set the right to 0
-    },
+  buttonTopContainer: {
+    position: 'absolute',
+    alignSelf: 'center',
+    flexDirection: 'row', // set the flexDirection to row
+    justifyContent: 'center', // set the justifyContent to space-between
+    top: 1, // set the bottom to 0
+    left: 0, // set the left to 0
+    right: 0, // set the right to 0
+  },
 
-    buttonTopContainer: {
-        position: "absolute",
-        alignSelf: "center",
-        flexDirection: 'row', // set the flexDirection to row
-        justifyContent: 'center', // set the justifyContent to space-between
-        top: 1, // set the bottom to 0
-        left: 0, // set the left to 0
-        right: 0, // set the right to 0
-    },
+  buttonSeparated: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft: 5,
+    marginRight: 5,
+  },
 
+  ////////////////
+  /// For the textAera Stuff thing (i'm tired)
+  ////////////////
 
+  textAeraContainer: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    backgroundColor: '#efefef',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginBottom: 10,
+  },
+  textAeraContentContainer: {
+    borderBottomWidth: 0,
+  },
 
-    buttonSeparated: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        marginLeft: 5,
-        marginRight: 5
-    },
+  ////////////////
+  /// For absolute overlay (like in <DamageShema />)
+  ////////////////
 
-    ////////////////
-    /// For the textAera Stuff thing (i'm tired)
-    ////////////////
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
 
-    textAeraContainer: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-        backgroundColor: '#efefef',
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        marginBottom: 10,
-    },
-    textAeraContentContainer: {
-        borderBottomWidth: 0,
-    },
+  mbgeneral65: {
+    marginBottom: 65,
+  },
 
-    ////////////////
-    /// For absolute overlay (like in <DamageShema />)
-    ////////////////
+  marginOverall: {
+    marginTop: 30,
+  },
 
-    overlay: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-    },
+  ////////////////
+  /// BADGER BADGER BADGER BADGER BADGER MUSHROOM MUSHROOM
+  ////////////////
 
+  badge: {
+    padding: 10,
+    borderRadius: 50,
+  },
 
-    mbgeneral65: {
-        marginBottom: 65
-    },
+  ////////////////
+  /// MODAL STUFF
+  ////////////////
 
-    marginOverall: {
-        marginTop: 30
-    },
-
-    ////////////////
-    /// BADGER BADGER BADGER BADGER BADGER MUSHROOM MUSHROOM
-    ////////////////
-
-    badge: {
-        padding: 10,
-        borderRadius: 50,
-    },
-
-    ////////////////
-    /// MODAL STUFF
-    ////////////////
-
-    modalContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalContent: {
-        backgroundColor: 'white',
-        padding: 20,
-        borderRadius: 10,
-    },
+  modalContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+  },
 });

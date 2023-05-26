@@ -1,22 +1,31 @@
-import React from 'react';
-import { View, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
-
-import { Input } from 'react-native-elements';
-import { Formik } from 'formik';
 import * as Yup from 'yup';
-// Icons Lib
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import { generalStyles } from '../../Shared/css';
+import { KeyboardAvoidingView, TouchableOpacity, View } from 'react-native';
+
+import { Formik } from 'formik';
 import GradientButton from '../../Shared/Buttons/GradientButton';
-
+import { Input } from 'react-native-elements';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import React from 'react';
 import { emailRegex } from '../../Shared/regex';
-
+import fakePerson from "../../JSON/FAKEPERSON.json"
+import { generalStyles } from '../../Shared/css';
 import { loginDispatch } from '../../Reducer/GlobalReducer/globalDispatch';
-
 import useGlobalContext from "../../Hooks/useGlobalContext"
 
-import fakePerson from "../../JSON/FAKEPERSON.json"
+// Icons Lib
+
+
+
+
+
+
+
+
+
+
+
+
 
 const Login = ({ navigation }) => {
 
