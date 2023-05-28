@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {generalStyles, primaryColor2} from '../css';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { generalStyles, primaryColor2 } from '../css';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import LinearGradient from 'react-native-linear-gradient';
@@ -28,7 +28,9 @@ function GradientButton({
   borderBottomRightRadius = 50,
   borderBottomLeftRadius = 50,
 }) {
+
   return (
+
     <TouchableOpacity
       disabled={disabled}
       onPress={handlePress}
@@ -41,6 +43,7 @@ function GradientButton({
           alignSelf,
         },
       ]}>
+
       <LinearGradient
         colors={[colorStart, colorEnd]}
         style={[
@@ -53,8 +56,9 @@ function GradientButton({
             borderBottomLeftRadius,
           },
         ]}
-        start={{x: 0, y: 0}}
-        end={{x: 0, y: 1}}>
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0, y: 1 }}>
+
         <View
           style={{
             padding: buttonPadding,
@@ -62,19 +66,25 @@ function GradientButton({
             flexDirection: 'row',
             justifyContent: 'center',
           }}>
+
           {iconName ? (
             <FontAwesome5
-              style={[{paddingRight: 10}]}
+              style={[{ paddingRight: 10 }]}
               name={iconName}
               size={iconSize}
               color={iconColor}
             />
+
           ) : null}
+
           {text && <StyledText style={styles.buttonText}>{text}</StyledText>}
 
           {children && <View style={generalStyles.center}>{children}</View>}
+
         </View>
+
       </LinearGradient>
+
     </TouchableOpacity>
   );
 }

@@ -28,13 +28,13 @@ allprojects {
         google()
         mavenCentral()
 
-        // maven {
-        //     url "https://continentalits.jfrog.io/continentalits/android-kaas"
-        //     credentials {
-        //         username 'it-consultant'
-        //         password 'AqT98k3+-xROvh$s'
-        //     }         
-        // }
+        maven {
+            url "https://continentalits.jfrog.io/continentalits/android-kaas"
+            credentials {
+                username 'it-consultant'
+                password 'AqT98k3+-xROvh$s'
+            }         
+        }
     }
 
     configurations.all {

@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet} from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 // export const primaryColor2 = "#94ecd3"
 export const primaryColor2 = '#11c9d9';
@@ -17,8 +17,8 @@ export const greyGradientColor = ['#e5e5e5', '#e5e5e5', '#e5e5e5'];
 
 // OLD : ['#94ecd3', '#3ac1b1', '#128c7e']
 // NICE : ['#0d7463', '#3ac1b1', '#94ecd3', '#128c7e']
-const swidth = Dimensions.get('screen').width;
-const sheight = Dimensions.get('screen').height;
+//const swidth = Dimensions.get('screen').width;
+//const sheight = Dimensions.get('screen').height;
 
 export const generalStyles = StyleSheet.create({
   ////////////////
@@ -183,7 +183,7 @@ export const generalStyles = StyleSheet.create({
   ////////////////
 
   globalShadow: {
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowColor: '#000',
     shadowOpacity: 1,
     shadowRadius: 2,
