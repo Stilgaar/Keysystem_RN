@@ -8,7 +8,7 @@ export const blue = '#4daafe';
 // export const greenblue = '#94ecd3'
 export const greenblue = '#2cb0e1';
 export const greyish = '#efefef';
-export const darkgreyish = '#d6d6d6';
+export const darkgreyish = '#f5f9fd';
 
 export const flatgreen = [primaryColor2, primaryColor2];
 

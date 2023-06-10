@@ -27,8 +27,8 @@ export const vehiculeKmArray = [
 export const virtualKeysAllVehicules = [
     {
         text: "N# clef actvives",
-        key: "virtualKeyGUID",
-        key1: "vehiculeGUID"
+        key: "virtualKeyGuid",
+        key1: "vehiculeGuid"
     },
     {
         text: "Clef(s) Active(s) sur véhicule",

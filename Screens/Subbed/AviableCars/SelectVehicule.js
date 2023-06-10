@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  RefreshControl
 } from 'react-native';
 
 import {DispatchContext} from '../../../Context/StateContext';
@@ -17,7 +18,10 @@ import VehiculeSelect from './VehiculeSelect';
 import {generalStyles} from '../../../Shared/css';
 import {getSelectedVehiculeReseravation} from '../../../Reducer/GlobalReducer/globalDispatch';
 import useGlobalContext from '../../../Hooks/useGlobalContext';
-import vehiculeList from '../../../JSON/CAR_MOCK_DATA.json';
+import { StateContext } from '../../../Context/StateContext';
+import { KaaS } from '../../../ContinentalUtilities/KaasMethods';
+
+// import vehicleList from '../../../JSON/CAR_MOCK_DATA.json';
 
 // Sélectionner un véhicule et voir toutes ses informations
 // Demander la reservation d'un véhicule
@@ -27,33 +31,88 @@ import vehiculeList from '../../../JSON/CAR_MOCK_DATA.json';
 // import useFetch from "../../../Hooks/useFetch"
 
 function SelectVehicle({navigation}) {
+  
+  const [errorLog, setErrorLog] = React.useState("");
   const [selectedVehicule, setSelectedVehicule] = React.useState({});
   const [searchVechicule, setSearchVehicule] = React.useState();
   const [searchModal, setSearchModal] = React.useState(false);
-
+  const [loading, setLoading] = React.useState(true);
+  const [refreshing, setRefreshing] = React.useState(true);
+  
   const [filterType, setFilterType] = React.useState('all');
-
+  
   const {globalDispatch} = React.useContext(DispatchContext);
+  const {globalState} = React.useContext(StateContext);
   const {userState} = useGlobalContext();
 
-  // const { data: vehiculeList } = useFetch(`${process.env.API_URL}resetapiroad`)
+  // const { data: vehicleList } = useFetch(`${process.env.API_URL}resetapiroad`)
+
+  const handleRefreshCompanyVehicles = async () => {
+    try {
+      console.log("UserSate Vehicle Company", userState.user)
+      let fetchCompanyVehicles = await fetch(`${process.env.API_URL}/api/Company/${userState.user?.[0].companyGuid}/vehicles`,{
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }).catch((error) => setErrorLog(error.errorMessage));
+
+      if(fetchCompanyVehicles.ok) {
+        const fetchCompanyVehiclesData = await fetchCompanyVehicles.json()
+        globalState.companyVehicles = fetchCompanyVehiclesData;
+        console.log("Company Vehicles STATE: ", globalState.companyVehicles)
+        console.log("Company Vehicles STATE LENGTH: ", globalState.companyVehicles.length)
+      }
+
+      setRefreshing(false);
+    } catch (error) {
+      // Handle any errors that occurred during the fetch request
+      console.error(error);
+      // Set an error log if needed
+      setErrorLog(error.errorMessage);
+    }
+  }
+
+  React.useEffect(() => {
+    setLoading(true);
+    setTimeout(
+      async () => {
+        await handleRefreshCompanyVehicles();
+        setLoading(false);
+      },
+
+      10,
+    );
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={[generalStyles.center, {flex: 1}]}>
+        <Text>Loading</Text>
+      </View>
+    );
+  }
 
   return (
     <>
-      {userState?.user?.[0]?.isVerified ? (
+      {userState?.user?.[0].isVerified ? (
         <>
-          {vehiculeList ? (
+          {globalState.companyVehicles ? (
             <KeyboardAvoidingView
               behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
               style={[generalStyles.container]}>
-              <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
+              <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}refreshControl={
+                  <RefreshControl refreshing={refreshing} 
+                    onRefresh={handleRefreshCompanyVehicles} />
+                }>
                 <View
                   style={[generalStyles.center, {backgroundColor: 'white'}]}>
                   <View
                     style={{flexDirection: 'row', paddingBottom: 5, gap: 10}}>
                     <GradientButton
                       width={80}
-                      text={`Toutes`}
+                      text={`Tous`}
                       buttonPadding={10}
                       disabled={filterType === 'all'}
                       handlePress={() => setFilterType('all')}
@@ -63,14 +122,14 @@ function SelectVehicle({navigation}) {
                       width={80}
                       buttonPadding={10}
                       disabled={filterType === 'used'}
-                      text={`Passée`}
+                      text={`Passés`}
                       handlePress={() => setFilterType('used')}
                     />
 
                     <GradientButton
                       width={80}
                       buttonPadding={10}
-                      text={`Libre`}
+                      text={`Libres`}
                       disabled={filterType === 'free'}
                       handlePress={() => setFilterType('free')}
                     />
@@ -92,7 +151,7 @@ function SelectVehicle({navigation}) {
                   )}
                 </View>
 
-                {vehiculeList
+                {globalState.companyVehicles
                   ?.filter(value => {
                     return FilterEverything(value, searchVechicule);
                   })
@@ -100,23 +159,23 @@ function SelectVehicle({navigation}) {
                     if (filterType === 'all') {
                       return value;
                     } else if (filterType === 'free') {
-                      return !value.vehiculeIsUsed;
+                      return !value.vehicleIsUsed;
                     } else if (filterType === 'used') {
-                      return value.vehiculeUsed;
+                      return value.vehicleUsed;
                     }
                   })
-                  .map((vehicule, i) => (
+                  .map((vehicle, i) => (
                     <React.Fragment key={i}>
                       <TouchableOpacity
                         key={i}
                         onPress={() => {
                           if (
-                            selectedVehicule.vehiculeGUID ===
-                            vehicule.vehiculeGUID
+                            selectedVehicule.vehicleGuid ===
+                            vehicle.vehicleGuid
                           ) {
                             setSelectedVehicule({});
                           } else {
-                            setSelectedVehicule(vehicule);
+                            setSelectedVehicule(vehicle);
                           }
                         }}
                         style={{
@@ -126,7 +185,7 @@ function SelectVehicle({navigation}) {
                           marginTop: i === 0 ? 3 : 0,
                         }}>
                         <VehiculeSelect
-                          vehicule={vehicule}
+                          vehicle={vehicle}
                           selectedVehicule={selectedVehicule}
                         />
                       </TouchableOpacity>
@@ -143,18 +202,18 @@ function SelectVehicle({navigation}) {
                       paddingVertical: 10,
                     },
                   ]}>
-                  <GradientButton
+                  {/* <GradientButton
                     text={`Disponibilités`}
                     width={170}
                     handlePress={() =>
                       navigation.navigate('VehiculeCalendar', {
-                        vehiculeGUID: selectedVehicule.vehiculeGUID,
+                        vehicleGuid: selectedVehicule.vehicleGuid,
                       })
                     }
-                  />
+                  /> */}
 
                   <GradientButton
-                    text={`Réservez`}
+                    text={`Réserver`}
                     width={170}
                     handlePress={() => {
                       globalDispatch(
@@ -162,6 +221,7 @@ function SelectVehicle({navigation}) {
                       );
                       navigation.navigate('MakeReservation', {
                         vehicule: selectedVehicule,
+                        navigation: {navigation}
                       });
                     }}
                   />

@@ -18,8 +18,9 @@ import { format, parseISO, isValid } from 'date-fns';
 import VehiculesInfo from "../CurrentCar/VehiculeInfos";
 import TopBorderContainer from "../../../Shared/TopBorderContainer";
 import BottomBorderContainer from "../../../Shared/BottomBorderContainer";
+import useGlobalContext from '../../../Hooks/useGlobalContext';
 
-export default function MakeReservation({ route }) {
+export default function MakeReservation({ route, navigation }) {
 
     // Got the concerned vehicule info trought the route props
     const { vehicule } = route.params
@@ -30,11 +31,17 @@ export default function MakeReservation({ route }) {
 
     const { globalState } = React.useContext(StateContext)
     const { globalDispatch } = React.useContext(DispatchContext)
+    const {userState} = useGlobalContext();
 
     const [startDateFromGlobal, setStartDateFromGlobal] = React.useState()
     const [endDateFromGlobal, setEndDateFromGlobal] = React.useState()
 
     const [state, setGlobalState] = React.useState(globalState);
+
+    // States for dates
+    const [mode, setMode] = React.useState('date');
+    const [showStart, setShowStart] = React.useState(false);
+    const [showEnd, setShowEnd] = React.useState(false);
 
     React.useEffect(() => {
 
@@ -80,10 +87,7 @@ export default function MakeReservation({ route }) {
 
     }, [state]);
 
-    // States for dates
-    const [mode, setMode] = React.useState('date');
-    const [showStart, setShowStart] = React.useState(false);
-    const [showEnd, setShowEnd] = React.useState(false);
+    
 
     ////////////////
     // Change function to get the date informations
@@ -123,6 +127,28 @@ export default function MakeReservation({ route }) {
         setMode(currentMode);
     };
 
+    const handleSendReservation = async () => {
+        let sendReservationResult = await fetch(`${process.env.API_URL}/api/Reservation`, {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              fkVehicleGuid: vehicule.vehicleGuid,
+              reservationFromDate: globalState.validationReservation[0].startDate,
+              reservationToDate: globalState.validationReservation[0].endDate,
+              fkUserGuid: userState.user?.[0].userGuid,
+            }),
+          });
+
+          if(sendReservationResult.ok){
+            const reservationResultData = await sendReservationResult.json()
+            console.log("Reservation result:", reservationResultData)
+            navigation.goBack();
+          }
+    }
+
     ////////////////
     // Shortcuts
     ////////////////
@@ -134,7 +160,7 @@ export default function MakeReservation({ route }) {
 
             <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-                <StyledText style={generalStyles.title}>Reservez</StyledText>
+                <StyledText style={generalStyles.title}>Véhicule</StyledText>
 
                 <VehiculesInfo vehicule={vehicule} type={'fromSelectCar'} />
 
@@ -207,9 +233,9 @@ export default function MakeReservation({ route }) {
                         <StyledText style={[generalStyles.textCenter]}>Le début et la fin de la reservation sont les mêmes</StyledText>
                         :
                         <>
-                            <StyledText style={[generalStyles.textCenter]}>Vous pouvez procèder à la reservation</StyledText>
-                            <StyledText style={[generalStyles.textCenter]}>Début de la reservation : {startDateFromGlobal} </StyledText>
-                            <StyledText style={[generalStyles.textCenter]}>Fin de la reservation : {endDateFromGlobal} </StyledText>
+                            <StyledText style={[generalStyles.textCenter]}>Vous pouvez procéder à la réservation</StyledText>
+                            <StyledText style={[generalStyles.textCenter]}>Début de la réservation : {startDateFromGlobal} </StyledText>
+                            <StyledText style={[generalStyles.textCenter]}>Fin de la réservation : {endDateFromGlobal} </StyledText>
 
                         </>
                     }
@@ -222,7 +248,7 @@ export default function MakeReservation({ route }) {
             <GradientButton
                 disabled={startDateFromGlobal === endDateFromGlobal}
                 text={`Demandez la reservation`}
-                handlePress={() => console.log("SEND RESA", globalState.validationReservation)} />
+                handlePress={handleSendReservation} />
 
 
         </View>

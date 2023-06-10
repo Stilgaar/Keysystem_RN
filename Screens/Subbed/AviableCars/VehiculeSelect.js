@@ -3,9 +3,11 @@ import {generalStyles, greyish, primaryColor2} from '../../../Shared/css';
 import {Avatar} from 'react-native-elements';
 import StyledText from '../../../Shared/StyledText';
 import {View} from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export default function VehiculeSelect({vehicule, selectedVehicule}) {
-  const selected = selectedVehicule.vehiculeGUID === vehicule.vehiculeGUID;
+export default function VehiculeSelect({vehicle, selectedVehicule}) {
+  const selected = selectedVehicule.vehicleGuid === vehicle.vehicleGuid;
+  let base64VehiclePicture = `data:${vehicle.vehicleSRCMimeType};base64,${vehicle.vehicleSRC}`
 
   return (
     <View style={{flexDirection: 'row', borderRadius: 15}}>
@@ -18,17 +20,26 @@ export default function VehiculeSelect({vehicule, selectedVehicule}) {
           backgroundColor: selected ? '#5b8cde' : 'white',
           padding: 5,
         }}>
-        <View style={[generalStyles.center, generalStyles.globalShadow]}>
-          <Avatar size={50} rounded source={{uri: vehicule.vehiculeSRC}} />
+        <View style={[generalStyles.center, generalStyles.globalShadow]}>            
+        {vehicle?.vehicleSRC ? (
+          <Avatar size={50} rounded source={{uri: `${base64VehiclePicture}`}} />
+              ) : (
+                <MaterialCommunityIcons
+                  name={'car'}
+                  size={50}
+                  color={'black'}
+                />
+              )}
         </View>
+        
 
         <View style={{marginLeft: 10}}>
           <StyledText style={{color: selected ? 'white' : 'black'}}>
-            {vehicule.vehiculeBrand} - {vehicule.vehiculeModel}
+            {vehicle.vehicleBrand} - {vehicle.vehicleModel}
           </StyledText>
 
           <StyledText style={{color: selected ? 'white' : 'black'}}>
-            {vehicule.vehiculeImmatriculation}
+            {vehicle.vehicleImmatriculation}
           </StyledText>
         </View>
       </View>
@@ -42,7 +53,7 @@ export default function VehiculeSelect({vehicule, selectedVehicule}) {
           flexDirection: 'row',
           alignContent: 'flex-end',
         }}>
-        {vehicule.vehiculeIsUsed ? (
+        {vehicle.vehicleIsUsed ? (
           <StyledText>Utilisée</StyledText>
         ) : (
           <StyledText>Libre</StyledText>

@@ -6,13 +6,17 @@ import {generalStyles, greyish, primaryColor2} from '../../../Shared/css';
 import BottomBorderContainer from '../../../Shared/BottomBorderContainer';
 import {GradientButton} from '../../../comps';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import React from 'react';
+import React, { useState } from 'react';
 import Spacer from '../../../Shared/Spacer';
 import StyledText from '../../../Shared/StyledText';
 import TopBorderContainer from '../../../Shared/TopBorderContainer';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {logoutDispatch} from '../../../Reducer/GlobalReducer/globalDispatch';
 import useGlobalContext from '../../../Hooks/useGlobalContext';
+import moment from 'moment';
+import { KaaS } from '../../../ContinentalUtilities/KaasMethods';
+
+// TODO: Récup les documents du serveur + refresh après ajout + ajout de tous les docs en même temps + signature ajoutée comme un document, sinon ajout de la signature à l'ajout de l'inventory ça evite les fraudres
 
 // Array to render texts with <TextInfo />
 
@@ -24,8 +28,14 @@ export default function MyAccount({navigation}) {
   // sera passé dans le globalcontext/usereducer.
 
   const {userDispatch, userState} = useGlobalContext();
-
   const windowWidth = Dimensions.get('window').width;
+
+  let base64UserPicture = `data:${userState?.user?.[0].src};base64,${userState?.user?.[0].src}`
+
+  const handleLogout = async () => {
+    await KaaS.closeSession();
+    userDispatch(logoutDispatch())
+  }
 
   return (
     <View style={[generalStyles.container]}>
@@ -38,9 +48,9 @@ export default function MyAccount({navigation}) {
               justifyContent: 'flex-start',
               alignItems: 'flex-start',
             }}>
-            {userState?.user?.[0]?.SRC ? (
+            {userState?.user?.[0].src ? (
               <Image
-                source={{uri: `${userState?.user?.[0]?.SRC}`}}
+                source={{uri: `${base64UserPicture}`}}
                 style={{width: 70, height: 70, borderRadius: 50}}
               />
             ) : (
@@ -54,13 +64,13 @@ export default function MyAccount({navigation}) {
               justifyContent: 'flex-end',
               alignItems: 'flex-end',
             }}>
-            <StyledText>{userState?.user?.[0]?.userAdress} </StyledText>
+            <StyledText>{userState?.user?.[0].userAddress}</StyledText>
             <StyledText>
-              {userState?.user?.[0]?.userPostalCode}{' '}
-              {userState?.user?.[0]?.userCity}{' '}
-              {userState?.user?.[0]?.userCountry}
+              {userState?.user?.[0].userPostalCode}{' '}
+              {userState?.user?.[0].userCity}{' '}
+              {userState?.user?.[0].userCountry}
             </StyledText>
-            <StyledText>{userState?.user?.[0]?.userEmailAdress}</StyledText>
+            <StyledText>{userState?.user?.[0].userEmailAddress}</StyledText>
           </View>
         </TopBorderContainer>
 
@@ -68,11 +78,11 @@ export default function MyAccount({navigation}) {
           <View
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <StyledText style={{fontSize: 20, textAlign: 'center'}}>
-              {userState?.user?.[0]?.fullName}
+              {userState?.user?.[0].userFullName}
             </StyledText>
 
             <StyledText style={{textAlign: 'center'}}>
-              {userState?.user?.[0]?.birthdate}
+              {moment(userState?.user?.[0].userBirthDate).format('DD MMMM YYYY')}
             </StyledText>
           </View>
         </BottomBorderContainer>
@@ -111,7 +121,7 @@ export default function MyAccount({navigation}) {
               colorStart="#f79253"
               colorEnd="#c42e2e"
               width={windowWidth - 50}
-              handlePress={() => userDispatch(logoutDispatch())}
+              handlePress={handleLogout}
               text={`Déconnexion`}
             />
             <Spacer size={1} />

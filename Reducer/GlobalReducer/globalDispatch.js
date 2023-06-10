@@ -20,8 +20,8 @@ export const logoutDispatch = () => {
 // SELECT VEHICULES FROM VIRTUAL KEY
 ////////////////
 
-export const getSelectedVehicule = (vehicule) => {
-    return { type: "SET_SELECTED_VEHICULE", payload: { vehicule } }
+export const getSelectedVehicule = (vehicle) => {
+    return { type: "SET_SELECTED_VEHICULE", payload: { vehicle } }
 }
 
 ////////////////

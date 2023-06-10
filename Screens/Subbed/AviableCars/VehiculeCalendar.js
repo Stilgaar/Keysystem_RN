@@ -22,7 +22,7 @@ export default function VehiculeCalendar({navigation, route}) {
   // Route  & initialParmas props
   ////////////////
 
-  const {vehiculeGUID} = route.params;
+  const {vehicleGuid} = route.params;
 
   ////////////////
   // Global Function
@@ -47,7 +47,7 @@ export default function VehiculeCalendar({navigation, route}) {
   React.useEffect(() => {
     // that will be a fetch soon
     const selectedVehicule = vehicules.filter(
-      vechiule => vechiule.vehiculeGUID === vehiculeGUID,
+      vehicle => vehicle.vehicleGuid === vehicleGuid,
     );
 
     // stil need to put it there

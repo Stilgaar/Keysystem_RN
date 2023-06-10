@@ -23,7 +23,7 @@ function ModifyAccount() {
 
     const { userState } = useGlobalContext()
 
-    const user = userState.user[0]
+    const user = userState.user
 
     const validationSchema = Yup
         .object()
@@ -58,9 +58,9 @@ function ModifyAccount() {
 
                 <Formik
                     initialValues={{
-                        lastname: user.lastname,
-                        firstname: user.firstname,
-                        email: user.email,
+                        lastname: user?.[0].userLastName,
+                        firstname: user?.[0].userFirstName,
+                        email: user?.[0].userEmailAddress,
                         password: '',
                         verifyPassword: '',
                     }}

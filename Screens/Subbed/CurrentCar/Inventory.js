@@ -16,6 +16,7 @@ import TopBorderContainer from '../../../Shared/TopBorderContainer';
 import {addInfoDispatch} from '../../../Reducer/GlobalReducer/globalDispatch';
 import {generalStyles} from '../../../Shared/css';
 import {inventoryArray} from '../../../JSON/Fr/InventoryArray';
+// TODO: Envoi d'un INVENTORY de manière sale
 
 //CHECK IN
 // Localisation du/des dommage(s) grâce aux photos

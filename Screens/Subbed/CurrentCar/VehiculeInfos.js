@@ -9,6 +9,8 @@ import StyledText from '../../../Shared/StyledText';
 import TopBorderContainer from '../../../Shared/TopBorderContainer';
 
 function VehiculesInfo({vehicule, navigation, style, bgcolor = greyish, type}) {
+
+  let base64VehiclePicture = `data:${vehicule?.vehicleSRCMimeType};base64,${vehicule?.vehicleSRC}`
   return (
     <>
       <TopBorderContainer>
@@ -32,16 +34,16 @@ function VehiculesInfo({vehicule, navigation, style, bgcolor = greyish, type}) {
                 }}>
                 <View style={{marginRight: 10}}>
                   <FontAwesome5
-                    name={'file-contract'}
+                    name={'key'}
                     size={25}
                     color={'black'}
                   />
                 </View>
 
-                <View>
+                {/* <View>
                   <StyledText>{vehicule?.vehiculeContractType}</StyledText>
                   <StyledText>{vehicule?.vehiculeContractRenter}</StyledText>
-                </View>
+                </View> */}
               </View>
             </View>
 
@@ -51,16 +53,16 @@ function VehiculesInfo({vehicule, navigation, style, bgcolor = greyish, type}) {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              {vehicule?.vehiculeSRC ? (
-                <Image
-                  source={{uri: `${vehicule.vehiculeSRC}`}}
-                  style={{width: 70, height: 70, borderRadius: 50}}
+              {vehicule?.vehicleSRC ? (
+                  <Image
+                  source={{uri: `${base64VehiclePicture}`}}
+                  style={{width: 100, height: 100, borderRadius: 50, margin: 10}}
                 />
               ) : (
                 <MaterialCommunityIcons
                   name={'car'}
                   size={50}
-                  color={'white'}
+                  color={'black'}
                 />
               )}
             </View>
@@ -72,8 +74,8 @@ function VehiculesInfo({vehicule, navigation, style, bgcolor = greyish, type}) {
                 alignItems: 'center',
               }}>
               {vehicule &&
-                (vehicule?.vehiculeType === 'Electrique' ||
-                  vehicule.vehiculeType === 'Hybride') && (
+                (vehicule?.vehicleEngineType === 'full-eletric' ||
+                  vehicule?.vehicleEngineType === 'plugin-hybrid') && (
                   <MaterialCommunityIcons
                     name={'car-electric'}
                     size={30}
@@ -82,8 +84,9 @@ function VehiculesInfo({vehicule, navigation, style, bgcolor = greyish, type}) {
                 )}
 
               {vehicule &&
-                (vehicule?.vehiculeType === 'Essence' ||
-                  vehicule.vehiculeType === 'Hybride') && (
+                (vehicule?.vehicleEngineType === 'Gasoline' || 
+                  vehicule?.vehicleEngineType === 'Diesel' ||
+                  vehicule?.vehicleEngineType === 'plugin-hybrid') && (
                   <MaterialCommunityIcons
                     name={'gas-station'}
                     size={30}
@@ -108,6 +111,7 @@ function VehiculesInfo({vehicule, navigation, style, bgcolor = greyish, type}) {
               width={60}
               borderRadius={50}
               buttonPadding={8}
+              disabled={vehicule?.vehicleLocation === null}
               handlePress={() => navigation.navigate('CarMap')}>
               <MaterialCommunityIcons
                 name={'target'}
@@ -127,11 +131,11 @@ function VehiculesInfo({vehicule, navigation, style, bgcolor = greyish, type}) {
             flexDirection: type !== 'fromSelectCar' ? 'column' : 'row',
           }}>
           <StyledText style={{fontSize: 20, textAlign: 'center'}}>
-            {vehicule?.vehiculeBrand} - {vehicule?.vehiculeModel}
+            {vehicule?.vehicleBrand} - {vehicule?.vehicleModel}
           </StyledText>
 
           <StyledText style={{textAlign: 'center'}}>
-            {vehicule?.vehiculeImmatriculation}
+            {vehicule?.vehicleImmatriculation}
           </StyledText>
         </View>
 
@@ -146,6 +150,7 @@ function VehiculesInfo({vehicule, navigation, style, bgcolor = greyish, type}) {
               width={60}
               borderRadius={50}
               buttonPadding={8}
+              disabled={vehicule?.vehicleDocuments === null || vehicule?.vehicleDocuments?.length <= 0}
               handlePress={() => navigation.navigate('VirtualPouch')}>
               <MaterialCommunityIcons
                 name={'file-document-multiple'}

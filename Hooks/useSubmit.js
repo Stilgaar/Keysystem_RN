@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function useSubmit() {
 
@@ -6,6 +6,19 @@ function useSubmit() {
     const [pending, setPending] = useState(null)
     const [error, setError] = useState(null)
     const [resMsg, setResMsg] = useState(null)
+
+    // clear the resmessage
+    useEffect(() => {
+        let timer;
+        if (resMsg) {
+            timer = setTimeout(() => {
+                setResMsg(null);
+            }, 50);
+        }
+        // cleanup function
+        return () => clearTimeout(timer);
+}, [resMsg])
+
 
     // we'll send data as default set. But if we put it in the arguments it will send dataSent
     const handleSubmit = async (

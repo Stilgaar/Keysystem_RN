@@ -131,8 +131,8 @@ export default function CarLocation() {
 
                         <Marker
                             coordinate={{
-                                latitude: state?.currentCar?.[0]?.latitude,
-                                longitude: state?.currentCar?.[0]?.longitude,
+                                latitude: state?.currentCar?.latitude,
+                                longitude: state?.currentCar?.longitude,
                             }}
 
                         >

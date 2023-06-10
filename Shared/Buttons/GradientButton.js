@@ -43,23 +43,23 @@ function GradientButton({
           alignSelf,
         },
       ]}>
-
-      <LinearGradient
-        colors={[colorStart, colorEnd]}
-        style={[
-          styles.button,
-          {
-            borderRadius,
-            borderTopLeftRadius,
-            borderTopRightRadius,
-            borderBottomRightRadius,
-            borderBottomLeftRadius,
-          },
-        ]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 1 }}>
-
-        <View
+        {!disabled ? 
+          (
+            <LinearGradient
+            colors={[colorStart, colorEnd]}
+            style={[
+              styles.button,
+              {
+                borderRadius,
+                borderTopLeftRadius,
+                borderTopRightRadius,
+                borderBottomRightRadius,
+                borderBottomLeftRadius,
+              },
+            ]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 1 }}>
+              <View
           style={{
             padding: buttonPadding,
             borderRadius: borderRadius,
@@ -84,6 +84,49 @@ function GradientButton({
         </View>
 
       </LinearGradient>
+          ) : (
+            <LinearGradient
+              colors={['#7c7c7c' , '#111111']}
+              style={[
+                styles.button,
+                {
+                  borderRadius,
+                  borderTopLeftRadius,
+                  borderTopRightRadius,
+                  borderBottomRightRadius,
+                  borderBottomLeftRadius,
+                },
+              ]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 0, y: 1 }}>
+                <View
+          style={{
+            padding: buttonPadding,
+            borderRadius: borderRadius,
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}>
+
+          {iconName ? (
+            <FontAwesome5
+              style={[{ paddingRight: 10 }]}
+              name={iconName}
+              size={iconSize}
+              color={iconColor}
+            />
+
+          ) : null}
+
+          {text && <StyledText style={styles.buttonText}>{text}</StyledText>}
+
+          {children && <View style={generalStyles.center}>{children}</View>}
+
+        </View>
+
+      </LinearGradient>
+                )
+              }
+        
 
     </TouchableOpacity>
   );
@@ -97,5 +140,5 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     fontSize: 16,
     textAlign: 'center',
-  },
+  }
 });

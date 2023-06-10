@@ -25,7 +25,7 @@ export default function AddPicture({ navigation, route }) {
     const { globalDispatch } = React.useContext(DispatchContext)
 
     ////////////////
-    // Destructuring the route.parmas to make the reading easier
+    // Destructuring the route.parms to make the reading easier
     ////////////////
 
     const { dispatchGeneralType, dispatchType, textForObtention, maxPics, indexInventory } = route.params

@@ -41,7 +41,8 @@ export const globalUserReducer = (prevState, action) => {
                 isLogged: false,
                 user: [],
                 currentKeys: [],
-                notificationsList: []
+                notificationsList: [],
+                attributionDamage: []
             }
 
         }
@@ -132,28 +133,25 @@ export const globalReducer = (prevState, action) => {
         case "SET_SELECTED_VEHICULE": {
 
             // heres hes an array
-            const { vehicule } = action.payload
+            const { vehicle } = action.payload
 
             return {
                 ...prevState,
-                currentCar: vehicule,
+                currentCar: vehicle,
                 attributionDamage: [{
-                    ...prevState.attributionDamage[0],
-                    generalDamageInfo: [{
-                        ...prevState.attributionDamage[0].generalDamageInfo[0],
-                        vehiculeGUID: vehicule[0].vehiculeGUID
-                    }]
+                    ...prevState.attributionDamage?.[0],
+                    fkVehicleGuid: vehicle.vehicleGuid
                 }],
                 attributionInventory: [{
-                    ...prevState.attributionInventory[0],
+                    ...prevState.attributionInventory?.[0],
                     generalInventoryInfo: [{
-                        ...prevState.attributionInventory[0].generalInventoryInfo[0],
-                        vehiculeGUID: vehicule[0].vehiculeGUID,
+                        ...prevState.attributionInventory?.[0]?.generalInventoryInfo?.[0],
+                        vehicleGuid: vehicle.vehicleGuid,
                     }]
                 }],
                 attributionCost: [{
-                    ...prevState.attributionCost[0],
-                    vehiculeGUID: vehicule[0].vehiculeGUID,
+                    ...prevState.attributionCost?.[0],
+                    vehicleGuid: vehicle.vehicleGuid,
                 }]
 
             }
@@ -172,7 +170,7 @@ export const globalReducer = (prevState, action) => {
                 ...prevState,
                 validationReservation: [{
                     ...prevState.validationReservation[0],
-                    vehiculeGUID: vehicule.vehiculeGUID,
+                    vehicleGuid: vehicule.vehicleGuid,
                     startDate: new Date(),
                     endDate: new Date()
                 }]

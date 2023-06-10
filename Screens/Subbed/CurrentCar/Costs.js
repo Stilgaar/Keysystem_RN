@@ -16,6 +16,8 @@ import TopBorderContainer from '../../../Shared/TopBorderContainer';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {generalStyles} from '../../../Shared/css';
 
+// TODO: Envoi des COSTS de manière sale
+
 // Saisie des dépenses
 // entretien,
 // pneumatique,

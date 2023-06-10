@@ -30,3 +30,6 @@ For the login it's simple email : "stil@stil.ar", password : 0000 (its hardcoded
 Google Maps API : AIzaSyDrCiuEdo1QVqLEthD1oLDlGJy4vD8LIcQ (its jeff's at the moment, dont screw over !) (pliz ?)
 
 If you need to add a font, put it in the assets/Font folder and run a npx react-native-asset
+
+## FOR JEFF
+Sorry j'ai fais de mon mieux, tu vas avoir du taff pour faire propre, c'est globalement très sale ce que j'ai fait je trouve ^^" j'avais juste pas le temps de faire et d'apprendre le react-native et la gestion des state et des reducer etc... Si t'as besoins n'hésites pas à me demander .

@@ -5,7 +5,7 @@ import useSubmit from "./useSubmit";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { globalUserReducer } from "../Reducer/GlobalReducer/globalReducer";
-import { initialUserState, initialGlobalState1 } from "../JSON/globalArray";
+import { initialUserState } from "../JSON/globalArray";
 
 function useAll() {
   // NEED TO TRANSFER TO USEASYNCSTORAGE

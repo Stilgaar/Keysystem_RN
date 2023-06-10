@@ -1,19 +1,19 @@
 [
     {
-        "vehiculeGUID": "d79803d4-f8fc-4f5f-8544-c3a581a25850",
+        "vehiculeGuid": "d79803d4-f8fc-4f5f-8544-c3a581a25850",
         "vehiculeBrand": "Suzuki",
         "vehiculeModel": "SJ",
-        "virtualKeyGUID": "4553432cxvxcv132",
+        "virtualKeyGuid": "4553432cxvxcv132",
         "vehiculeImmatriculation": "FP-132-DP",
         "virtualKeyDateActivated": "13/12/23",
         "virtualKeyDateDesactivated": "13/12/23",
         "virtualKeysOnThisVehicule": 2
     },
     {
-        "vehiculeGUID": "f80c62bf-117f-455c-a4f1-3ad07e97bdde",
+        "vehiculeGuid": "f80c62bf-117f-455c-a4f1-3ad07e97bdde",
         "vehiculeBrand": "Buick",
         "vehiculeModel": "Rendezvous",
-        "virtualKeyGUID": "4553bcvb132",
+        "virtualKeyGuid": "4553bcvb132",
         "vehiculeImmatriculation": "DP-132-AM",
         "virtualKeyDateActivated": "13/12/23",
         "virtualKeyDateDesactivated": "13/12/23",

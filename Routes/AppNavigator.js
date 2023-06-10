@@ -24,7 +24,7 @@ import ModifyAccount from '../Screens/Subbed/PersonalSpace/ModifyAccount';
 import MyAccount from '../Screens/Subbed/PersonalSpace/MyAccount';
 import {Notifications} from 'react-native-notifications';
 import Notifs from '../Screens/Subbed/Notifcations/Notifs';
-import NumericalKey from '../Screens/Subbed/CurrentCar/NumericalKey';
+import ReservationList from '../Screens/Subbed/CurrentCar/ReservationList';
 import {PermissionsAndroid} from 'react-native';
 import React from 'react';
 import SelectVehicle from '../Screens/Subbed/AviableCars/SelectVehicule';
@@ -96,7 +96,12 @@ export default function AppNavigator() {
       return request(PERMISSIONS.IOS.NOTIFICATIONS);
     } else {
       const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS, {
+          title: 'Key System Post Notification Permission',
+          message:'Key System needs your permission to send you notifications',
+          buttonPositive:'Accept',
+          buttonNegative: 'Cancel'
+        }
       );
 
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -130,8 +135,10 @@ export default function AppNavigator() {
     const ws = new WebSocket('wss://socketsbay.com/wss/v2/1/demo/');
 
     ws.addEventListener('message', event => {
-      if (event.data.includes('title') && event.data.includes('body')) {
-        makeANofitication(JSON.parse(event.data));
+      if(event.data.length > 0){
+        if (event.data.includes('title') && event.data.includes('body')) {
+          makeANofitication(JSON.parse(event.data));
+        }
       }
     });
   }, []);
@@ -146,13 +153,14 @@ export default function AppNavigator() {
   }
 
   ////////////////
-  // Add Screen Names in this array where you don't want the tap bar to be displayed. \o/
+  // Add Screen Names in this array where you don't want the bottom* bar to be displayed. \o/
   ////////////////
 
   const tabBarDisplayExclusionList = [
     'addId',
     'addLicence',
     'addSignature',
+    'addDamage',
     'inventoryGeneralFrontPanel',
     'inventoryLeftFrontWheel',
     'inventoryFrontLeft',
@@ -243,7 +251,7 @@ export default function AppNavigator() {
               <HeadersPics
                 title={"Photo d'identité : recto verso"}
                 numberLenghtChecker={`photoID`}
-                nombreMax={'Maxiumum 2'}
+                nombreMax={'Maximum 2'}
                 navigation={navigation}
               />
             ),
@@ -263,7 +271,7 @@ export default function AppNavigator() {
               <HeadersPics
                 title={'Permis de conduire : recto verso'}
                 numberLenghtChecker={`photoLicence`}
-                nombreMax={'Maxiumum 2'}
+                nombreMax={' 2'}
                 navigation={navigation}
               />
             ),
@@ -369,17 +377,17 @@ export default function AppNavigator() {
     const [state, setGlobalState] = React.useState(globalState);
 
     return (
-      <Stack.Navigator initialRouteName="NumericalKey">
+      <Stack.Navigator initialRouteName="ReservationList">
         <Stack.Screen
-          name="NumericalKey"
-          component={NumericalKey}
+          name="ReservationList"
+          component={ReservationList}
           options={{
             header: ({navigation}) => (
               <HeaderSubbed
                 title={
                   state?.currentKeys?.length > 1
-                    ? 'Clés numériques'
-                    : 'Clé numérique'
+                    ? 'Réservations'
+                    : 'Réservation'
                 }
                 navigation={navigation}
                 route={route}
@@ -420,7 +428,7 @@ export default function AppNavigator() {
         />
 
         <Stack.Screen
-          name="NumericalKeys"
+          name="ReservationLists"
           options={{
             header: ({navigation}) => (
               <HeaderSubbed
@@ -431,7 +439,7 @@ export default function AppNavigator() {
               />
             ),
           }}
-          component={NumericalKey}
+          component={ReservationList}
         />
 
         <Stack.Screen
@@ -467,14 +475,14 @@ export default function AppNavigator() {
                 title={'Documents - cout'}
                 info={'attributionCostDoc'}
                 numberLenghtChecker={'attributionCost'}
-                nombreMax={'Maxiumum 5'}
+                nombreMax={' 5'}
                 navigation={navigation}
               />
             ),
           }}
         />
 
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Damage"
           initialParams={{
             dispatchGeneralType: 'attributionDamage',
@@ -509,13 +517,48 @@ export default function AppNavigator() {
                   title={stack.text}
                   info={stack.key}
                   numberLenghtChecker={'attributionDamage'}
-                  nombreMax={'Maxiumum 3'}
+                  nombreMax={'Maximum 3'}
                   navigation={navigation}
                 />
               ),
             }}
           />
-        ))}
+        ))} */}
+
+        <Stack.Screen
+          name="Damage"
+          component={Damage}
+          options={{
+            header: ({navigation}) => (
+              <HeaderSubbed
+                title={'Déclaration Sinistre'}
+                navigation={navigation}
+                route={route}
+                initial={false}
+              />
+            ),
+          }}
+        />
+
+        <Stack.Screen
+          name="addDamage"
+          component={AddPicture}
+          initialParams={{
+            textForObtention: `Ajout de photo(s) du sinistre`,
+            dispatchGeneralType: `photoDamage`,
+            maxPics: 5,
+          }}
+          options={{
+            header: ({navigation}) => (
+              <HeadersPics
+                title={"Photo du sinistre"}
+                numberLenghtChecker={`photoDamage`}
+                nombreMax={'Maximum 6'}
+                navigation={navigation}
+              />
+            ),
+          }}
+        />
 
         <Stack.Screen
           name="CheckIn"
@@ -573,7 +616,7 @@ export default function AppNavigator() {
                   title={stack.text}
                   info={stack.key}
                   numberLenghtChecker={'attributionInventory'}
-                  nombreMax={'Maxiumum 3'}
+                  nombreMax={'Maximum 3'}
                   navigation={navigation}
                 />
               ),
@@ -683,7 +726,7 @@ export default function AppNavigator() {
             options={{
               header: ({navigation}) => (
                 <HeaderSubbed
-                  title={'Revervez'}
+                  title={'Réservez'}
                   navigation={navigation}
                   route={route}
                   initial={false}

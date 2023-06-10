@@ -63,7 +63,7 @@ export default function VirtualPouch() {
 
                 <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-                    {state?.currentCar?.[0]?.virutualPouch.map((document, index) => (
+                    {state?.currentCar?.virutualPouch.map((document, index) => (
 
                         <View key={index}
                             style={[generalStyles.colorContainer, generalStyles.center]}>

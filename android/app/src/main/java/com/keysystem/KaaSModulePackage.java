@@ -1,4 +1,4 @@
-package com.ffs;
+package com.keysystem;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
@@ -21,7 +21,7 @@ public class KaaSModulePackage implements ReactPackage {
             ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
 
-        modules.add(new KaaSModule(reactContext));
+        modules.add(KaaSModule.getInstance(reactContext));
 
         return modules;
     }

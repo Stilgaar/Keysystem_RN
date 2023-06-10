@@ -1,6 +1,6 @@
 import { createContext, useEffect } from "react";
 import React from "react";
-import { initialGlobalState, initialGlobalState1 } from "../JSON/globalArray";
+import { initialGlobalState } from "../JSON/globalArray";
 import { globalReducer } from "../Reducer/GlobalReducer/globalReducer";
 
 export const StateContext = createContext()

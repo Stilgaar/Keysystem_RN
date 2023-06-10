@@ -34,7 +34,7 @@ export default function PicsDropDownSelect({
         { label: 'Enfoncement', value: 'depression' },
         { label: 'Cassure', value: 'break' },
         { label: 'Eclat / Bris', value: 'broken' },
-        { label: 'Pièce Manquante', value: 'missingPiec' },
+        { label: 'Pièce Manquante', value: 'missingPiece' },
         { label: 'Autre', value: 'other' },
     ]);
 

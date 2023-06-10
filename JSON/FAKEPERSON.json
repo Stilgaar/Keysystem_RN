@@ -3,7 +3,7 @@
         "fullName": "Admin the administrator",
         "isVerified": true,
         "SRC": "",
-        "userGUID": "1321324465",
+        "userGuid": "1321324465",
         "userEmailAdress": "admin@test.com",
         "password": "Admintest1234!",
         "firstName": "admin",

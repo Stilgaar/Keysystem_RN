@@ -3,7 +3,7 @@
 export { default as Login } from "./Screens/Unsub/Login"
 export { default as Singup } from "./Screens/Unsub/Signup"
 export { default as RGPD } from "./Screens/Unsub/RGPD"
-export { default as Contact } from "./Screens/Unsub/Conctact";
+export { default as Contact } from "./Screens/Unsub/Contact";
 
 // Buttons 
 export { default as GradientButton } from "./Shared/Buttons/GradientButton";

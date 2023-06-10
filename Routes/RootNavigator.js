@@ -18,7 +18,7 @@ export default function RootNavigator() {
 
                 <Stack.Screen name="Login"
                     component={Login}
-                    options={{ header: () => <HeaderUnsub title={`KS - Log in`} /> }}
+                    options={{ header: () => <HeaderUnsub title={`KS - Login`} /> }}
                 />
 
             </Stack.Navigator>

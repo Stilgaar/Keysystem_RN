@@ -75,7 +75,7 @@ export default function PicsFromB64({
                             </View>
                         </View>
 
-
+                        {/* Je pense que pour que ça fonctionne correctement faut le sortir dans le composent du dessus , sinoln ça pop sous l'autre photo... */}
                         {checked && (
 
                             <PicsDropDownSelect

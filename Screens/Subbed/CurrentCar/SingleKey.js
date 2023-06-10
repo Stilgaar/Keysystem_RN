@@ -9,12 +9,12 @@ import TopBorderContainer from '../../../Shared/TopBorderContainer';
 export default function SingleKey({vehicule, navigation}) {
   return (
     <TouchableOpacity
-      key={vehicule.virtualKeyGUID}
+      key={vehicule.virtualKeyGuid}
       style={[generalStyles.globalShadow, {margin: 3}]}
       onPress={() => {
         navigation.navigate('SelectedVehicule', {
-          virtualKeyGUID: vehicule.virtualKeyGUID,
-          vehiculeGUID: vehicule.vehiculeGUID,
+          virtualKeyGuid: vehicule.virtualKeyGuid,
+          vehiculeGuid: vehicule.vehiculeGuid,
         });
       }}>
       <TopBorderContainer style={{flexDirection: 'row'}}>
@@ -41,7 +41,7 @@ export default function SingleKey({vehicule, navigation}) {
       <BottomBorderContainer>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <StyledText style={{fontSize: 18}}>
-            Clé : {vehicule.virtualKeyGUID}
+            Clé : {vehicule.virtualKeyGuid}
           </StyledText>
 
           <StyledText style={{fontSize: 18}}>

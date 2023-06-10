@@ -14,6 +14,9 @@ import VehiculesInfo from './VehiculeInfos';
 import {generalStyles} from '../../../Shared/css';
 import {getSelectedVehicule} from '../../../Reducer/GlobalReducer/globalDispatch';
 import vehicules from '../../../JSON/CAR_MOCK_DATA.json';
+import { globalReducer } from '../../../Reducer/GlobalReducer/globalReducer';
+import { KaaS } from '../../../ContinentalUtilities/KaasMethods';
+import useGlobalContext from '../../../Hooks/useGlobalContext';
 
 // Fiche(s) véhicule(s) séléctionné
 // Marque + modèle
@@ -25,19 +28,40 @@ import vehicules from '../../../JSON/CAR_MOCK_DATA.json';
 export default function SelectedVehicule({navigation, route}) {
   const {globalState} = React.useContext(StateContext);
   const {globalDispatch} = React.useContext(DispatchContext);
+  const {userState} = useGlobalContext();
 
   // I DONT KNOW YET IF WE'LL MAKE A GET WITH THE VEHICULE OR THE VIRTUAL KEY
-  const {vehiculeGUID, virtualKeyGUID} = route.params;
+  const {vehicle, virtualKey, reservationTo} = route.params;
+  const [state, setGlobalState] = React.useState(globalState);
+  const [errorLog, setErrorLog] = React.useState("");
 
   React.useEffect(() => {
-    const selectedVehicule = vehicules.filter(
-      vechiule => vechiule.vehiculeGUID === vehiculeGUID,
-    );
-
+    const selectedVehicule = vehicle
+    selectVirtualKeyAndConnectToDevice(virtualKey);
     globalDispatch(getSelectedVehicule(selectedVehicule));
   }, []);
-
-  const [state, setGlobalState] = React.useState(globalState);
+  
+  
+ const selectVirtualKeyAndConnectToDevice = (async (vk) => {
+  try {
+    globalState.currentVirtualKey = vk
+    if(vk !== undefined && vk.vehicleId === vehicle.continentalVehicleGuid)
+      {
+        const selectedKey = await KaaS.selectVirtualKey(vk.id)
+        console.log(selectedKey)
+        if(selectedKey !== undefined && selectedKey !== null)
+        {
+          await KaaS.connect()
+        }
+      }
+  } catch (error) {
+    // Handle any errors that occurred during the fetch request
+    console.error(error);
+    // Set an error log if needed
+    setErrorLog(error.errorMessage);
+  }
+  
+})
 
   React.useEffect(() => {
     setTimeout(
@@ -50,10 +74,44 @@ export default function SelectedVehicule({navigation, route}) {
     );
   }, [globalState]);
 
+  const handleCreateKey = async () => {
+    try {
+      let responseVkCreated = await fetch(`${process.env.API_URL}/api/VirtualKey`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fkUserGuid: userState.user?.[0].userGuid,
+          fkVehicleGuid: vehicle.vehicleGuid,
+          fromDate: new Date().toJSON().slice(0,10),
+          toDate: reservationTo,
+          fkClientDeviceGuid: userState.user?.[0].userClientDeviceGuid,
+          clientDeviceActionsAllowedBitfield: '11111111111111111111111111111111',
+          clientDeviceNumberOfActionsAllowed: 0,
+          virtualKeyLabel: `${userState.user?.[0].fullName} VK`,
+        }),
+      }).catch((error) => setErrorLog(error.errorMessage));
+      // Check if the response was successful
+      if (responseVkCreated.ok) {
+        let virtualKeysClientDevice = await KaaS.getVirtualKeys();
+        globalState.virtualKeys = virtualKeysClientDevice
+
+        globalState.currentVirtualKey = globalState.virtualKeys.find(vk => vk.vehicleId === vehicle.vehicleGuid)
+      }
+    } catch (error) {
+      // Handle any errors that occurred during the fetch request
+      console.error(error);
+      // Set an error log if needed
+      setErrorLog(error.errorMessage);
+    }
+  }
+
   ////////////////
   // JSX
   ////////////////
-
+  
   return (
     <View style={[generalStyles.container]}>
       <ScrollView
@@ -65,32 +123,47 @@ export default function SelectedVehicule({navigation, route}) {
 
             <VehiculesInfo
               style={[generalStyles.marginOverall]}
-              vehicule={state?.currentCar?.[0]}
+              vehicule={state?.currentCar}
               navigation={navigation}
             />
 
-            <HistoryKM
+            {/* <HistoryKM
               style={[generalStyles.marginOverall, {marginTop: 10}]}
-              data={state?.currentCar?.[0]}
-            />
+              data={state?.currentCar}
+            /> */}
 
             <View
               style={[
                 generalStyles.marginOverall,
                 {flexDirection: 'row', justifyContent: 'space-around'},
               ]}>
-              <GradientButton
-                iconName="play"
-                iconSize={20}
-                iconColor="white"
-                text="action"
-                borderRadius={50}
-                width={150}
-                buttonPadding={20}
-                addStyle={{marginBottom: 20}}
-                handlePress={() =>
-                  navigation.navigate('Actions', {vehiculeGUID, virtualKeyGUID})
-                }></GradientButton>
+                {globalState.currentVirtualKey === undefined || globalState.currentVirtualKey === null  ? (
+                  <GradientButton
+                  iconName="key"
+                  iconSize={20}
+                  iconColor="white"
+                  text="Récuperer"
+                  borderRadius={50}
+                  width={150}
+                  buttonPadding={20}
+                  addStyle={{marginBottom: 20}}
+                  handlePress={handleCreateKey}>
+                  </GradientButton>
+                ) : (
+                  <GradientButton
+                    iconName="play"
+                    iconSize={20}
+                    iconColor="white"
+                    text="actions"
+                    borderRadius={50}
+                    width={150}
+                    buttonPadding={20}
+                    addStyle={{marginBottom: 20}}
+                    disabled={globalState.currentVirtualKey === undefined && globalState.currentVirtualKey === null}
+                    handlePress={() =>
+                      navigation.navigate('Actions', {vehicleGuid: vehicle.vehicleGuid, virtualKeyGuid: globalState.currentVirtualKey.id})
+                    }></GradientButton>
+                )}
 
               <GradientButton
                 iconName="car-crash"
