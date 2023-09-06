@@ -20,6 +20,6 @@ export const accountArrayInfoText = [
 export const activateAccountList = [
     'Carte d\'identité',
     'Permis de conduire',
-    'Signature éléctronique',
-    'Dates d\'expirations',
+    // 'Signature éléctronique',
+    // 'Dates d\'expirations',
 ]

@@ -60,7 +60,7 @@ function Actions({route}) {
                 />
                 <GradientButton
                   handlePress={async () => await sendCommandToDevice('disableImmobilizer')}
-                  text={`Authoriser démarrage`}
+                  text={`Autoriser démarrage`}
                 />
                 <GradientButton
                   handlePress={async () => await sendCommandToDevice('enableImmobilizer')}
