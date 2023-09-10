@@ -85,7 +85,7 @@ export default function Costs({ navigation, route }) {
 
     <View style={[generalStyles.container]}>
 
-      <Button text={"reset"} onPress={() => globalDispatch(resetCost())}>RESET</Button>
+      {/* <Button text={"reset"} onPress={() => globalDispatch(resetCost())}>RESET</Button> */}
 
       <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 

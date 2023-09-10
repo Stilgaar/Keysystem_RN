@@ -247,12 +247,14 @@ public class KaaSModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void sendCommand(String command, Promise promise) {
         switch(command){
-            case "unlock": 
+            case "unlock":
                 Disposable disposable = KAAS.shared.sendCommand(Command.UNLOCK)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur UNLOCK");
                         promise.reject(throwable);
@@ -262,10 +264,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
         
             case "lock":
                 disposable = KAAS.shared.sendCommand(Command.LOCK)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur LOCK");
                         promise.reject(throwable);
@@ -275,10 +279,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
         
             case "disableImmobilizer":
                 disposable = KAAS.shared.sendCommand(Command.DISABLE_IMMOBILIZER)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur DISABLE_IMMOBILIZER");
                         promise.reject(throwable);
@@ -288,10 +294,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
 
             case "enableImmobilizer":
                 disposable = KAAS.shared.sendCommand(Command.ENABLE_IMMOBILIZER)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur ENABLE_IMMOBILIZER");
                         promise.reject(throwable);
@@ -301,10 +309,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
 
             case "unlockAndDisableImmobilizer":
                 disposable = KAAS.shared.sendCommand(Command.UNLOCK_AND_DISABLE_IMMOBILIZER)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur UNLOCK_AND_DISABLE_IMMOBILIZER");
                         promise.reject(throwable);
@@ -314,10 +324,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
 
             case "releaseTrunk":
                 disposable = KAAS.shared.sendCommand(Command.RELEASE_TRUNK)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur RELEASE_TRUNK");
                         promise.reject(throwable);
@@ -327,10 +339,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
                 
             case "flashLight":
                 disposable = KAAS.shared.sendCommand(Command.FLASH_LIGHT)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur FLASH_LIGHT");
                         promise.reject(throwable);
@@ -340,10 +354,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
             
             case "soundHorn":
                 disposable = KAAS.shared.sendCommand(Command.SOUND_HORN)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur SOUND_HORN");
                         promise.reject(throwable);
@@ -353,10 +369,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
                 
             case "startRemoteEngine":
                 disposable = KAAS.shared.sendCommand(Command.START_REMOTE_ENGINE)
-                    .reactivex()
+                    .rx()
                     .subscribe((commandResult, throwable) -> {
                         if (commandResult != null) {
-                            promise.resolve(commandResult);
+                            WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                         } else {
                             System.out.println("Erreur START_REMOTE_ENGINE");
                             promise.reject(throwable);
@@ -366,10 +384,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
             
             case "stopRemoteEngine":
                 disposable = KAAS.shared.sendCommand(Command.STOP_REMOTE_ENGINE)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur STOP_REMOTE_ENGINE");
                         promise.reject(throwable);
@@ -379,10 +399,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
                 
             case "startPanic":
                 disposable = KAAS.shared.sendCommand(Command.START_PANIC)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur START_PANIC");
                         promise.reject(throwable);
@@ -392,10 +414,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
             
             case "stopPanic":
                 disposable = KAAS.shared.sendCommand(Command.STOP_PANIC)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur STOP_PANIC");
                         promise.reject(throwable);
@@ -405,10 +429,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
                 
             case "setPrivateModeForVK":
                 disposable = KAAS.shared.sendCommand(Command.SET_PRIVATE_MODE_FOR_VK)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur SET_PRIVATE_MODE_FOR_VK");
                         promise.reject(throwable);
@@ -418,10 +444,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
             
             case "safeLockPerson":
                 disposable = KAAS.shared.sendCommand(Command.SAFE_LOCK_PERSON)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur SAFE_LOCK_PERSON");
                         promise.reject(throwable);
@@ -431,10 +459,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
                 
             case "unlockAllDoors":
                 disposable = KAAS.shared.sendCommand(Command.UNLOCK_ALL)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur UNLOCK_ALL");
                         promise.reject(throwable);
@@ -445,10 +475,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
             
             case "closeWindows":
                 disposable = KAAS.shared.sendCommand(Command.CLOSE_WINDOW)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur CLOSE_WINDOW");
                         promise.reject(throwable);
@@ -459,10 +491,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
             
             case "openWindows":
                  disposable = KAAS.shared.sendCommand(Command.OPEN_WINDOW)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur OPEN_WINDOW");
                         promise.reject(throwable);
@@ -473,10 +507,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
             
             case "foldMirrors":
                  disposable = KAAS.shared.sendCommand(Command.FOLD_MIRRORS)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur FOLD_MIRRORS");
                         promise.reject(throwable);
@@ -487,10 +523,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
             
             case "openHatch":
                  disposable = KAAS.shared.sendCommand(Command.OPEN_HATCH)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur OPEN_HATCH");
                         promise.reject(throwable);
@@ -501,10 +539,12 @@ public class KaaSModule extends ReactContextBaseJavaModule {
             
             case "closeHatch":
                  disposable = KAAS.shared.sendCommand(Command.CLOSE_HATCH)
-                .reactivex()
+                .rx()
                 .subscribe((commandResult, throwable) -> {
                     if (commandResult != null) {
-                        promise.resolve(commandResult);
+                        WritableArray array = Arguments.createArray();
+                        array.pushString(commandResult.toString());
+                        promise.resolve(array);
                     } else {
                         System.out.println("Erreur CLOSE_HATCH");
                         promise.reject(throwable);
