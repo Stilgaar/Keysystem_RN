@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 
+// personnal hook to submit any text
+
 function useSubmit() {
 
-    const [data, setData] = useState({})
     const [pending, setPending] = useState(null)
-    const [error, setError] = useState(null)
+    const [error, setError] = useState()
     const [resMsg, setResMsg] = useState(null)
+    const [resBody, setResBody] = useState(null)
 
     // clear the resmessage
     useEffect(() => {
@@ -13,31 +15,28 @@ function useSubmit() {
         if (resMsg) {
             timer = setTimeout(() => {
                 setResMsg(null);
-            }, 50);
+            }, 450);
         }
         // cleanup function
         return () => clearTimeout(timer);
-}, [resMsg])
+    }, [resMsg])
 
 
     // we'll send data as default set. But if we put it in the arguments it will send dataSent
-    const handleSubmit = async (
-        {
-            e = "",
-            url,
-            option = "POST",
-            body = data,
-            headers = {
-                'Content-Type': 'application/json'
-            },
-            dispatcher = null,
-            dispatch = null,
-        }
-    ) => {
+    const handleSubmit = async ({
+        e = "",
+        url,
+        method = "POST",
+        body,
+        headers = {
+            'Content-Type': 'application/json'
+        },
+    }) => {
 
-        // console.log(url)
-        // console.log(option)
-        //   console.log(body)
+        // console.log(e)
+        console.log("URL USESUMBIT", url)
+        //console.log(method)
+        console.log("BODY USESUBMIT", body)
         // console.log(headers)
         // console.log(dispatch)
         // console.log(dispatcher)
@@ -47,47 +46,49 @@ function useSubmit() {
         setPending(true)
         setError(null)
 
+        // ... (same as before)
+
         try {
             const res = await fetch(url,
                 {
-                    method: option,
-                    headers: headers,
+                    method,
+                    headers,
                     body: JSON.stringify(body)
                 }
-            )
+            );
 
             if (!res.ok) {
-                throw new Error('throw res', res.statusText)
+                throw new Error(res.status);
             }
 
-            const json = await res.json()
+            const responseInfo = {
+                ok: res.ok,
+                status: res.status
+            };
 
-            if (dispatcher !== null && dispatch !== null) {
-                dispatcher(dispatch(json))
+            let data;
+            if (res.headers.get("Content-Type").includes("application/json")) {
+                data = await res.json();
+                // Handle JSON response
+            } else {
+                data = await res.text();
+                // Handle plain text or other types of response
             }
-            else {
-                setResMsg(json)
-            }
 
-            setPending(false)
-            setError(null)
+            setResMsg(responseInfo);
+            setResBody(data);
 
+
+            setPending(false);
+            setError();
+
+        } catch (err) {
+            setError(err.message);
+            setPending(false);
         }
+    };
 
-        catch (err) {
-            console.log(err)
-            setError(err.message)
-            setPending(false)
-        }
-
-    }
-
-    const handleChange = (e) => {
-        e.persist()
-        setData((data) => ({ ...data, [e.target.name]: e.target.value.trim() }))
-    }
-
-    return { data, handleSubmit, handleChange, pending, error, resMsg }
+    return { handleSubmit, pending, error, setError, resBody, resMsg }
 
 }
 

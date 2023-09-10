@@ -3,48 +3,88 @@ import { useEffect, useState, useCallback } from 'react'
 // HOOK TO FETCH EVERYTING YOU CAN IN ONE LINE !
 // THOU SHALL NOT FETCH
 
-const useFetch = (url) => {
+const useFetch = (url, shouldFetch = true) => {
 
-    console.log(url)
-
-    const [data, setData] = useState({})
+    const [data, setData] = useState()
     const [pending, setPending] = useState(null)
     const [error, setError] = useState(null)
 
     const refresh = useCallback(async () => {
 
-        const controller = new AbortController()
+        if (!shouldFetch) return;
+
+        let results = [];
 
         setPending(true)
         setError(null)
 
+        // if url is an array, so it can make more calls
         try {
-            const res = await fetch(url, { signal: controller.signal })
-            if (!res.ok) {
-                throw new Error(res.statusText)
-            }
-            const json = await res.json()
+            if (Array.isArray(url)) {
+                const controllers = url.map(() => new AbortController());
 
-            setData(json)
+                results = await Promise.all(
+                    url.map((eachUrl, index) =>
+                        fetch(eachUrl,
+                            {
+                                signal: controllers[index].signal
+                            }
+                        )
+                    )
+                );
+
+                // Régular simple URL
+            } else {
+
+                const controller = new AbortController();
+                results = [await fetch(url,
+                    {
+                        signal: controller.signal
+                    }
+                )];
+
+            }
+
+            const jsons = [];
+
+            for (let res of results) {
+
+                if (!res.ok) {
+                    throw new Error(res.status);
+                }
+
+                jsons.push(await res.json());
+            }
+
+            // sets what it needs
+            setData(Array.isArray(url) ? jsons : jsons[0]);
 
             setPending(false)
             setError(null)
         }
+        // error getter
         catch (err) {
-            console.log(err)
-            setError(err.message)
+            setError(err.toString())
             setPending(false)
         }
 
-        return () => controller.abort()
+        return () => {
+            /// Clean up function for eacth call
+            if (Array.isArray(url)) {
+                url.forEach(() => new AbortController().abort());
+            } else {
+                // Clean up function for simmple call
+                new AbortController().abort();
+            }
+        };
 
-    }, [url])
+    }, [url, shouldFetch])
 
     useEffect(() => {
         refresh()
     }, [refresh])
 
-    return { data, refresh, pending, error };
+    return { data, refresh, pending, error, setError };
 }
 
 export default useFetch;

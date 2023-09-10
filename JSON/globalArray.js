@@ -10,7 +10,7 @@ export const initialUserState = {
 export const initialGlobalState = {
     photoID: [],
     photoLicence: [],
-    photoDamage:[],
+    photoDamage: [],
     signature: [],
     currentKeys: keys,
     reservationVehicles: [],
@@ -20,15 +20,15 @@ export const initialGlobalState = {
     currentCar: {},
     reservationSelectCar: [],
     attributionDamage: [{
-            fkVehicleGuid : "",
-            fkUserGuid : "",
-            damageDate: new Date(),
-            ToInsurance: false,
-            repairs: null,
-            damageRepairsDateDone: null,
-            isDriver: true,
-            driverName: "",
-            attributionDocs: []
+        vehicleGuid: "",
+        userGuid: "",
+        damageDate: new Date(),
+        ToInsurance: false,
+        repairs: null,
+        damageRepairsDateDone: null,
+        isDriver: true,
+        driverName: "",
+        attributionDocs: []
     }],
     attributionInventory: [{
         generalInventoryInfo: [{
@@ -39,14 +39,14 @@ export const initialGlobalState = {
             vehicleGuid: ""
         }]
     }],
-    attributionCost: [{
-        costTotalHT: "",
-        costTotalTTC: "",
-        costTotalTVA: "",
-        costTotal: "",
+    attributionCost: {
+        costAmount: "",
+        costAdditionalCost: "",
         userGuid: "",
         vehicleGuid: "",
-    }],
+        costDoneDate: new Date(),
+        attributionCostDoc: []
+    },
     validationReservation: [{
         vehicleGuid: "",
         userGuid: "",
@@ -54,51 +54,3 @@ export const initialGlobalState = {
         endDate: new Date()
     }]
 }
-
-// Faudra penser au moment du login ou je ne sais pas comment
-// Intégrer les user
-
-// export const initialGlobalState1 = {
-//     isLogged: true,
-//     user: {},
-//     photoID: [],
-//     photoLicence: [],
-//     signature: [],
-//     currentKeys: keys,
-//     currentCar: [],
-//     reservationSelectCar: [],
-//     notificationsList: [],
-//     attributionDamage: [{
-//         generalDamageInfo: [{
-//             currentDate: new Date(),
-//             commentDamage: "",
-//             fullName: user.fullName,
-//             location: "",
-//             userGuid: user.userGuid,
-//             vehicleGuid: ""
-//         }]
-//     }],
-//     attributionInventory: [{
-//         generalInventoryInfo: [{
-//             currentDate: new Date(),
-//             commentInventory: "",
-//             fullName: user.fullName,
-//             userGuid: user.userGuid,
-//             vehicleGuid: ""
-//         }]
-//     }],
-//     attributionCost: [{
-//         costTotalHT: "",
-//         costTotalTTC: "",
-//         costTotalTVA: "",
-//         costTotal: "",
-//         userGuid: user.userGuid,
-//         vehicleGuid: "",
-//     }],
-//     validationReservation: [{
-//         vehicleGuid: "",
-//         userGuid: user.userGuid,
-//         startDate: new Date(),
-//         endDate: new Date()
-//     }]
-// }

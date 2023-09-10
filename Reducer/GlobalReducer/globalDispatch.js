@@ -1,6 +1,9 @@
+
+////////////////////////////////////////////////
 ////////////////
 // LOGIN STUFF (nof finished)
 ////////////////
+////////////////////////////////
 
 export const loginDispatch = (loginInfo) => {
     return { type: "LOGIN_GLOBAL_REDUCER", payload: { loginInfo } }
@@ -130,4 +133,16 @@ export const costSelectType = (selected) => {
 
 export const costPriceAdd = (price, infoType) => {
     return { type: "COST_ADD_PRICE", payload: { price, infoType } }
+}
+
+export const addVirtualKeysClientDevice = (arrayKeys, arrayReservations) => {
+    return { type: "ADD_VIRTUAL_KEYS", payload: { arrayKeys, arrayReservations } }
+}
+
+export const setCurrentkey = (currentKey) => {
+    return { type: "SET_CURRENT_KEY", payload: { currentKey } }
+}
+
+export const resetCost = () => {
+    return { type: "RESET_ATTRIBUTION_COST" }
 }

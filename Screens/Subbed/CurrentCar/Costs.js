@@ -1,20 +1,32 @@
-import {DispatchContext, StateContext} from '../../../Context/StateContext';
-import {ScrollView, Text, View} from 'react-native';
+import { DispatchContext, StateContext } from '../../../Context/StateContext';
+import { ScrollView, Text, View } from 'react-native';
 import {
   costPriceAdd,
   costSelectType,
+  resetCost
 } from '../../../Reducer/GlobalReducer/globalDispatch';
 
 import BottomBorderContainer from '../../../Shared/BottomBorderContainer';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {GradientButton} from '../../../comps';
-import {Input} from 'react-native-elements';
+import { GradientButton } from '../../../comps';
+import { Button, Input } from 'react-native-elements';
 import PicsFromB64 from '../../../Shared/PicsFromB64';
 import React from 'react';
 import StyledText from '../../../Shared/StyledText';
 import TopBorderContainer from '../../../Shared/TopBorderContainer';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {generalStyles} from '../../../Shared/css';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { generalStyles } from '../../../Shared/css';
+import moment from 'moment';
+
+import DateTimePicker from '@react-native-community/datetimepicker';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import useGlobalContext from '../../../Hooks/useGlobalContext';
+
+import useCostTypeFetch from '../../../Hooks/Fetchs/userCostTypeFetch';
+
+import useSubmitFiles from "../../../Hooks/useSubmitFiles"
 
 // TODO: Envoi des COSTS de manière sale
 
@@ -28,14 +40,37 @@ import {generalStyles} from '../../../Shared/css';
 
 // Cotisation assurance => ça rime à rien
 
-export default function Costs({navigation, route}) {
-  const {dispatchGeneralType} = route.params;
+export default function Costs({ navigation, route }) {
+
+  const { globalDispatch } = React.useContext(DispatchContext);
+  const { globalState } = React.useContext(StateContext);
+
+  const { dispatchGeneralType } = route.params;
+
+  const { userState } = useGlobalContext()
 
   ////////////////
   // To open close the dropdown menu
   ////////////////
 
   const [dropDownOpen, setDropDownOpen] = React.useState(false);
+  const [showDateCost, setShowDateCost] = React.useState(false)
+
+  const { handleSubmitFiles: handleAddCostWithFiles } = useSubmitFiles()
+
+  const hanldeSubmitCost = e => {
+    handleAddCostWithFiles({
+      e,
+      url: `${window.env.API_URL}/api/Cost`,
+      body: {
+        ...globalState[`${dispatchGeneralType}`],
+        userGuid: userState.user.userGuid,
+        vehicleGuid: globalState.currentCar.vehicleGuid
+
+      }
+
+    })
+  }
 
   ////////////////
   // Language Picker (not bad !)
@@ -44,110 +79,117 @@ export default function Costs({navigation, route}) {
   DropDownPicker.setLanguage('FR');
   DropDownPicker.setMode('BADGE');
 
-  ////////////////
-  // Value of the items route and get here needed
-  ////////////////
-
-  const [items, setItems] = React.useState([
-    {label: 'Entretien', value: 'costMaintenance'},
-    {label: 'Pneumatique', value: 'costTires'},
-    {label: 'Franchise accident', value: 'costDamage'},
-    {label: 'Réparations', value: 'costReparation'},
-    {label: 'Essence', value: 'costGas'},
-    {label: 'Peage', value: 'costToll'},
-    {label: 'Autre', value: 'costOther'},
-  ]);
-
-  const {globalDispatch} = React.useContext(DispatchContext);
-  const {globalState} = React.useContext(StateContext);
+  const { costTypeArray: items } = useCostTypeFetch(true, true)
 
   return (
+
     <View style={[generalStyles.container]}>
+
+      <Button text={"reset"} onPress={() => globalDispatch(resetCost())}>RESET</Button>
+
       <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
+
         <TouchableOpacity
           activeOpacity={1}
-          style={[generalStyles.globalShadow, {paddingVertical: 10}]}>
+          style={[generalStyles.globalShadow, { paddingVertical: 10 }]}>
           <TopBorderContainer>
+
             <StyledText>Gestion des coûts du véhicule</StyledText>
 
             <StyledText>Rajoutez les coûts de votre voiture</StyledText>
+
           </TopBorderContainer>
+
           <BottomBorderContainer>
-            <View style={{zIndex: 2}}>
-              <DropDownPicker
-                //  multiple={true}
-                open={dropDownOpen}
-                value={globalState?.[`${dispatchGeneralType}`]?.[0]?.costType}
-                zIndex={5000}
-                zIndexInverse={1000}
-                elevation={5000} // Add elevation for Android
-                setOpen={setDropDownOpen}
-                items={items}
-                onSelectItem={item => globalDispatch(costSelectType(item))}
-                setItems={setItems}
-                // BORDEL
-                listMode="SCROLLVIEW"
-                scrollViewProps={{
-                  nestedScrollEnabled: true,
-                }}
-              />
-            </View>
+
+
+            {items && items.length > 0 &&
+
+              <View style={{ zIndex: 2 }}>
+
+                <DropDownPicker
+                  //  multiple={true}
+                  open={dropDownOpen}
+                  value={globalState?.[`${dispatchGeneralType}`]?.costType}
+                  zIndex={5000}
+                  zIndexInverse={1000}
+                  dropDownMaxHeight={100}
+                  elevation={5000} // Add elevation for Android
+                  setOpen={setDropDownOpen}
+                  items={items}
+                  onSelectItem={item => globalDispatch(costSelectType(item))}
+                  // setItems={setItems}
+                  listMode="MODAL"
+                  modalTitle="Séléctionnez un type de coût"
+                  flatListProps={{
+                    initialNumToRender: items.length
+                  }}
+                />
+
+              </View>
+            }
+
 
             <>
-              {globalState?.[`${dispatchGeneralType}`]?.[0]?.costType ? (
+              {items && items.length > 0 && globalState?.[`${dispatchGeneralType}`]?.costType ? (
                 items
                   .filter(
                     item =>
                       item.value ===
-                      globalState?.[`${dispatchGeneralType}`]?.[0]?.costType,
+                      globalState?.[`${dispatchGeneralType}`]?.costType,
                   )
                   .map(filteredValue => (
+
                     <View
                       key={filteredValue.label}
-                      style={[generalStyles.globalShadow, {marginTop: 15}]}>
+                      style={[generalStyles.globalShadow, { marginTop: 15 }]}>
+
                       <Input
                         keyboardType="numeric"
-                        value={
-                          globalState?.[`${dispatchGeneralType}`]?.[0]
-                            ?.costTotalHT
-                        }
-                        label={`Montant HT :  ${filteredValue.label}`}
+                        value={globalState?.[`${dispatchGeneralType}`]?.costTotalHT}
+                        label={`Montant :  ${filteredValue.label}`}
                         placeholder={`Prix ${filteredValue.label} HT`}
                         onChangeText={value =>
-                          globalDispatch(costPriceAdd(value, 'costTotalHT'))
+                          globalDispatch(costPriceAdd(value, 'costAmount'))
                         }
                       />
 
                       <Input
                         keyboardType="numeric"
-                        value={
-                          globalState?.[`${dispatchGeneralType}`]?.[0]
-                            ?.costTotalTTC
-                        }
-                        label={`Montant TTC :  ${filteredValue.label}`}
+                        value={globalState?.[`${dispatchGeneralType}`]?.costTotalTTC}
+                        label={`Montant Additionnel :  ${filteredValue.label}`}
                         placeholder={`Prix ${filteredValue.label} HT`}
                         onChangeText={value =>
-                          globalDispatch(costPriceAdd(value, 'costTotalTTC'))
+                          globalDispatch(costPriceAdd(value, 'costAdditionalCost'))
                         }
                       />
 
-                      <Input
-                        keyboardType="numeric"
-                        value={
-                          globalState?.[`${dispatchGeneralType}`]?.[0]
-                            ?.costTotalTVA
-                        }
-                        label={`TVA : ${filteredValue.label}`}
-                        placeholder={`Prix ${filteredValue.label} TVA`}
-                        onChangeText={value =>
-                          globalDispatch(costPriceAdd(value, 'costTotalTVA'))
-                        }
+                      <StyledText>Date</StyledText>
+
+                      <GradientButton
+                        width={300}
+                        handlePress={() => setShowDateCost(c => !c)}
+                        addStyle={{ marginBottom: 5 }}
+                        text={moment((globalState?.[`${dispatchGeneralType}`]?.costDoneDate).toJSON()).format('DD MMMM YYYY')}
                       />
+
+                      {showDateCost &&
+
+                        <DateTimePicker
+                          value={new Date()}
+                          mode="date"
+                          onChange={(event, selected) => {
+                            console.log("selected COST", selected)
+                          }}
+                        />
+
+                      }
+
                     </View>
                   ))
               ) : (
                 <>
-                  <View style={[generalStyles.globalShadow, {marginTop: 15}]}>
+                  <View style={[generalStyles.globalShadow, { marginTop: 15 }]}>
                     {Array(3)
                       .fill()
                       .map((_, index) => (
@@ -164,15 +206,13 @@ export default function Costs({navigation, route}) {
 
             <GradientButton
               text={`Ajouter Document`}
-              addStyle={{marginBottom: 5}}
+              addStyle={{ marginBottom: 5 }}
               handlePress={() => navigation.navigate('attributionCost')}
             />
 
             <PicsFromB64
               picsArray={
-                globalState?.[`${dispatchGeneralType}`]?.[1]?.[
-                  'attributionCostDoc'
-                ]
+                globalState?.[`${dispatchGeneralType}`]?.['attributionCostDoc']
               }
               dispatchGeneralType={dispatchGeneralType}
               dispatchType={'attributionCostDoc'}
@@ -180,23 +220,22 @@ export default function Costs({navigation, route}) {
 
             <GradientButton
               disabled={
-                globalState[`${dispatchGeneralType}`][0].costTotalHT &&
-                globalState[`${dispatchGeneralType}`][0].costTotalTTC &&
-                globalState[`${dispatchGeneralType}`][0].costTotalTVA &&
-                globalState?.[`${dispatchGeneralType}`]?.[1]?.[
-                  'attributionCostDoc'
-                ].length > 0
+                globalState[`${dispatchGeneralType}`].costAmount &&
+                  globalState[`${dispatchGeneralType}`].costAdditionalCost &&
+                  globalState[`${dispatchGeneralType}`].costDoneDate &&
+                  globalState?.[`${dispatchGeneralType}`]?.['attributionCostDoc'].length > 0
                   ? false
                   : true
               }
               text={`Envoyer Coût`}
-              handlePress={() =>
-                console.log(globalState?.[`${dispatchGeneralType}`])
-              }
+              handlePress={hanldeSubmitCost}
             />
           </BottomBorderContainer>
+
         </TouchableOpacity>
+
       </ScrollView>
+
     </View>
   );
 }

@@ -15,10 +15,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GradientButton } from "../../../comps";
 
 import { format, parseISO, isValid } from 'date-fns';
+
 import VehiculesInfo from "../CurrentCar/VehiculeInfos";
 import TopBorderContainer from "../../../Shared/TopBorderContainer";
 import BottomBorderContainer from "../../../Shared/BottomBorderContainer";
 import useGlobalContext from '../../../Hooks/useGlobalContext';
+
+import useSubmit from "../../../Hooks/useSubmit";
 
 export default function MakeReservation({ route, navigation }) {
 
@@ -31,7 +34,7 @@ export default function MakeReservation({ route, navigation }) {
 
     const { globalState } = React.useContext(StateContext)
     const { globalDispatch } = React.useContext(DispatchContext)
-    const {userState} = useGlobalContext();
+    const { userState } = useGlobalContext();
 
     const [startDateFromGlobal, setStartDateFromGlobal] = React.useState()
     const [endDateFromGlobal, setEndDateFromGlobal] = React.useState()
@@ -87,8 +90,6 @@ export default function MakeReservation({ route, navigation }) {
 
     }, [state]);
 
-    
-
     ////////////////
     // Change function to get the date informations
     ////////////////
@@ -127,27 +128,29 @@ export default function MakeReservation({ route, navigation }) {
         setMode(currentMode);
     };
 
-    const handleSendReservation = async () => {
-        let sendReservationResult = await fetch(`${process.env.API_URL}/api/Reservation`, {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              fkVehicleGuid: vehicule.vehicleGuid,
-              reservationFromDate: globalState.validationReservation[0].startDate,
-              reservationToDate: globalState.validationReservation[0].endDate,
-              fkUserGuid: userState.user?.[0].userGuid,
-            }),
-          });
+    const { handleSubmit, resMsg, error, pending } = useSubmit()
 
-          if(sendReservationResult.ok){
-            const reservationResultData = await sendReservationResult.json()
-            console.log("Reservation result:", reservationResultData)
-            navigation.goBack();
-          }
+    const handleSendReservation = e => {
+
+        handleSubmit({
+            e,
+            url: `${process.env.API_URL}/api/Reservation`,
+            body: ({
+                vehicleGuid: vehicule.vehicleGuid,
+                reservationStartDate: globalState.validationReservation[0].startDate,
+                reservationEndDate: globalState.validationReservation[0].endDate,
+                userGuid: userState.user?.userGuid
+            })
+        })
     }
+
+    console.log("ERROR MAKE RESERATION", error)
+
+    React.useEffect(() => {
+        if (resMsg && resMsg.ok) {
+            navigation.goBack();
+        }
+    }, [resMsg])
 
     ////////////////
     // Shortcuts
@@ -204,7 +207,8 @@ export default function MakeReservation({ route, navigation }) {
 
                 {/* THIS IS THE START */}
 
-                {showStart && (
+                {showStart &&
+
                     <DateTimePicker
                         testID="dateTimePicker"
                         value={globalState.validationReservation[0].startDate}
@@ -212,7 +216,7 @@ export default function MakeReservation({ route, navigation }) {
                         is24Hour={true}
                         onChange={onChangeStart}
                     />
-                )}
+                }
 
                 {/* THIS IS THE END */}
 
@@ -231,10 +235,14 @@ export default function MakeReservation({ route, navigation }) {
                     {startDateFromGlobal === endDateFromGlobal ?
 
                         <StyledText style={[generalStyles.textCenter]}>Le début et la fin de la reservation sont les mêmes</StyledText>
+
                         :
+
                         <>
                             <StyledText style={[generalStyles.textCenter]}>Vous pouvez procéder à la réservation</StyledText>
+
                             <StyledText style={[generalStyles.textCenter]}>Début de la réservation : {startDateFromGlobal} </StyledText>
+
                             <StyledText style={[generalStyles.textCenter]}>Fin de la réservation : {endDateFromGlobal} </StyledText>
 
                         </>

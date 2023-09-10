@@ -1,31 +1,31 @@
-import {Dimensions, ScrollView, Text, View} from 'react-native';
-import {generalStyles, greyish} from '../../../Shared/css';
+import { Dimensions, ScrollView, Text, View } from 'react-native';
+import { generalStyles, greyish } from '../../../Shared/css';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {GradientButton} from '../../../comps';
+import { GradientButton } from '../../../comps';
 import HistoryNextReservation from './HistoryNexReservations';
 import HistoryOldKey from './HistoryOldKey';
 import HistoryRoute from './HistoryRoute';
-import {ListItem} from '@rneui/themed';
+import { ListItem } from '@rneui/themed';
 import React from 'react';
-import {StateContext} from '../../../Context/StateContext';
+import { StateContext } from '../../../Context/StateContext';
 import StyledText from '../../../Shared/StyledText';
 import TopBorderContainer from '../../../Shared/TopBorderContainer';
 import format from 'date-fns/format';
 import useGlobalContext from '../../../Hooks/useGlobalContext';
 
-export default function AccordeonSingleItem({route}) {
+export default function AccordeonSingleItem({ route }) {
   ////////////////
   // Route (initialParmas props)
   ////////////////
 
-  const {mapType, title} = route.params;
+  const { mapType, title } = route.params;
 
   ////////////////
   // GlobalState
   ////////////////
 
-  const {userState} = useGlobalContext();
+  const { userState } = useGlobalContext();
 
   ////////////////
   // For expanding the tabs
@@ -38,7 +38,7 @@ export default function AccordeonSingleItem({route}) {
   ////////////////
 
   const historyArray =
-    userState?.user?.[0]?.userHistory?.find(
+    userState?.user?.userHistory?.find(
       name => Object.keys(name)[0] === mapType,
     )?.[mapType] || [];
 
@@ -61,7 +61,7 @@ export default function AccordeonSingleItem({route}) {
     }
   };
 
-  const ListCustom = ({history, index}) => {
+  const ListCustom = ({ history, index }) => {
     const [expanded, setExpanded] = React.useState(false);
 
     return (
@@ -69,7 +69,7 @@ export default function AccordeonSingleItem({route}) {
         containerStyle={[
           generalStyles.globalShadow,
           generalStyles.colorContainer,
-          {backgroundColor: 'white'},
+          { backgroundColor: 'white' },
         ]}
         content={
           <>
@@ -89,12 +89,12 @@ export default function AccordeonSingleItem({route}) {
           <ListItem
             containerStyle={
               mapType === 'userRoutes'
-                ? [generalStyles.colorContainer, {backgroundColor: greyish}]
+                ? [generalStyles.colorContainer, { backgroundColor: greyish }]
                 : {
-                    backgroundColor: 'transparent',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }
+                  backgroundColor: 'transparent',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }
             }>
             <HistoryOldKey item={history} />
           </ListItem>
@@ -104,12 +104,12 @@ export default function AccordeonSingleItem({route}) {
           <ListItem
             containerStyle={
               mapType === 'userRoutes'
-                ? [generalStyles.colorContainer, {backgroundColor: greyish}]
+                ? [generalStyles.colorContainer, { backgroundColor: greyish }]
                 : {
-                    backgroundColor: 'transparent',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }
+                  backgroundColor: 'transparent',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }
             }>
             <HistoryNextReservation item={history} />
           </ListItem>
@@ -164,7 +164,7 @@ export default function AccordeonSingleItem({route}) {
 
         <ScrollView
           contentContainerStyle={generalStyles.scrollViewStyle}
-          style={{marginTop: 15, marginBottom: 15}}>
+          style={{ marginTop: 15, marginBottom: 15 }}>
           {filteredArray.length > 0 ? (
             filteredArray.map((history, index) => (
               <ListCustom key={index} index={index} history={history} />

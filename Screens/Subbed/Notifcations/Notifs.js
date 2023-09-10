@@ -18,7 +18,7 @@ export default function Notifs() {
 
     const { userState, userDispatch } = useGlobalContext()
 
-    console.log("userState", userState)
+    // console.log("userState", userState)
 
     return (
 

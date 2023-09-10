@@ -1,5 +1,5 @@
-import {DispatchContext, StateContext} from '../../../Context/StateContext';
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import { DispatchContext, StateContext } from '../../../Context/StateContext';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import {
   checkInInfoArray,
   checkOutInfoArray,
@@ -8,14 +8,14 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomBorderContainer from '../../../Shared/BottomBorderContainer';
 import DamageCheckBoxes from './DamageCheckBoxes';
-import {GradientButton} from '../../../comps';
-import {Input} from 'react-native-elements';
+import { GradientButton } from '../../../comps';
+import { Input } from 'react-native-elements';
 import React from 'react';
 import StyledText from '../../../Shared/StyledText';
 import TopBorderContainer from '../../../Shared/TopBorderContainer';
-import {addInfoDispatch} from '../../../Reducer/GlobalReducer/globalDispatch';
-import {generalStyles} from '../../../Shared/css';
-import {inventoryArray} from '../../../JSON/Fr/InventoryArray';
+import { addInfoDispatch } from '../../../Reducer/GlobalReducer/globalDispatch';
+import { generalStyles } from '../../../Shared/css';
+import { inventoryArray } from '../../../JSON/Fr/InventoryArray';
 // TODO: Envoi d'un INVENTORY de manière sale
 
 //CHECK IN
@@ -29,11 +29,12 @@ import {inventoryArray} from '../../../JSON/Fr/InventoryArray';
 // Enregistrement position véhicule => hmmm ?
 // Etats des lieux => photos
 
-export default function Inventory({navigation, route}) {
-  const {dispatchGeneralType} = route.params;
+export default function Inventory({ navigation, route }) {
 
-  const {globalState} = React.useContext(StateContext);
-  const {globalDispatch} = React.useContext(DispatchContext);
+  const { dispatchGeneralType } = route.params;
+
+  const { globalState } = React.useContext(StateContext);
+  const { globalDispatch } = React.useContext(DispatchContext);
 
   const [state, setGlobalState] = React.useState(globalState);
 
@@ -67,7 +68,7 @@ export default function Inventory({navigation, route}) {
           <React.Fragment key={display.title}>
             <TouchableOpacity
               activeOpacity={1}
-              style={[generalStyles.globalShadow, {paddingVertical: 10}]}>
+              style={[generalStyles.globalShadow, { paddingVertical: 10 }]}>
               <TopBorderContainer>
                 <StyledText style={generalStyles.titleInfo}>
                   {display.text1}
@@ -82,15 +83,15 @@ export default function Inventory({navigation, route}) {
 
         <TouchableOpacity
           activeOpacity={1}
-          style={[generalStyles.globalShadow, {paddingVertical: 10}]}>
+          style={[generalStyles.globalShadow, { paddingVertical: 10 }]}>
           <TopBorderContainer>
-            <StyledText style={{textAlign: 'center', marginBottom: 5}}>
+            <StyledText style={{ textAlign: 'center', marginBottom: 5 }}>
               Commentaire
             </StyledText>
           </TopBorderContainer>
           <BottomBorderContainer>
             <Input
-              style={{textAlignVertical: 'top'}}
+              style={{ textAlignVertical: 'top' }}
               multiline={true}
               numberOfLines={5}
               onChangeText={value =>
@@ -110,14 +111,14 @@ export default function Inventory({navigation, route}) {
               placeholder="Commentaire"
               containerStyle={[
                 generalStyles.textAeraContainer,
-                {marginTop: 10},
+                { marginTop: 10 },
               ]}
               inputContainerStyle={generalStyles.textAeraContentContainer}
             />
 
             <GradientButton
-              style={{paddingVertical: 10}}
-              addStyle={{marginBottom: 10}}
+              style={{ paddingVertical: 10 }}
+              addStyle={{ marginBottom: 10 }}
               width={250}
               handlePress={() =>
                 navigation.navigate('inventoryGeneralFrontPanel', {

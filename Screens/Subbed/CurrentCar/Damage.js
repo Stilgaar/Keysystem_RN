@@ -1,21 +1,21 @@
-import React,{ useState } from 'react';
-import {CheckBox, Input} from 'react-native-elements';
-import {DispatchContext, StateContext} from '../../../Context/StateContext';
+import React, { useState } from 'react';
+import { CheckBox, Input } from 'react-native-elements';
+import { DispatchContext, StateContext } from '../../../Context/StateContext';
 import useGlobalContext from '../../../Hooks/useGlobalContext';
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
-import {format, isValid, parseISO} from 'date-fns';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { format, isValid, parseISO } from 'date-fns';
 import PicsFromB64 from '../../../Shared/PicsFromB64';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomBorderContainer from '../../../Shared/BottomBorderContainer';
 import DamageCheckBoxes from './DamageCheckBoxes';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {GradientButton} from '../../../comps';
+import { GradientButton } from '../../../comps';
 import StyledText from '../../../Shared/StyledText';
 import TopBorderContainer from '../../../Shared/TopBorderContainer';
-import {addInfoDispatch} from '../../../Reducer/GlobalReducer/globalDispatch';
-import {damageArray} from '../../../JSON/Fr/DamageArray';
-import {generalStyles} from '../../../Shared/css';
+import { addInfoDispatch } from '../../../Reducer/GlobalReducer/globalDispatch';
+import { damageArray } from '../../../JSON/Fr/DamageArray';
+import { generalStyles } from '../../../Shared/css';
 import moment from 'moment';
 
 // Sinistre(s) :
@@ -29,35 +29,23 @@ import moment from 'moment';
 // Fiche renseignements
 // Commentaires
 
-export default function Damage({navigation, route}) {
+export default function Damage({ navigation, route }) {
   // const {dispatchGeneralType} = route.params;
 
   // const {globalDispatch} = React.useContext(DispatchContext);
-  const {globalState} = React.useContext(StateContext);
+  const { globalState } = React.useContext(StateContext);
 
   const [damageDate, setDamageDate] = useState(new Date());
   const [showDamageDatePicker, setShowDamageDatePicker] = useState(false);
   const [showDamageTimePicker, setShowDamageTimePicker] = useState(false);
 
-  const {userState} = useGlobalContext();
-
-  const [state, setGlobalState] = React.useState(globalState);
+  const { userState } = useGlobalContext();
 
   // const [selectedDate, setSelectedDate] = React.useState();
   // const [dateObject, setDateObjec] = React.useState();
-  const [driverName, setDriverName] = useState(userState?.user?.[0].userFullName);
+  const [driverName, setDriverName] = useState(userState?.user?.userFullName);
   const [location, setLocation] = useState('');
 
-  React.useEffect(() => {
-    setTimeout(
-      async () => {
-        const state = await AsyncStorage.getItem('globalState');
-        setGlobalState(JSON.parse(state));
-      },
-
-      10,
-    );
-  }, [globalState]);
 
   // React.useEffect(() => {
   //   if (state) {
@@ -123,7 +111,7 @@ export default function Damage({navigation, route}) {
       setDamageDate(selectedDate);
     }
   };
-  
+
   const handleDamageTimeChange = (event, selectedTime) => {
     setShowDamageTimePicker(false);
     console.log(selectedTime.toJSON())
@@ -139,8 +127,8 @@ export default function Damage({navigation, route}) {
     /*
     Ce qu'il faudra qu'il y ai dans le globalState
     attributionDamage: [{
-            fkVehicleGuid : "",
-            fkUserGuid : "",
+            vehicleGuid : "",
+            userGuid : "",
             damageDate: new Date(),
             ToInsurance: false,
             repairs: null,
@@ -152,8 +140,8 @@ export default function Damage({navigation, route}) {
     */
     try {
       const formData = new FormData()
-      formData.append(`FkVehicleGuid`, state?.currentCar?.vehicleGuid)
-      formData.append(`FkUserGuid`, userState?.user?.[0].userGuid)
+      formData.append(`vehicleGuid`, globalState?.currentCar?.vehicleGuid)
+      formData.append(`userGuid`, userState?.user?.userGuid)
       formData.append(`DamageDate`, damageDate.toJSON())
       // SET TO False/empty pour le moment, on verra si on permet le changement ultérieurement
       formData.append(`ToInsurance`, false)
@@ -164,20 +152,18 @@ export default function Damage({navigation, route}) {
       formData.append(`Location`, location)
 
       const attributionDocs = []
-      if((state.photoDamage !== undefined || state.photoDamage !== null))
-      {
-        state.photoDamage.forEach(photo => {
-          const attributionElement = 
+      if ((globalState.photoDamage !== undefined || state.photoDamage !== null)) {
+        globalState.photoDamage.forEach(photo => {
+          const attributionElement =
           {
-            documentFormFile: {uri: photo.jpgFile.uri, type:'image/jpeg', name: photo.jpgFile.name},
+            documentFormFile: { uri: photo.jpgFile.uri, type: 'image/jpeg', name: photo.jpgFile.name },
             displayName: `Photo sinistre`,
-          } 
+          }
           attributionDocs.push(attributionElement)
         });
 
-        if(attributionDocs.length > 0)
-        {
-          attributionDocs.forEach((doc,index) => {
+        if (attributionDocs.length > 0) {
+          attributionDocs.forEach((doc, index) => {
             // Append the file
             const file = doc.documentFormFile;
             formData.append(`attributionDocs[${index}].DocumentFormFile`, file);
@@ -189,15 +175,15 @@ export default function Damage({navigation, route}) {
       }
       else throw new Error('You should at least send one document')
 
-      console.log("FORM DATA DAMAGE ====> ",formData)
+      console.log("FORM DATA DAMAGE ====> ", formData)
 
       let postDamageResult = await fetch(`${process.env.API_URL}/api/Damage`, {
         method: 'POST',
         body: formData
       }).catch((error) => setErrorLog(error.errorMessage));
 
-      if(postDamageResult.ok){
-        state.photoDamage = []
+      if (postDamageResult.ok) {
+        globalState.photoDamage = []
       }
     } catch (e) {
       // Handle any errors that occurred during the fetch request
@@ -215,12 +201,12 @@ export default function Damage({navigation, route}) {
     <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
       <TouchableOpacity
         activeOpacity={1}
-        style={[generalStyles.globalShadow, {paddingVertical: 10}]}>
+        style={[generalStyles.globalShadow, { paddingVertical: 10 }]}>
         <TopBorderContainer>
           <StyledText>Vous avez subi un sinistre ?</StyledText>
         </TopBorderContainer>
         <BottomBorderContainer>
-          <StyledText style={{textAlign: 'justify'}}>
+          <StyledText style={{ textAlign: 'justify' }}>
             Remplissez ce formulaire pour votre voiture pour que votre
             entreprise puisse prendre les messures nécessaire le plus rapidement
             possible
@@ -230,9 +216,9 @@ export default function Damage({navigation, route}) {
 
       <TouchableOpacity
         activeOpacity={1}
-        style={[generalStyles.globalShadow, {paddingVertical: 10}]}>
+        style={[generalStyles.globalShadow, { paddingVertical: 10 }]}>
         <TopBorderContainer>
-          <StyledText style={{textAlign: 'center', marginBottom: 5}}>
+          <StyledText style={{ textAlign: 'center', marginBottom: 5 }}>
             Date / Heure sélectionnée : {moment(damageDate.toJSON()).format('DD/MM/YYYY - HH:mm')}
           </StyledText>
         </TopBorderContainer>
@@ -240,14 +226,14 @@ export default function Damage({navigation, route}) {
         <BottomBorderContainer>
           <GradientButton
             // handlePress={() => showMode('date')}
-            addStyle={{marginBottom: 5}}
+            addStyle={{ marginBottom: 5 }}
             text="Choisir Date"
             handlePress={() => setShowDamageDatePicker(true)}
           />
 
           <GradientButton
             // handlePress={() => showMode('time')}
-            addStyle={{marginBottom: 5}}
+            addStyle={{ marginBottom: 5 }}
             text="Choisir heure"
             handlePress={() => setShowDamageTimePicker(true)}
           />
@@ -267,7 +253,7 @@ export default function Damage({navigation, route}) {
               onChange={handleDamageTimeChange}
             />
           )}
-{/* 
+          {/* 
           {show && (
             <DateTimePicker
               testID="dateTimePicker"
@@ -282,7 +268,7 @@ export default function Damage({navigation, route}) {
             title={`J'étais le conducteur`}
             checked={isDriver}
             onPress={() => setIsDriver(c => !c)}
-            containerStyle={{marginBottom: 10}}
+            containerStyle={{ marginBottom: 10 }}
           />
 
           {!isDriver && (
@@ -293,15 +279,15 @@ export default function Damage({navigation, route}) {
               // }
               value={driverName}
               onChangeText={value => setDriverName(value)}
-              // onChangeText={value =>
-              //   globalDispatch(
-              //     addInfoDispatch(
-              //       value,
-              //       dispatchGeneralType,
-              //       'driverName',
-              //     ),
-              //   )
-              // }
+            // onChangeText={value =>
+            //   globalDispatch(
+            //     addInfoDispatch(
+            //       value,
+            //       dispatchGeneralType,
+            //       'driverName',
+            //     ),
+            //   )
+            // }
             />
           )}
 
@@ -309,43 +295,45 @@ export default function Damage({navigation, route}) {
             placeholder="Lieu de l'incident"
             value={location}
             onChangeText={value => setLocation(value)}
-            // value={
-            //   globalState?.attributionDamage?.[0]?.location
-            // }
-            // onChangeText={value =>
-            //   globalDispatch(
-            //     addInfoDispatch(
-            //       value,
-            //       dispatchGeneralType,
-            //       'location',
-            //     ),
-            //   )
-            // }
+          // value={
+          //   globalState?.attributionDamage?.[0]?.location
+          // }
+          // onChangeText={value =>
+          //   globalDispatch(
+          //     addInfoDispatch(
+          //       value,
+          //       dispatchGeneralType,
+          //       'location',
+          //     ),
+          //   )
+          // }
           />
-{/* 
+          {/* 
           <StyledText style={{marginBottom: 10}}>
             {' '}
             Localisation des dommages{' '}
           </StyledText> */}
 
           <GradientButton
-              text="Ajouter des photos du sinistre"
-              handlePress={() => navigation.navigate('addDamage')}
-            />
+            text="Ajouter des photos du sinistre"
+            handlePress={() => navigation.navigate('addDamage')}
+          />
 
-            {state.photoDamage.length > 0  && (
-              <>
-                <PicsFromB64
-                    picsArray={state.photoDamage}
-                    dispatchGeneralType={`photoDamage`}
-                  />
+          {globalState.photoDamage.length > 0 &&
 
-                <GradientButton
-                  text={`Envoyer Sinistre`}
-                  handlePress={handleSendDamage}
-                />
-              </>
-            )}
+            <>
+              <PicsFromB64
+                picsArray={globalState.photoDamage}
+                dispatchGeneralType={`photoDamage`}
+              />
+
+              <GradientButton
+                text={`Envoyer Sinistre`}
+                handlePress={handleSendDamage}
+              />
+            </>
+
+          }
 
           {/* {damageArray.map((text, i) => (
             <DamageCheckBoxes
@@ -388,6 +376,7 @@ export default function Damage({navigation, route}) {
               handlePress={handleSendDamage}
             />
           ) : null} */}
+
         </BottomBorderContainer>
       </TouchableOpacity>
     </ScrollView>

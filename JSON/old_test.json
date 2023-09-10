@@ -1,14 +1,12 @@
 {
-    "attributionCost": [
-        {
-            "costTotal": "",
-            "costTotalHT": "",
-            "costTotalTTC": "",
-            "costTotalTVA": "",
-            "userGuid": "1321324465",
-            "vehiculeGuid": ""
-        }
-    ],
+    "attributionCost": {
+        "costAmount": "",
+        "costAdditionalCost": "",
+        "userGuid": "",
+        "vehicleGuid": "",
+        "costDoneDate": "",
+        "attributionCostDoc": []
+    },
     "attributionDamage": [
         {
             "generalDamageInfo": []

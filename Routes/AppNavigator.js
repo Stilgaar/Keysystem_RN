@@ -1,9 +1,9 @@
-import {Dimensions, StyleSheet, View} from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import {
   NavigationContainer,
   getFocusedRouteNameFromRoute,
 } from '@react-navigation/native';
-import {PERMISSIONS, request} from 'react-native-permissions';
+import { PERMISSIONS, request } from 'react-native-permissions';
 
 import AccordeonSingleItem from '../Screens/Subbed/History/AccordeonSingleItem';
 import Actions from '../Screens/Subbed/CurrentCar/Actions';
@@ -12,7 +12,7 @@ import AddPicture from '../Shared/AddPicture';
 import AddSignature from '../Screens/Subbed/PersonalSpace/AddSignature';
 import CarLocation from '../Screens/Subbed/CurrentCar/CarLocation';
 import Costs from '../Screens/Subbed/CurrentCar/Costs';
-import {CustomTabBarButton} from '../comps';
+import { CustomTabBarButton } from '../comps';
 import Damage from '../Screens/Subbed/CurrentCar/Damage';
 import HeaderSubbed from '../Shared/Headers/HeaderSubbed';
 import HeadersPics from '../Shared/Headers/HeadersPics';
@@ -22,22 +22,22 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MakeReservation from '../Screens/Subbed/AviableCars/MakeReservation';
 import ModifyAccount from '../Screens/Subbed/PersonalSpace/ModifyAccount';
 import MyAccount from '../Screens/Subbed/PersonalSpace/MyAccount';
-import {Notifications} from 'react-native-notifications';
+import { Notifications } from 'react-native-notifications';
 import Notifs from '../Screens/Subbed/Notifcations/Notifs';
 import ReservationList from '../Screens/Subbed/CurrentCar/ReservationList';
-import {PermissionsAndroid} from 'react-native';
+import { PermissionsAndroid } from 'react-native';
 import React from 'react';
 import SelectVehicle from '../Screens/Subbed/AviableCars/SelectVehicule';
 import SelectedVehicule from '../Screens/Subbed/CurrentCar/SelectedVehicule';
-import {StateContext} from '../Context/StateContext';
+import { StateContext } from '../Context/StateContext';
 import VehiculeCalendar from '../Screens/Subbed/AviableCars/VehiculeCalendar';
 import VirtualPouch from '../Screens/Subbed/CurrentCar/VirtualPouch';
-import {addNotification} from '../Reducer/GlobalReducer/globalDispatch';
-import {blackA} from '../Shared/css';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createStackNavigator} from '@react-navigation/stack';
-import {damageArray} from '../JSON/Fr/DamageArray';
-import {inventoryArray} from '../JSON/Fr/InventoryArray';
+import { addNotification } from '../Reducer/GlobalReducer/globalDispatch';
+import { blackA } from '../Shared/css';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import { damageArray } from '../JSON/Fr/DamageArray';
+import { inventoryArray } from '../JSON/Fr/InventoryArray';
 import useGlobalContext from '../Hooks/useGlobalContext';
 
 ////////////////
@@ -86,7 +86,7 @@ const Stack = createStackNavigator();
 const wheight = Dimensions.get('screen').height;
 // Principal Navigation
 export default function AppNavigator() {
-  const {userDispatch} = useGlobalContext();
+  const { userDispatch } = useGlobalContext();
 
   const [notificationPermission, setNotificationPermission] =
     React.useState(null);
@@ -97,11 +97,11 @@ export default function AppNavigator() {
     } else {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS, {
-          title: 'Key System Post Notification Permission',
-          message:'Key System needs your permission to send you notifications',
-          buttonPositive:'Accept',
-          buttonNegative: 'Cancel'
-        }
+        title: 'Key System Post Notification Permission',
+        message: 'Key System needs your permission to send you notifications',
+        buttonPositive: 'Accept',
+        buttonNegative: 'Cancel'
+      }
       );
 
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -135,7 +135,7 @@ export default function AppNavigator() {
     const ws = new WebSocket('wss://socketsbay.com/wss/v2/1/demo/');
 
     ws.addEventListener('message', event => {
-      if(event.data.length > 0){
+      if (event.data.length > 0) {
         if (event.data.includes('title') && event.data.includes('body')) {
           makeANofitication(JSON.parse(event.data));
         }
@@ -190,14 +190,15 @@ export default function AppNavigator() {
   // Account Stack
   ////////////////
 
-  const StackAccount = ({route}) => {
+  const StackAccount = ({ route }) => {
+
     return (
       <Stack.Navigator initialRouteName="MyAccount">
         <Stack.Screen
           name="MyAccount"
           component={MyAccount}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeaderSubbed
                 title={'Mon Compte'}
                 navigation={navigation}
@@ -212,7 +213,7 @@ export default function AppNavigator() {
           name="ModifyAccount"
           component={ModifyAccount}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeaderSubbed
                 title={'Modification information'}
                 navigation={navigation}
@@ -227,7 +228,7 @@ export default function AppNavigator() {
           name="ActivateAccount"
           component={ActivateAccount}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeaderSubbed
                 title={'Ajout de documents'}
                 navigation={navigation}
@@ -247,7 +248,7 @@ export default function AppNavigator() {
             maxPics: 2,
           }}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeadersPics
                 title={"Photo d'identité : recto verso"}
                 numberLenghtChecker={`photoID`}
@@ -267,7 +268,7 @@ export default function AppNavigator() {
             maxPics: 2,
           }}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeadersPics
                 title={'Permis de conduire : recto verso'}
                 numberLenghtChecker={`photoLicence`}
@@ -296,7 +297,7 @@ export default function AppNavigator() {
           name="History"
           component={History}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeaderSubbed
                 title={'Historique'}
                 navigation={navigation}
@@ -315,7 +316,7 @@ export default function AppNavigator() {
             title: 'Trajet',
           }}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeaderSubbed
                 title={'Précédents Trajets'}
                 navigation={navigation}
@@ -334,7 +335,7 @@ export default function AppNavigator() {
             title: 'Clef',
           }}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeaderSubbed
                 title={'Clefs Numériques Obsolètes'}
                 navigation={navigation}
@@ -353,7 +354,7 @@ export default function AppNavigator() {
             title: 'Reservation',
           }}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeaderSubbed
                 title={'Prochaines réservations'}
                 navigation={navigation}
@@ -371,8 +372,8 @@ export default function AppNavigator() {
   // Car Stack
   ////////////////
 
-  const StackCars = ({route}) => {
-    const {globalState} = React.useContext(StateContext);
+  const StackCars = ({ route }) => {
+    const { globalState } = React.useContext(StateContext);
 
     const [state, setGlobalState] = React.useState(globalState);
 
@@ -382,7 +383,7 @@ export default function AppNavigator() {
           name="ReservationList"
           component={ReservationList}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeaderSubbed
                 title={
                   state?.currentKeys?.length > 1
@@ -401,7 +402,7 @@ export default function AppNavigator() {
           name="SelectedVehicule"
           component={SelectedVehicule}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeaderSubbed
                 title={'Véhicule sélectionné'}
                 navigation={navigation}
@@ -416,7 +417,7 @@ export default function AppNavigator() {
           name="Actions"
           component={Actions}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeaderSubbed
                 title={'Actions voiture'}
                 navigation={navigation}
@@ -430,7 +431,7 @@ export default function AppNavigator() {
         <Stack.Screen
           name="ReservationLists"
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeaderSubbed
                 title={'Clefs Numériques'}
                 navigation={navigation}
@@ -448,7 +449,7 @@ export default function AppNavigator() {
             dispatchGeneralType: 'attributionCost',
           }}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeaderSubbed
                 title={'Coûts véhicules'}
                 navigation={navigation}
@@ -470,7 +471,7 @@ export default function AppNavigator() {
             maxPics: 5,
           }}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeadersPics
                 title={'Documents - cout'}
                 info={'attributionCostDoc'}
@@ -529,7 +530,7 @@ export default function AppNavigator() {
           name="Damage"
           component={Damage}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeaderSubbed
                 title={'Déclaration Sinistre'}
                 navigation={navigation}
@@ -549,7 +550,7 @@ export default function AppNavigator() {
             maxPics: 5,
           }}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeadersPics
                 title={"Photo du sinistre"}
                 numberLenghtChecker={`photoDamage`}
@@ -567,7 +568,7 @@ export default function AppNavigator() {
             type: 'CheckIn',
           }}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeaderSubbed
                 title={"Réalisation d'un état des lieux"}
                 navigation={navigation}
@@ -586,7 +587,7 @@ export default function AppNavigator() {
             type: 'CheckOut',
           }}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeaderSubbed
                 title={"Réalisation d'un état des lieux"}
                 navigation={navigation}
@@ -611,7 +612,7 @@ export default function AppNavigator() {
               indexInventory: index,
             }}
             options={{
-              header: ({navigation}) => (
+              header: ({ navigation }) => (
                 <HeadersPics
                   title={stack.text}
                   info={stack.key}
@@ -627,7 +628,7 @@ export default function AppNavigator() {
         <Stack.Screen
           name="CarMap"
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeaderSubbed
                 title={'Emplacement voiture'}
                 navigation={navigation}
@@ -643,7 +644,7 @@ export default function AppNavigator() {
           name="VirtualPouch"
           component={VirtualPouch}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeaderSubbed
                 title={'Documents Pochette Virtuelle'}
                 navigation={navigation}
@@ -661,14 +662,14 @@ export default function AppNavigator() {
   // Notification Stack (for here for now)
   ////////////////
 
-  const StackNotification = ({route}) => {
+  const StackNotification = ({ route }) => {
     return (
       <Stack.Navigator initialRouteName="Notifs">
         <Stack.Screen
           name="Notifs"
           component={Notifs}
           options={{
-            header: ({navigation}) => (
+            header: ({ navigation }) => (
               <HeaderSubbed
                 title={'Notifications'}
                 navigation={navigation}
@@ -686,7 +687,7 @@ export default function AppNavigator() {
   // Selected Vehicule Stack
   ////////////////
 
-  const StackSelectedVehicule = ({route}) => {
+  const StackSelectedVehicule = ({ route }) => {
     return (
       <>
         <Stack.Navigator initialRouteName="Select">
@@ -694,7 +695,7 @@ export default function AppNavigator() {
             name="Select"
             component={SelectVehicle}
             options={{
-              header: ({navigation}) => (
+              header: ({ navigation }) => (
                 <HeaderSubbed
                   title={`Véhicules disponibles`}
                   navigation={navigation}
@@ -709,7 +710,7 @@ export default function AppNavigator() {
             name="VehiculeCalendar"
             component={VehiculeCalendar}
             options={{
-              header: ({navigation}) => (
+              header: ({ navigation }) => (
                 <HeaderSubbed
                   title={'Calendrier des disponibilités'}
                   navigation={navigation}
@@ -724,7 +725,7 @@ export default function AppNavigator() {
             name="MakeReservation"
             component={MakeReservation}
             options={{
-              header: ({navigation}) => (
+              header: ({ navigation }) => (
                 <HeaderSubbed
                   title={'Réservez'}
                   navigation={navigation}
@@ -746,7 +747,7 @@ export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        screenOptions={({route, navigation}) => ({
+        screenOptions={({ route, navigation }) => ({
           tabBarShowLabel: false,
           headerShown: false,
           tabBarActiveTintColor: blackA,
@@ -755,8 +756,8 @@ export default function AppNavigator() {
             getFocusedRouteNameFromRoute(route),
           )
             ? styles.tabBarStyles
-            : {display: 'none'},
-          tabBarIcon: ({focused, color, size}) => {
+            : { display: 'none' },
+          tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
             if (route.name === 'Account') {

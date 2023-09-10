@@ -19,10 +19,10 @@ export default function SplashScreen() {
             }}>
 
             <Image
-                style={{ 
-                    flex:1,
-                    width: '200px',
-                    height: '200px'
+                style={{
+                    flex: 1,
+                    width: 200,
+                    height: 200,
                 }}
                 source={ksLogo}
             />

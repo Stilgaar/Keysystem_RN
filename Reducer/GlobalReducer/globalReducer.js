@@ -1,5 +1,14 @@
 import { format } from 'date-fns'
 
+const defaultAttributionCost = {
+    attributionCostDoc: [],
+    costAdditionalCost: "",
+    costAmount: "",
+    costDoneDate: new Date(),
+    userGuid: "",
+    vehicleGuid: ""
+};
+
 import { initialGlobalState, initialUserState } from '../../JSON/globalArray';
 
 import keys from "../../JSON/FAKEKEYS.json"
@@ -20,7 +29,6 @@ export const globalUserReducer = (prevState, action) => {
             }
 
         }
-
         ////////////////
         // LOGIN STUFF (nof finished)
         ////////////////
@@ -112,6 +120,7 @@ export const globalReducer = (prevState, action) => {
 
     // makes life easier
     console.log("ACTION.TYPE", action.type)
+    console.log("PREVSTATE", prevState)
 
     switch (action.type) {
 
@@ -140,7 +149,7 @@ export const globalReducer = (prevState, action) => {
                 currentCar: vehicle,
                 attributionDamage: [{
                     ...prevState.attributionDamage?.[0],
-                    fkVehicleGuid: vehicle.vehicleGuid
+                    vehicleGuid: vehicle.vehicleGuid
                 }],
                 attributionInventory: [{
                     ...prevState.attributionInventory?.[0],
@@ -149,13 +158,19 @@ export const globalReducer = (prevState, action) => {
                         vehicleGuid: vehicle.vehicleGuid,
                     }]
                 }],
-                attributionCost: [{
-                    ...prevState.attributionCost?.[0],
+                attributionCost: {
+                    ...prevState.attributionCost,
                     vehicleGuid: vehicle.vehicleGuid,
-                }]
-
+                }
             }
         }
+
+        case "RESET_ATTRIBUTION_COST":
+
+            return {
+                ...prevState,
+                attributionCost: defaultAttributionCost
+            };
 
         ////////////////
         // SELECT VEHICULES FOR RESERVATION
@@ -425,9 +440,8 @@ export const globalReducer = (prevState, action) => {
 
             const { selected } = action.payload
 
-            state = [...prevState.attributionCost]
-            state[0].costType = selected.value
-
+            state = prevState.attributionCost
+            state.costType = selected.value
 
             return {
                 ...prevState,
@@ -441,8 +455,8 @@ export const globalReducer = (prevState, action) => {
 
             const { price, infoType } = action.payload
 
-            state = [...prevState.attributionCost]
-            state[0][`${infoType}`] = price
+            state = prevState.attributionCost
+            state[`${infoType}`] = price
 
             return {
                 ...prevState,
@@ -450,6 +464,26 @@ export const globalReducer = (prevState, action) => {
 
             }
 
+        }
+
+        case "ADD_VIRTUAL_KEYS": {
+
+            const { arrayReservations, arrayKeys } = action.payload
+
+            return {
+                ...prevState,
+                virtualKeys: arrayKeys,
+                reservationVehicles: arrayReservations
+            }
+        }
+
+        case "SET_CURRENT_KEY": {
+            const { currentKey } = action.payload
+
+            return {
+                ...prevState,
+                currentVirtualKey: currentKey.find(vk => vk.vehicleId === vehicle.vehicleGuid)
+            }
         }
 
         ////////////////
