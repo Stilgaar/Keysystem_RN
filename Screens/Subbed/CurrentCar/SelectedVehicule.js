@@ -1,6 +1,5 @@
 import { DispatchContext, StateContext } from '../../../Context/StateContext';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomBorderContainer from '../../../Shared/BottomBorderContainer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -12,7 +11,7 @@ import StyledText from '../../../Shared/StyledText';
 import TopBorderContainer from '../../../Shared/TopBorderContainer';
 import VehiculesInfo from './VehiculeInfos';
 import { generalStyles } from '../../../Shared/css';
-import { getSelectedVehicule } from '../../../Reducer/GlobalReducer/globalDispatch';
+import { getSelectedVehicule, setCurrentkey } from '../../../Reducer/GlobalReducer/globalDispatch';
 import vehicules from '../../../JSON/CAR_MOCK_DATA.json';
 import { globalReducer } from '../../../Reducer/GlobalReducer/globalReducer';
 import { KaaS } from '../../../ContinentalUtilities/KaasMethods';
@@ -100,12 +99,16 @@ export default function SelectedVehicule({ navigation, route }) {
     if (responseVkCreated && responseVkCreated.ok) {
 
       (async () => {
-
-        let virtualKeysClientDevice = await KaaS.getVirtualKeys();
-
-        globalDispatch(setCurrentkey(virtualKeysClientDevice))
-
-      })()
+        try {
+            let virtualKeysClientDevice = await KaaS.getVirtualKeys();
+    
+            if (virtualKeysClientDevice) {
+                globalDispatch(setCurrentkey(virtualKeysClientDevice))
+            }
+        } catch (error) {
+            console.error("Error fetching virtual keys:", error);
+        }
+    })()
     }
 
   }, [responseVkCreated]);
@@ -149,7 +152,7 @@ export default function SelectedVehicule({ navigation, route }) {
                   iconName="key"
                   iconSize={20}
                   iconColor="white"
-                  text="Crée"
+                  text="Créer"
                   borderRadius={50}
                   width={150}
                   buttonPadding={20}
