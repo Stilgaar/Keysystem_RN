@@ -55,7 +55,7 @@ function SelectVehicle({ navigation }) {
     pending: pendingVehicles,
     refresh: refreshVehicles,
     error: errorVehicles
-  } = useFetch(`${process.env.API_URL}/api/Company/${userState.user?.companyGuid} /vehicles`)
+  } = useFetch(`${process.env.API_URL}/api/Company/${userState.user?.companyGuid}/vehicles`)
 
   console.log("errorVehicles", errorVehicles)
   // console.log("vehiclesList", companyVehicles)
@@ -68,8 +68,11 @@ function SelectVehicle({ navigation }) {
     );
   }
 
+  console.log("USERSTATE VERIFIED", userState.user.isVerified)
+
   return (
     <>
+
       {userState?.user?.isVerified ? (
 
         <>

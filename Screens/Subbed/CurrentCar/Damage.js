@@ -114,7 +114,7 @@ export default function Damage({ navigation, route }) {
 
   const handleDamageTimeChange = (event, selectedTime) => {
     setShowDamageTimePicker(false);
-    console.log(selectedTime.toJSON())
+    console.log("DAMAGE.js", selectedTime.toJSON())
     if (selectedTime) {
       const updatedDate = new Date(damageDate);
       updatedDate.setHours(selectedTime.getHours());

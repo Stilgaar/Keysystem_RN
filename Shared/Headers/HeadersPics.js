@@ -19,15 +19,15 @@ function HeadersPics({
 
         if (numberLenghtChecker === "attributionDamage") {
 
-            return globalState?.["attributionDamage"].find(obj => obj[`${info}`])?.[`${info}`].length
+            return globalState?.["attributionDamage"]?.[`${info}`].length
 
         } else if (numberLenghtChecker === "attributionInventory") {
 
-            return globalState?.["attributionInventory"].find(obj => obj[`${info}`])?.[`${info}`].length
+            return globalState?.["attributionInventory"]?.[`${info}`].length
 
         } else if (numberLenghtChecker === "attributionCost") {
 
-            return globalState?.["attributionCost"].find(obj => obj[`${info}`])?.[`${info}`].length
+            return globalState?.["attributionCost"]?.[`${info}`]?.length
 
         } else {
 

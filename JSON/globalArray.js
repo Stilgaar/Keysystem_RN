@@ -19,7 +19,7 @@ export const initialGlobalState = {
     companyVehicles: [],
     currentCar: {},
     reservationSelectCar: [],
-    attributionDamage: [{
+    attributionDamage: {
         vehicleGuid: "",
         userGuid: "",
         damageDate: new Date(),
@@ -29,8 +29,8 @@ export const initialGlobalState = {
         isDriver: true,
         driverName: "",
         attributionDocs: []
-    }],
-    attributionInventory: [{
+    },
+    attributionInventory: {
         generalInventoryInfo: [{
             currentDate: new Date(),
             commentInventory: "",
@@ -38,19 +38,21 @@ export const initialGlobalState = {
             userGuid: "",
             vehicleGuid: ""
         }]
-    }],
+    },
     attributionCost: {
+        costTypeGuid: "",
         costAmount: "",
         costAdditionalCost: "",
         userGuid: "",
         vehicleGuid: "",
         costDoneDate: new Date(),
-        attributionCostDoc: []
+        attributionDocs: [],
+        costMileage: "",
     },
-    validationReservation: [{
+    validationReservation: {
         vehicleGuid: "",
         userGuid: "",
         startDate: new Date(),
         endDate: new Date()
-    }]
+    }
 }

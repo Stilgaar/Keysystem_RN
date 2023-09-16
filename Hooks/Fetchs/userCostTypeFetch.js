@@ -8,6 +8,7 @@ const useCostTypeFetch = (bool = true, dolist = false) => {
     const { userState } = useGlobalContext()
 
     const [transformedCostTypes, setTransformedCostTypes] = useState([])
+    const [makingList, setMakingList] = useState(false)
 
     // actual fetch for the cost types
     const {
@@ -37,6 +38,7 @@ const useCostTypeFetch = (bool = true, dolist = false) => {
             }));
 
             setcostTypeArray(dataArray);
+            setMakingList(true)
         }
     }, [transformedCostTypes, dolist]);
 
@@ -47,7 +49,8 @@ const useCostTypeFetch = (bool = true, dolist = false) => {
         setErrorCostType,
         costTypeArray,
         selectedCostType,
-        setSelecedCostType
+        setSelecedCostType,
+        makingList,
     }
 
 }

@@ -1,7 +1,7 @@
 import { format } from 'date-fns'
 
 const defaultAttributionCost = {
-    attributionCostDoc: [],
+    attributionDocs: [],
     costAdditionalCost: "",
     costAmount: "",
     costDoneDate: new Date(),
@@ -15,8 +15,7 @@ import keys from "../../JSON/FAKEKEYS.json"
 
 export const globalUserReducer = (prevState, action) => {
 
-
-    console.log("ACTION.TYPE", action.type)
+    console.log("ACTION.TYPE USER DISPATCH", action.type)
 
     switch (action.type) {
 
@@ -46,11 +45,7 @@ export const globalUserReducer = (prevState, action) => {
         case "LOGOUT_GLOBAL_DISPATCH": {
 
             return {
-                isLogged: false,
-                user: [],
-                currentKeys: [],
-                notificationsList: [],
-                attributionDamage: []
+                ...initialUserState
             }
 
         }
@@ -119,8 +114,8 @@ export const globalUserReducer = (prevState, action) => {
 export const globalReducer = (prevState, action) => {
 
     // makes life easier
-    console.log("ACTION.TYPE", action.type)
-    console.log("PREVSTATE", prevState)
+    console.log("ACTION.TYPE GLOBAL DISPATCH", action.type)
+    // console.log("PREVSTATE", prevState)
 
     switch (action.type) {
 
@@ -133,6 +128,27 @@ export const globalReducer = (prevState, action) => {
             }
 
         }
+
+        case "LOGIN_GLOBAL_REDUCER": {
+
+            //resets the localStorage when we log in again to make a clean one.
+
+
+            return {
+                ...initialGlobalState
+            }
+
+        }
+
+
+        case 'RESET_INITIAL_STATE_LOGGOUT': {
+            return {
+                ...initialGlobalState
+            }
+        }
+
+
+
 
 
         ////////////////
@@ -147,30 +163,23 @@ export const globalReducer = (prevState, action) => {
             return {
                 ...prevState,
                 currentCar: vehicle,
-                attributionDamage: [{
-                    ...prevState.attributionDamage?.[0],
+                attributionDamage: {
+                    ...prevState.attributionDamage,
                     vehicleGuid: vehicle.vehicleGuid
-                }],
-                attributionInventory: [{
-                    ...prevState.attributionInventory?.[0],
+                },
+                attributionInventory: {
+                    ...prevState.attributionInventory,
                     generalInventoryInfo: [{
-                        ...prevState.attributionInventory?.[0]?.generalInventoryInfo?.[0],
+                        ...prevState.attributionInventory?.generalInventoryInfo?.[0],
                         vehicleGuid: vehicle.vehicleGuid,
                     }]
-                }],
+                },
                 attributionCost: {
                     ...prevState.attributionCost,
                     vehicleGuid: vehicle.vehicleGuid,
                 }
             }
         }
-
-        case "RESET_ATTRIBUTION_COST":
-
-            return {
-                ...prevState,
-                attributionCost: defaultAttributionCost
-            };
 
         ////////////////
         // SELECT VEHICULES FOR RESERVATION
@@ -214,38 +223,34 @@ export const globalReducer = (prevState, action) => {
         // THIS WORKS NOW, everywhere
         ////////////////
 
+
         case "ADD_ANY_PICTURE": {
 
             let state;
 
             const { picture, dispatchGeneralType, dispatchType } = action.payload;
 
-            state = [...prevState[`${dispatchGeneralType}`]]
+
+            state = prevState[`${dispatchGeneralType}`]
+
+            console.log("state", state)
 
             if (!dispatchType) {
-                state.push({ jpgFile: picture });
-
+                state.push({ documentFormFile: { uri: picture.uri, type: 'image/jpeg', name: picture.name } });
             } else {
-
-                if (!state.some(obj => obj[dispatchType])) {
-
-                    let newState = { [`${dispatchType}`]: [{ jpgFile: picture, damageTypes: [] }] }
-
-                    state.push(newState)
-
-                } else {
-
-                    const findobjectToUpdate = state.find(object => object[dispatchType]);
-                    findobjectToUpdate[dispatchType].push({ jpgFile: picture, damageTypes: [] })
-                }
+                state.attributionDocs.push({
+                    documentFormFile: { uri: picture.uri, type: 'image/jpeg', name: picture.name },
+                    displayName: picture.name
+                })
             }
 
             return {
                 ...prevState,
-                [dispatchGeneralType]: state
-            };
+                [`${dispatchType}`]: {
+                    ...state
+                }
+            }
         }
-
 
         ////////////////
         // Del Any Pic
@@ -253,31 +258,32 @@ export const globalReducer = (prevState, action) => {
 
         case "DELL_ANY_PICTURE": {
 
-            let state;
-
             const { pictureIndex, dispatchGeneralType, dispatchType } = action.payload;
 
-            state = [...prevState[`${dispatchGeneralType}`]]
+            let stateObject = prevState[`${dispatchGeneralType}`]
 
             if (!dispatchType) {
 
-                state.splice(pictureIndex, 1)
+                const keys = Object.keys(stateObject);
+                if (keys[pictureIndex]) {
+                    stateObject.splice(pictureIndex, 1);
+                }
 
             } else {
 
-                const findobjectToDelete = state.find(object => object[dispatchType]);
-                findobjectToDelete[dispatchType].splice(pictureIndex, 1)
+                if (stateObject[dispatchType]) {
+                    stateObject[dispatchType].splice(pictureIndex, 1);
 
-                if (findobjectToDelete[dispatchType].length === 0) {
-                    state.filter(object => object !== findobjectToDelete);
+                    if (stateObject[dispatchType].length === 0) {
+                        delete stateObject[dispatchType];
+                    }
                 }
             }
 
             return {
                 ...prevState,
-                [dispatchGeneralType]: state
+                [dispatchGeneralType]: stateObject
             };
-
         }
 
         ////////////////
@@ -366,6 +372,33 @@ export const globalReducer = (prevState, action) => {
         }
 
 
+        // RESET MODE TO HANDLE (width !dispatchType also, for PhotoId and stuff from the stuff)
+        case "ATTRIBUTION_RESET_AFTER_POST": {
+
+            const { dispatchGeneralType, dispatchType } = action.payload
+
+            let state = prevState[`${dispatchGeneralType}`];
+
+            state = Object.keys(state).reduce((initialState, key) => {
+
+                if (key === "attributionDocs") {
+
+                    initialState[key] = [];
+
+                } else {
+
+                    initialState[key] = "";
+                }
+                return initialState;
+            }, {});
+
+            return {
+                ...prevState,
+                [dispatchGeneralType]: state,
+            };
+        }
+
+
         ////////////////
         // Del dropdownInfo from the different selectors in the app
         ////////////////
@@ -441,7 +474,7 @@ export const globalReducer = (prevState, action) => {
             const { selected } = action.payload
 
             state = prevState.attributionCost
-            state.costType = selected.value
+            state.costTypeGuid = selected.value
 
             return {
                 ...prevState,
@@ -449,15 +482,14 @@ export const globalReducer = (prevState, action) => {
             }
         }
 
-        case "COST_ADD_PRICE": {
+        case "COST_ADD_INFO": {
 
             let state;
 
-            const { price, infoType } = action.payload
+            const { info, infoType } = action.payload
 
             state = prevState.attributionCost
-            state[`${infoType}`] = price
-
+            state[`${infoType}`] = info
             return {
                 ...prevState,
                 attributionCost: state
@@ -465,6 +497,8 @@ export const globalReducer = (prevState, action) => {
             }
 
         }
+
+        // VIRUTAL KEYS
 
         case "ADD_VIRTUAL_KEYS": {
 
@@ -480,9 +514,11 @@ export const globalReducer = (prevState, action) => {
         case "SET_CURRENT_KEY": {
             const { currentKey } = action.payload
 
+            console.log("CURRENTKEY", currentKey)
+
             return {
                 ...prevState,
-                currentVirtualKey: currentKey.find(vk => vk.vehicleId === vehicle.vehicleGuid)
+                currentVirtualKey: currentKey
             }
         }
 
@@ -528,3 +564,55 @@ return {
         ...state.slice(updatedTypeIndex + 1)
     ]
 }; */
+
+
+// OLD ADD PICTURE
+
+// console.log("PIC", picture)
+
+// let state;
+
+// if (Array.isArray(prevState[`${dispatchGeneralType}`])) {
+//     // Handle array logic
+//     state = [...prevState[`${dispatchGeneralType}`]];
+
+//     if (!dispatchType) {
+//         state.push({ documentFormFile: picture });
+//     } else {
+//         if (!state.some(obj => obj[dispatchType])) {
+//             let newState = { [`${dispatchType}`]: [{ documentFormFile: picture, displayName: picture.name }] };
+//             state.push(newState);
+//         } else {
+//             const findobjectToUpdate = state.find(object => object[dispatchType]);
+//             findobjectToUpdate[dispatchType].push({ documentFormFile: picture, displayName: picture.name });
+//         }
+//     }
+
+//     return {
+//         ...prevState,
+//         [dispatchGeneralType]: state
+//     };
+
+// } else if (typeof prevState[`${dispatchGeneralType}`] === 'object' && prevState[`${dispatchGeneralType}`] !== null) {
+//     // Handle object logic
+//     state = { ...prevState[`${dispatchGeneralType}`] };
+
+//     if (!dispatchType) {
+//         state.jpgFile = picture;
+//     } else {
+//         if (!state[dispatchType]) {
+//             state[dispatchType] = [{ documentFormFile: picture.uri, displayName: picture.name }];
+//         } else {
+//             state[dispatchType].push({ documentFormFile: picture.uri, displayName: picture.name });
+//         }
+//     }
+
+//     return {
+//         ...prevState,
+//         [dispatchGeneralType]: state
+//     };
+
+// } else {
+//     // If it's neither an array nor an object, return prevState.
+//     return prevState;
+// }

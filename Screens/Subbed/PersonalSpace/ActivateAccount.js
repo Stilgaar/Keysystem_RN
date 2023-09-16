@@ -5,14 +5,14 @@ import BottomBorderContainer from '../../../Shared/BottomBorderContainer';
 import { GradientButton } from '../../../comps';
 import PicsFromB64 from '../../../Shared/PicsFromB64';
 import PicsFromSVG from '../../../Shared/PicsFromSVG';
-import React, { useState } from 'react';
+import React from 'react';
 import Spacer from '../../../Shared/Spacer';
 import { StateContext } from '../../../Context/StateContext';
 import StyledText from '../../../Shared/StyledText';
 import TopBorderContainer from '../../../Shared/TopBorderContainer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { activateAccountList } from '../../../JSON/Fr/MyAccountArray';
-import { delSignature } from '../../../Reducer/GlobalReducer/globalDispatch';
+// import { delSignature } from '../../../Reducer/GlobalReducer/globalDispatch';
 import { generalStyles } from '../../../Shared/css';
 import useGlobalContext from '../../../Hooks/useGlobalContext';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -25,32 +25,22 @@ import moment from 'moment';
 export default function ActivateAccount({ navigation }) {
   const { globalState } = React.useContext(StateContext);
 
+  const [errorlog, setErrorLog] = React.useState("")
+
   const { userState } = useGlobalContext();
 
-  const [state, setGlobalState] = React.useState(globalState);
+  const [idStartDate, setIdStartDate] = React.useState(new Date());
+  const [idToDate, setIdToDate] = React.useState(new Date(idStartDate.getFullYear(), idStartDate.getMonth(), idStartDate.getDate() + 1));
+  const [showStartIdPicker, setShowIdStartPicker] = React.useState(false);
+  const [showEndIdPicker, setShowIdEndPicker] = React.useState(false);
 
-  const [idStartDate, setIdStartDate] = useState(new Date());
-  const [idToDate, setIdToDate] = useState(new Date(idStartDate.getFullYear(), idStartDate.getMonth(), idStartDate.getDate() + 1));
-  const [showStartIdPicker, setShowIdStartPicker] = useState(false);
-  const [showEndIdPicker, setShowIdEndPicker] = useState(false);
+  console.log("PHOTOID", globalState.photoID)
 
+  const [licenseStartDate, setLicenseStartDate] = React.useState(new Date());
+  const [licenseToDate, setLicenseToDate] = React.useState(new Date(licenseStartDate.getFullYear(), licenseStartDate.getMonth(), licenseStartDate.getDate() + 1));
 
-  const [licenseStartDate, setLicenseStartDate] = useState(new Date());
-  const [licenseToDate, setLicenseToDate] = useState(new Date(licenseStartDate.getFullYear(), licenseStartDate.getMonth(), licenseStartDate.getDate() + 1));
-
-  const [showStartLicensePicker, setShowLicenseStartPicker] = useState(false);
-  const [showEndLicensePicker, setShowLicenseEndPicker] = useState(false);
-
-  React.useEffect(() => {
-    setTimeout(
-      async () => {
-        const state = await AsyncStorage.getItem('globalState');
-        setGlobalState(JSON.parse(state));
-      },
-
-      10,
-    );
-  }, [globalState]);
+  const [showStartLicensePicker, setShowLicenseStartPicker] = React.useState(false);
+  const [showEndLicensePicker, setShowLicenseEndPicker] = React.useState(false);
 
   const handleSubmitIdDocs = async () => {
     try {
@@ -60,11 +50,11 @@ export default function ActivateAccount({ navigation }) {
       formData.append(`UserGuid`, userState?.user?.userGuid)
 
       const attributionDocs = []
-      if ((state.photoID !== undefined || state.photoID !== null)) {
-        state.photoID.forEach(photo => {
+      if ((globalState.photoID !== undefined || globalState.photoID !== null)) {
+        globalState.photoID.forEach(photo => {
           const attributionIdElement =
           {
-            documentFormFile: { uri: photo.jpgFile.uri, type: 'image/jpeg', name: photo.jpgFile.name },
+            documentFormFile: { uri: photo.documentFormFile.uri, type: 'image/jpeg', name: photo.documentFormFile.name },
             displayName: `Pièce d'identité`,
             userDocumentTypeGuid: `340a5e3e-fe50-11ed-be56-0242ac120002`,
             validFromDate: idStartDate.toJSON(),
@@ -124,11 +114,11 @@ export default function ActivateAccount({ navigation }) {
       formData.append(`UserGuid`, userState?.user?.userGuid)
       const attributionDocs = []
 
-      if ((state.photoLicence !== undefined || state.photoLicence !== null)) {
-        state.photoLicence.forEach(photo => {
+      if ((globalState.photoLicence !== undefined || globalState.photoLicence !== null)) {
+        globalState.photoLicence.forEach(photo => {
           const attributionLicenceElement =
           {
-            documentFormFile: { uri: photo.jpgFile.uri, type: 'image/jpeg', name: photo.jpgFile.name },
+            documentFormFile: { uri: photo.documentFormFile.uri, type: 'image/jpeg', name: photo.documentFormFile.name },
             displayName: `Permis de conduire`,
             userDocumentTypeGuid: `0ef95cd2-fe53-11ed-be56-0242ac120002`,
             validFromDate: licenseStartDate.toJSON(),
@@ -192,17 +182,23 @@ export default function ActivateAccount({ navigation }) {
 
   return (
     <View style={[generalStyles.container]}>
+
       <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
+
         <TouchableOpacity
           activeOpacity={1}
           style={[generalStyles.globalShadow, { paddingVertical: 10 }]}>
+
           <TopBorderContainer>
+
             <StyledText>Activation de votre compte</StyledText>
+
           </TopBorderContainer>
+
           <BottomBorderContainer>
+
             <StyledText style={{ marginBottom: 5 }}>
-              Pour activer votre compte nous avons besoin des documents suivants
-              :
+              Pour activer votre compte nous avons besoin des documents suivants  :
             </StyledText>
 
             {activateAccountList.map(list => (
@@ -210,8 +206,11 @@ export default function ActivateAccount({ navigation }) {
                 * {list}
               </StyledText>
             ))}
+
           </BottomBorderContainer>
+
         </TouchableOpacity>
+
         <TouchableOpacity
           activeOpacity={1}
           style={[generalStyles.globalShadow, { paddingVertical: 10 }]}>
@@ -224,10 +223,10 @@ export default function ActivateAccount({ navigation }) {
               handlePress={() => navigation.navigate('addId')}
             />
 
-            {state.photoID.length > 0 && (
+            {globalState.photoID.length > 0 && (
               <>
                 <PicsFromB64
-                  picsArray={state.photoID}
+                  picsArray={globalState.photoID}
                   dispatchGeneralType={`photoID`}
                 />
 
@@ -284,10 +283,10 @@ export default function ActivateAccount({ navigation }) {
               text="Permis"
               handlePress={() => navigation.navigate('addLicence')}
             />
-            {state.photoLicence.length > 0 && (
+            {globalState.photoLicence.length > 0 && (
               <>
                 <PicsFromB64
-                  picsArray={state.photoLicence}
+                  picsArray={globalState.photoLicence}
                   dispatchGeneralType={`photoLicence`}
                 />
 

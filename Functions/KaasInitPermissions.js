@@ -1,3 +1,4 @@
+
 import { KaaS } from "../ContinentalUtilities/KaasMethods"
 import { PermissionsAndroid } from "react-native";
 
@@ -6,6 +7,7 @@ import { PermissionsAndroid } from "react-native";
 //////////////////////////////
 
 export const initKaaS = async () => {
+
     console.log('isProdMode', process.env.IsProdMode === "true")
     process.env.IsProdMode === "true" ? await KaaS.init(false, false, false, false) : await KaaS.init(true, true, false, true)
     console.log('init called:', KaaS.initCalled)

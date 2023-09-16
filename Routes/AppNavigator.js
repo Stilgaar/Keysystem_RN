@@ -467,14 +467,14 @@ export default function AppNavigator() {
           initialParams={{
             textForObtention: 'Documents cout',
             dispatchGeneralType: 'attributionCost',
-            dispatchType: 'attributionCostDoc',
+            dispatchType: 'attributionDocs',
             maxPics: 5,
           }}
           options={{
             header: ({ navigation }) => (
               <HeadersPics
                 title={'Documents - cout'}
-                info={'attributionCostDoc'}
+                info={'attributionDocs'}
                 numberLenghtChecker={'attributionCost'}
                 nombreMax={' 5'}
                 navigation={navigation}
@@ -689,7 +689,9 @@ export default function AppNavigator() {
 
   const StackSelectedVehicule = ({ route }) => {
     return (
+
       <>
+
         <Stack.Navigator initialRouteName="Select">
           <Stack.Screen
             name="Select"

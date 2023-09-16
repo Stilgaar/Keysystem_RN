@@ -1,24 +1,32 @@
-import * as Yup from 'yup';
-
-import { KeyboardAvoidingView, TouchableOpacity, View } from 'react-native';
-
-import { Formik } from 'formik';
-import GradientButton from '../../Shared/Buttons/GradientButton';
-import { Input } from 'react-native-elements';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+// react native stuff
 import React from 'react';
+import { KeyboardAvoidingView, TouchableOpacity, View } from 'react-native';
+import { Input } from 'react-native-elements';
+
+import { API_URL } from "@env"
+
+// Work together (forms in native made easy)
+import * as Yup from 'yup';
+import { Formik } from 'formik';
+
+// global button
+import GradientButton from '../../Shared/Buttons/GradientButton';
+// Icons Lib
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+// Regex
 import { emailRegex } from '../../Shared/regex';
 import { generalStyles } from '../../Shared/css';
-import { loginDispatch } from '../../Reducer/GlobalReducer/globalDispatch';
+
+// Global functions
 import useGlobalContext from "../../Hooks/useGlobalContext"
+import { loginDispatch } from '../../Reducer/GlobalReducer/globalDispatch';
+
+// Kaas methods - conti -
 import { KaaS } from '../../ContinentalUtilities/KaasMethods';
 // import fakePerson from "../../JSON/FAKEPERSON.json"
 
-// Icons Lib
-
-const Login = ({
-  navigation
-}) => {
+const Login = () => {
 
   const [showPassword, setShowPassword] = React.useState(false);
   const [errorLog, setErrorLog] = React.useState("")
@@ -44,8 +52,7 @@ const Login = ({
         onSubmit={async (values, { setSubmitting }) => {
           // TODO: Mettre toute cette logique dans des services adequate
           try {
-
-            const responseLogin = await fetch(`${process.env.API_URL}/api/Authentication/login/mobile`, {
+            const responseLogin = await fetch(`${API_URL}/api/Authentication/login/mobile`, {
               method: 'POST',
               headers: {
                 Accept: 'application/json',
@@ -57,6 +64,7 @@ const Login = ({
               }),
             });
 
+            console.log("RESPONSE LOGIN", responseLogin)
 
             if (responseLogin.ok) {
 
@@ -159,7 +167,7 @@ const Login = ({
                     }),
                   })
                     .catch((error) => {
-                      console.log("ERRORRRRRRRRRRRR", error.errorMessage)
+                      console.error("ERROR LOGGIN responseCreateClientDevice", error.errorMessage)
                       setErrorLog(error.errorMessage)
                     });
 
@@ -189,7 +197,7 @@ const Login = ({
             }
 
           } catch (error) {
-
+            console.error("ERROR LOGGIN LAST ONE", error.message, error)
             setErrorLog('Erreur de mot de passe ou email + ', error.errorMessage)
           }
           setSubmitting(false)

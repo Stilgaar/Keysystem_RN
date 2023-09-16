@@ -1,19 +1,32 @@
 // React && React Native components
+import React from 'react';
+import { Dimensions, ScrollView, Text, View, TouchableOpacity } from 'react-native';
 
-import { Dimensions, ScrollView, Text, View } from 'react-native';
-import { generalStyles, greyish, primaryColor2 } from '../../../Shared/css';
+// General Styles
+import { generalStyles } from '../../../Shared/css';
 
+// State management
+import { DispatchContext } from '../../../Context/StateContext';
+import useGlobalContext from '../../../Hooks/useGlobalContext';
+// state function managements
+import { logoutDispatch, resetInitialStateLogout } from '../../../Reducer/GlobalReducer/globalDispatch';
+
+// Containers
 import BottomBorderContainer from '../../../Shared/BottomBorderContainer';
+import TopBorderContainer from '../../../Shared/TopBorderContainer';
+
+// Buttons
 import { GradientButton } from '../../../comps';
+
+// Icons
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import React, { useState } from 'react';
+
+// Simple components
 import Spacer from '../../../Shared/Spacer';
 import StyledText from '../../../Shared/StyledText';
-import TopBorderContainer from '../../../Shared/TopBorderContainer';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { logoutDispatch } from '../../../Reducer/GlobalReducer/globalDispatch';
-import useGlobalContext from '../../../Hooks/useGlobalContext';
 import moment from 'moment';
+
+// kaas
 import { KaaS } from '../../../ContinentalUtilities/KaasMethods';
 
 // TODO: Récup les documents du serveur + refresh après ajout + ajout de tous les docs en même temps + signature ajoutée comme un document, sinon ajout de la signature à l'ajout de l'inventory ça evite les fraudres
@@ -28,14 +41,17 @@ export default function MyAccount({ navigation }) {
   // sera passé dans le globalcontext/usereducer.
 
   const { userDispatch, userState } = useGlobalContext();
+  const { globalDispatch } = React.useContext(DispatchContext)
+
   const windowWidth = Dimensions.get('window').width;
 
   let base64UserPicture = `data:${userState?.user?.src
     }; base64, ${userState?.user?.src} `
 
   const handleLogout = async () => {
-    await KaaS.closeSession();
+    globalDispatch(resetInitialStateLogout())
     userDispatch(logoutDispatch())
+    await KaaS.closeSession();
   }
 
   return (

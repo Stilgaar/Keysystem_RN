@@ -12,17 +12,16 @@ export default function SplashScreen() {
         <View
             style={{
                 flex: 1,
-                height: '100%',
-                width: '100%',
                 justifyContent: "center",
                 alignItems: "center",
+                backgroundColor: '#53e9f7',
             }}>
 
             <Image
                 style={{
-                    flex: 1,
                     width: 200,
                     height: 200,
+                    resizeMode: "contain",
                 }}
                 source={ksLogo}
             />

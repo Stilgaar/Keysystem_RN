@@ -1,7 +1,7 @@
 import { DispatchContext, StateContext } from '../../../Context/StateContext';
 import { ScrollView, Text, View } from 'react-native';
 import {
-  costPriceAdd,
+  costAddInfo,
   costSelectType,
   resetCost
 } from '../../../Reducer/GlobalReducer/globalDispatch';
@@ -9,7 +9,8 @@ import {
 import BottomBorderContainer from '../../../Shared/BottomBorderContainer';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { GradientButton } from '../../../comps';
-import { Button, Input } from 'react-native-elements';
+import { Input } from 'react-native-elements';
+import { formatDate } from "../../../Functions/DisplayFunctions"
 import PicsFromB64 from '../../../Shared/PicsFromB64';
 import React from 'react';
 import StyledText from '../../../Shared/StyledText';
@@ -56,19 +57,21 @@ export default function Costs({ navigation, route }) {
   const [dropDownOpen, setDropDownOpen] = React.useState(false);
   const [showDateCost, setShowDateCost] = React.useState(false)
 
-  const { handleSubmitFiles: handleAddCostWithFiles } = useSubmitFiles()
+  const [costDoneDate, setCostDoneDate] = React.useState(new Date())
+
+  const { handleSubmitFiles: handleAddCostWithFiles, resMsg } = useSubmitFiles()
 
   const hanldeSubmitCost = e => {
     handleAddCostWithFiles({
       e,
-      url: `${window.env.API_URL}/api/Cost`,
+      url: `${process.env.API_URL}/api/Cost`,
       body: {
         ...globalState[`${dispatchGeneralType}`],
+        costDoneDate: formatDate(costDoneDate),
         userGuid: userState.user.userGuid,
         vehicleGuid: globalState.currentCar.vehicleGuid
 
       }
-
     })
   }
 
@@ -79,7 +82,12 @@ export default function Costs({ navigation, route }) {
   DropDownPicker.setLanguage('FR');
   DropDownPicker.setMode('BADGE');
 
-  const { costTypeArray: items } = useCostTypeFetch(true, true)
+  const { costTypeArray: items, pendingCostType, makingList } = useCostTypeFetch(true, true)
+
+  console.log(items)
+
+  console.log("PENDING", pendingCostType)
+  console.log("MAKEING", makingList)
 
   return (
 
@@ -103,14 +111,14 @@ export default function Costs({ navigation, route }) {
           <BottomBorderContainer>
 
 
-            {items && items.length > 0 &&
+            {!pendingCostType && !makingList && items && items.length > 0 &&
 
               <View style={{ zIndex: 2 }}>
 
                 <DropDownPicker
                   //  multiple={true}
                   open={dropDownOpen}
-                  value={globalState?.[`${dispatchGeneralType}`]?.costType}
+                  value={globalState?.[`${dispatchGeneralType}`]?.costTypeGuid}
                   zIndex={5000}
                   zIndexInverse={1000}
                   dropDownMaxHeight={100}
@@ -131,12 +139,12 @@ export default function Costs({ navigation, route }) {
 
 
             <>
-              {items && items.length > 0 && globalState?.[`${dispatchGeneralType}`]?.costType ? (
+              {items && items.length > 0 && globalState?.[`${dispatchGeneralType}`]?.costTypeGuid ? (
                 items
                   .filter(
                     item =>
                       item.value ===
-                      globalState?.[`${dispatchGeneralType}`]?.costType,
+                      globalState?.[`${dispatchGeneralType}`]?.costTypeGuid,
                   )
                   .map(filteredValue => (
 
@@ -150,7 +158,7 @@ export default function Costs({ navigation, route }) {
                         label={`Montant :  ${filteredValue.label}`}
                         placeholder={`Prix ${filteredValue.label} HT`}
                         onChangeText={value =>
-                          globalDispatch(costPriceAdd(value, 'costAmount'))
+                          globalDispatch(costAddInfo(value, 'costAmount'))
                         }
                       />
 
@@ -160,7 +168,7 @@ export default function Costs({ navigation, route }) {
                         label={`Montant Additionnel :  ${filteredValue.label}`}
                         placeholder={`Prix ${filteredValue.label} HT`}
                         onChangeText={value =>
-                          globalDispatch(costPriceAdd(value, 'costAdditionalCost'))
+                          globalDispatch(costAddInfo(value, 'costAdditionalCost'))
                         }
                       />
 
@@ -168,18 +176,19 @@ export default function Costs({ navigation, route }) {
 
                       <GradientButton
                         width={300}
-                        handlePress={() => setShowDateCost(c => !c)}
+                        handlePress={() => setShowDateCost(true)}
                         addStyle={{ marginBottom: 5 }}
-                        text={moment((globalState?.[`${dispatchGeneralType}`]?.costDoneDate).toJSON()).format('DD MMMM YYYY')}
+                        text={moment(costDoneDate.toJSON()).format('DD MMMM YYYY')}
                       />
 
                       {showDateCost &&
 
                         <DateTimePicker
-                          value={new Date()}
+                          value={costDoneDate}
                           mode="date"
                           onChange={(event, selected) => {
-                            console.log("selected COST", selected)
+                            setCostDoneDate(selected)
+                            setShowDateCost(false)
                           }}
                         />
 
@@ -190,7 +199,7 @@ export default function Costs({ navigation, route }) {
               ) : (
                 <>
                   <View style={[generalStyles.globalShadow, { marginTop: 15 }]}>
-                    {Array(3)
+                    {Array(2)
                       .fill()
                       .map((_, index) => (
                         <Input
@@ -204,6 +213,8 @@ export default function Costs({ navigation, route }) {
               )}
             </>
 
+            {/* {console.log("GLOBALSTATE", dispatchGeneralType, globalState?.[`${dispatchGeneralType}`]?.['attributionDocs'])} */}
+
             <GradientButton
               text={`Ajouter Document`}
               addStyle={{ marginBottom: 5 }}
@@ -212,24 +223,25 @@ export default function Costs({ navigation, route }) {
 
             <PicsFromB64
               picsArray={
-                globalState?.[`${dispatchGeneralType}`]?.['attributionCostDoc']
+                globalState?.[`${dispatchGeneralType}`]?.['attributionDocs']
               }
               dispatchGeneralType={dispatchGeneralType}
-              dispatchType={'attributionCostDoc'}
+              dispatchType={'attributionDocs'}
             />
 
             <GradientButton
               disabled={
                 globalState[`${dispatchGeneralType}`].costAmount &&
                   globalState[`${dispatchGeneralType}`].costAdditionalCost &&
-                  globalState[`${dispatchGeneralType}`].costDoneDate &&
-                  globalState?.[`${dispatchGeneralType}`]?.['attributionCostDoc'].length > 0
+                  globalState[`${dispatchGeneralType}`].costDoneDate
+                  // globalState[`${dispatchGeneralType}`]['attributionDocs'].length > 0
                   ? false
                   : true
               }
               text={`Envoyer Coût`}
               handlePress={hanldeSubmitCost}
             />
+
           </BottomBorderContainer>
 
         </TouchableOpacity>

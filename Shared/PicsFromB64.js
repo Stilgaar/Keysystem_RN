@@ -27,7 +27,7 @@ export default function PicsFromB64({
     return (
 
         <>
-            {picsArray
+            {picsArray && picsArray.length > 0 && picsArray
                 ?.map((pics, index) => (
 
 
@@ -42,13 +42,10 @@ export default function PicsFromB64({
                                 alignItems: "center",
                             }}
                         >
-
-                            {console.log(pics)}
-
                             <View style={{ position: "relative" }}>
 
                                 <Image
-                                    source={{ uri: `${pics.jpgFile.uri}` }}
+                                    source={{ uri: `${pics.documentFormFile.uri}` }}
                                     style={{ width: 300, height: 200 }}
                                 />
 

@@ -131,8 +131,8 @@ export const costSelectType = (selected) => {
     return { type: "COST_SELECT_TYPE", payload: { selected } }
 }
 
-export const costPriceAdd = (price, infoType) => {
-    return { type: "COST_ADD_PRICE", payload: { price, infoType } }
+export const costAddInfo = (info, infoType) => {
+    return { type: "COST_ADD_INFO", payload: { info, infoType } }
 }
 
 export const addVirtualKeysClientDevice = (arrayKeys, arrayReservations) => {
@@ -143,6 +143,6 @@ export const setCurrentkey = (currentKey) => {
     return { type: "SET_CURRENT_KEY", payload: { currentKey } }
 }
 
-export const resetCost = () => {
-    return { type: "RESET_ATTRIBUTION_COST" }
+export const resetInitialStateLogout = () => {
+    return { type: "RESET_INITIAL_STATE_LOGGOUT" }
 }

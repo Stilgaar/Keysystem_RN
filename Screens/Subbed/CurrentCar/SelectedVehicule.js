@@ -1,22 +1,23 @@
-import { DispatchContext, StateContext } from '../../../Context/StateContext';
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import BottomBorderContainer from '../../../Shared/BottomBorderContainer';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { GradientButton } from '../../../comps';
-import HistoryKM from './HistoryKM';
-import Octicons from 'react-native-vector-icons/Octicons';
-import React, { useEffect } from 'react';
-import StyledText from '../../../Shared/StyledText';
-import TopBorderContainer from '../../../Shared/TopBorderContainer';
-import VehiculesInfo from './VehiculeInfos';
-import { generalStyles } from '../../../Shared/css';
-import { getSelectedVehicule, setCurrentkey } from '../../../Reducer/GlobalReducer/globalDispatch';
-import vehicules from '../../../JSON/CAR_MOCK_DATA.json';
-import { globalReducer } from '../../../Reducer/GlobalReducer/globalReducer';
-import { KaaS } from '../../../ContinentalUtilities/KaasMethods';
-import useGlobalContext from '../../../Hooks/useGlobalContext';
+// React stuffdsfdf
+import React from 'react';
+import { ScrollView, Text, View } from 'react-native';
 
+// global state / dispatch and their dispatchers fucntions
+import { DispatchContext, StateContext } from '../../../Context/StateContext';
+import useGlobalContext from '../../../Hooks/useGlobalContext';
+import { getSelectedVehicule, setCurrentkey } from '../../../Reducer/GlobalReducer/globalDispatch';
+
+// Simple components
+import { GradientButton } from '../../../comps';
+// Component to show
+import VehiculesInfo from './VehiculeInfos';
+// global css
+import { generalStyles } from '../../../Shared/css';
+
+// import vehicules from '../../../JSON/CAR_MOCK_DATA.json';
+import { KaaS } from '../../../ContinentalUtilities/KaasMethods';
+
+// personal sumbit hook
 import useSubmit from '../../../Hooks/useSubmit';
 
 // Fiche(s) véhicule(s) séléctionné
@@ -27,25 +28,37 @@ import useSubmit from '../../../Hooks/useSubmit';
 // Date prochaine maintenance
 
 export default function SelectedVehicule({ navigation, route }) {
+
+  ////////////////
+  // Global State and userState
+  ////////////////
+
   const { globalState } = React.useContext(StateContext);
   const { globalDispatch } = React.useContext(DispatchContext);
   const { userState } = useGlobalContext();
 
-  // I DONT KNOW YET IF WE'LL MAKE A GET WITH THE VEHICULE OR THE VIRTUAL KEY
-  const { vehicle, virtualKey, reservationTo } = route.params;
-  const [state, setGlobalState] = React.useState(globalState);
+  ////////////////
+  // Legacy comment : x) I DONT KNOW YET IF WE'LL MAKE A GET WITH THE VEHICULE OR THE VIRTUAL KEY
+  ////////////////
+
+  const { selectedVehicule, virtualKey, reservationTo } = route.params;
   const [errorLog, setErrorLog] = React.useState("");
 
-  const selectedVehicule = vehicle
+  ////////////////
+  // FUNCTION LAUCNHED BY THE FIRST USEEFFECT
+  ////////////////
 
-  const selectVirtualKeyAndConnectToDevice = (async (vk) => {
+  const selectVirtualKeyAndConnectToDevice = (async (virtualKey) => {
 
     try {
 
-      globalState.currentVirtualKey = vk
-      if (vk !== undefined && vk.vehicleId === vehicle.continentalVehicleGuid) {
-        const selectedKey = await KaaS.selectVirtualKey(vk.id)
-        if (selectedKey !== undefined && selectedKey !== null) {
+      globalDispatch(setCurrentkey(virtualKey))
+
+      if (virtualKey !== undefined && virtualKey.vehicleId === selectedVehicule.continentalVehicleGuid) {
+
+        const selectedKey = await KaaS.selectVirtualKey(virtualKey.id)
+
+        if (selectedKey) {
           await KaaS.connect()
         }
       }
@@ -55,23 +68,18 @@ export default function SelectedVehicule({ navigation, route }) {
 
   })
 
+  ////////////////
+  // USEEFFECT FROM FIRST RENDER
+  ////////////////
+
   React.useEffect(() => {
     selectVirtualKeyAndConnectToDevice(virtualKey);
     globalDispatch(getSelectedVehicule(selectedVehicule));
   }, []);
 
-  React.useEffect(() => {
-
-    setTimeout(
-      async () => {
-        const state = await AsyncStorage.getItem('globalState');
-        setGlobalState(JSON.parse(state));
-      },
-
-      300,
-    );
-  }, [globalState]);
-
+  ////////////////
+  // HANDLE CLICK TO CREATE THE KEYS
+  ////////////////
 
   const { handleSubmit: handleSubmitCreateKey, resMsg: responseVkCreated } = useSubmit()
 
@@ -81,7 +89,7 @@ export default function SelectedVehicule({ navigation, route }) {
       url: `${process.env.API_URL}/api/VirtualKey`,
       body: {
         userGuid: userState.user?.userGuid,
-        vehicleGuid: vehicle.vehicleGuid,
+        vehicleGuid: selectedVehicule.vehicleGuid,
         virtualKeyFromDate: new Date().toJSON().slice(0, 10),
         virtualKeyToDate: reservationTo,
         clientDeviceGuid: userState.user?.userClientDeviceGuid,
@@ -92,29 +100,34 @@ export default function SelectedVehicule({ navigation, route }) {
     })
   }
 
-  // Check if the response was successful
+  ////////////////
+  // IF THE KEY CREATION WAS SUCCESSFULL
+  ////////////////
 
-  useEffect(() => {
+  React.useEffect(() => {
 
     if (responseVkCreated && responseVkCreated.ok) {
 
       (async () => {
+
         try {
-            let virtualKeysClientDevice = await KaaS.getVirtualKeys();
-    
-            if (virtualKeysClientDevice) {
-                globalDispatch(setCurrentkey(virtualKeysClientDevice))
-            }
+          let virtualKeysClientDevice = await KaaS.getVirtualKeys();
+
+          if (virtualKeysClientDevice) {
+            globalDispatch(setCurrentkey(virtualKeysClientDevice))
+          }
+
         } catch (error) {
-            console.error("Error fetching virtual keys:", error);
+          console.error("Error fetching virtual keys:", error);
         }
-    })()
+
+      })()
     }
 
   }, [responseVkCreated]);
 
   ////////////////
-  // JSX
+  // JSX - Alot of stuff here is commented, we'll see if we use it later
   ////////////////
 
   return (
@@ -125,13 +138,14 @@ export default function SelectedVehicule({ navigation, route }) {
         contentContainerStyle={generalStyles.scrollViewStyle}
         style={{ paddingVertical: 10 }}>
 
-        {state ? (
+        {globalState ? (
+
           <>
             {/* <Text style={[generalStyles.title, { marginBottom: 5 }]}>Véhicule Séléctionné</Text> */}
 
             <VehiculesInfo
               style={[generalStyles.marginOverall]}
-              vehicule={state?.currentCar}
+              vehicule={globalState?.currentCar}
               navigation={navigation}
             />
 
@@ -146,7 +160,7 @@ export default function SelectedVehicule({ navigation, route }) {
                 { flexDirection: 'row', justifyContent: 'space-around' },
               ]}>
 
-              {state.currentVirtualKey === undefined || state.currentVirtualKey === null ? (
+              {globalState.currentVirtualKey === undefined || globalState.currentVirtualKey === null ? (
 
                 <GradientButton
                   iconName="key"
@@ -170,9 +184,9 @@ export default function SelectedVehicule({ navigation, route }) {
                   width={150}
                   buttonPadding={20}
                   addStyle={{ marginBottom: 20 }}
-                  disabled={state.currentVirtualKey === undefined && state.currentVirtualKey === null}
+                  disabled={globalState.currentVirtualKey === undefined && globalState.currentVirtualKey === null}
                   handlePress={() =>
-                    navigation.navigate('Actions', { vehicleGuid: vehicle.vehicleGuid, virtualKeyGuid: state.currentVirtualKey.id })
+                    navigation.navigate('Actions', { vehicleGuid: selectedVehicule.vehicleGuid, virtualKeyGuid: globalState.currentVirtualKey.id })
                   } />
 
               )}

@@ -40,7 +40,6 @@ function ReservationList({ navigation }) {
   const {
     data: vehicles,
     pending: pendingVehicles,
-    refresh
   } = useFetch(`${process.env.API_URL}/api/Vehicle/user/${userState.user?.userGuid} `)
 
   React.useEffect(() => {

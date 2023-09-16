@@ -8,6 +8,7 @@ function useSubmitFiles() {
     const [error, setError] = useState(null)
     const [resMsg, setResMsg] = useState(null)
 
+
     // clear the resmessage
     useEffect(() => {
         let timer;
@@ -26,16 +27,18 @@ function useSubmitFiles() {
             url,
             method = "POST",
             body,
-            headers = {}, // content-type is no longer needed
+            headers = {
+
+            }, // content-type is no longer needed
             dispatcher = null,
             dispatch = null,
 
         }) => {
 
         // console.log(e)
-        // console.log("Hurle", url)
+        console.log("Hurle useSubmit Files", url)
         // console.log("method", method)
-        console.log("body", body)
+        console.log("body useSubmit Files", body)
         // console.log("head", headers)
         // console.log(dispatch)
         // console.log(dispatcher)
@@ -48,30 +51,35 @@ function useSubmitFiles() {
         // For eacth key && value in body he'll make a formData. 
         const formData = new FormData()
 
-        let key = Object.keys(body)
-        let value = Object.values(body)
-        for (let i = 0; i < key.length; i++) {
-            if (key[i] !== "attributionDocs") {
+        const capitalizeFirstLetter = (string) => {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
 
-                formData.append(key[i], value[i])
+        Object.entries(body).forEach(([key, value]) => {
+
+            if (key !== "attributionDocs") {
+
+                formData.append(key, value);
 
             } else {
 
-                const attributionDocs = value[i]
-                attributionDocs.forEach((doc, index) => {
+                value.forEach((doc, index) => {
 
-                    const file = doc.documentFormFile
-                    formData.append(`attributionDocs[${index}].DocumentFormFile`, file)
-                    formData.append(`attributionDocs[${index}].DisplayName`, 'Toto')
+                    Object.keys(doc).forEach(field => {
 
-                })
+
+                        if (doc[field] !== undefined) {
+
+                            const capitalizedField = capitalizeFirstLetter(field);
+
+                            formData.append(`attributionDocs[${index}].${capitalizedField}`, doc[field]);
+                        }
+                    });
+                });
             }
-        }
+        });
 
-        //DEBUG FOR FORMDATA
-        // for (let [key, value] of formData.entries()) {
-        //     console.log("KEY", key, "VALUE", value);
-        // }
+        console.log("FORMDATA", formData)
 
         try {
             const res = await fetch(url,
@@ -101,7 +109,7 @@ function useSubmitFiles() {
         }
 
         catch (err) {
-            console.log("submiterror", err)
+            console.error("submiterror", "message", err.message, "err", err)
             setError(err.message)
             setPending(false)
         }

@@ -9,6 +9,8 @@ const useFetch = (url, shouldFetch = true) => {
     const [pending, setPending] = useState(null)
     const [error, setError] = useState(null)
 
+    console.log(url)
+
     const refresh = useCallback(async () => {
 
         if (!shouldFetch) return;

@@ -8,6 +8,7 @@ export class KaaS {
     static initCalled = false;
 
     static async init(allowDebugMode, allowRooted, allowRunOnSimulator, enableDebugLog) {
+
         try {
             if (!KaaS.initCalled) {
                 const result = KaaS.kaasModule._init(allowDebugMode, allowRooted, allowRunOnSimulator, enableDebugLog);

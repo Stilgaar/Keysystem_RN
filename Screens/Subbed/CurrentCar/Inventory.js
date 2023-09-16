@@ -105,8 +105,7 @@ export default function Inventory({ navigation, route }) {
                 )
               }
               value={
-                globalState?.[`${dispatchGeneralType}`]?.[0]
-                  ?.generalInventoryInfo?.[0].commentInventory
+                globalState?.[`${dispatchGeneralType}`]?.generalInventoryInfo?.[0].commentInventory
               }
               placeholder="Commentaire"
               containerStyle={[

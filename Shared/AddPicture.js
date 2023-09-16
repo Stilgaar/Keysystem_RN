@@ -52,7 +52,7 @@ export default function AddPicture({ navigation, route }) {
             // First he checks if there its already present, if not, well its false, so no goback
             ////////////////
 
-            if (!globalState?.[`${dispatchGeneralType}`]?.some(obj => obj[dispatchType])) {
+            if (!globalState[`${dispatchGeneralType}`].hasOwnProperty(dispatchType)) {
 
                 return false
 
@@ -63,7 +63,7 @@ export default function AddPicture({ navigation, route }) {
                 // easy ? Not really
                 ////////////////
 
-                return globalState?.[`${dispatchGeneralType}`]?.find(obj => obj[dispatchType])[dispatchType].length === maxPics
+                return globalState?.[`${dispatchGeneralType}`]?.[dispatchType]?.length === maxPics;
             }
         }
     }

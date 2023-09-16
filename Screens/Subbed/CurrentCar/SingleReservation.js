@@ -24,9 +24,8 @@ export default function SingleReservation({
       disabled={disabled}
       style={[generalStyles.globalShadow, { margin: 3 }, disabled ? { opacity: 0.8 } : {}]}
       onPress={() => {
-        console.log("pressed")
         navigation.navigate('SelectedVehicule', {
-          vehicle: reservationVehicle,
+          selectedVehicule: reservationVehicle,
           virtualKey: virtualKey,
           reservationTo: reservationVehicle.reservationToDate
         });

@@ -30,8 +30,6 @@ export default function AppContainer() {
 
     const isLogged = React.useMemo(() => userState.isLogged, [userState.isLogged]);
 
-    // console.log("uerState", userState)
-
     return (
 
         <SafeAreaProvider style={{ backgroundColor: darkgreyish }}>
