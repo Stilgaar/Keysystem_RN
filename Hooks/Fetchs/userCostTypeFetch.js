@@ -3,6 +3,8 @@ import { useEffect, useState, useContext } from "react"
 import useFetch from "../useFetch"
 import useGlobalContext from "../useGlobalContext"
 
+import { API_URL } from "@env"
+
 const useCostTypeFetch = (bool = true, dolist = false) => {
 
     const { userState } = useGlobalContext()
@@ -16,7 +18,7 @@ const useCostTypeFetch = (bool = true, dolist = false) => {
         pending: pendingCostType,
         error: errorCostType,
         setError: setErrorCostType,
-    } = useFetch(`${process.env.API_URL}/api/Company/${userState.user.companyGuid}/cost-types`, bool)
+    } = useFetch(`${API_URL}/api/Company/${userState.user.companyGuid}/cost-types`, bool)
 
     useEffect(() => {
         if (allCostType) {

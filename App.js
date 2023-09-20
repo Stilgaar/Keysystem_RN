@@ -25,6 +25,13 @@ export default function App() {
   // Needed in React native
   ////////////////
 
+  // TODO 
+  // RESET DU REDUCER QUAND ON ENVOI - SINITRE - DOCUMENT - INVENTORY
+  // CORRIGER INVENTORY POUR POUVOIR ENVOYER L'INVENTORY
+  // CHECKER LE FONCTIONNEMENT DE ACTIONS
+  // REGLER LES NOTIFICATIONS
+  // HISTORIQUE ? -locations en attente ?- -précédents trajets- -précedentes clefs-
+
   enableScreens();
 
   // C'est sale mais c'est comme ça apparement...

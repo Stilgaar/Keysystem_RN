@@ -15,6 +15,8 @@ import useGlobalContext from '../../../Hooks/useGlobalContext';
 
 import useSubmit from '../../../Hooks/useSubmit';
 
+import { API_URL } from "@env"
+
 function ModifyAccount() {
 
     const [showPassword, setShowPassword] = React.useState(false);
@@ -27,7 +29,7 @@ function ModifyAccount() {
     const handleSubmit = (values) => {
 
         handleSubmitUserInfo({
-            url: `${process.env.API_URL}/api/User`,
+            url: `${API_URL}/api/User`,
             method: "PUT",
             body: ({
                 userGuid: userState.user.userGuid,

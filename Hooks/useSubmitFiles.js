@@ -57,7 +57,7 @@ function useSubmitFiles() {
 
         Object.entries(body).forEach(([key, value]) => {
 
-            if (key !== "attributionDocs") {
+            if ((key !== "attributionDocs" || key !== "inventoryImages")) {
 
                 formData.append(key, value);
 
@@ -67,12 +67,15 @@ function useSubmitFiles() {
 
                     Object.keys(doc).forEach(field => {
 
-
                         if (doc[field] !== undefined) {
 
                             const capitalizedField = capitalizeFirstLetter(field);
 
-                            formData.append(`attributionDocs[${index}].${capitalizedField}`, doc[field]);
+                            if (key === "inventoryImages") {
+                                formData.append(`inventoryImages[${index}].${capitalizedField}`, doc[field]);
+                            } else {
+                                formData.append(`attributionDocs[${index}].${capitalizedField}`, doc[field]);
+                            }
                         }
                     });
                 });

@@ -1,11 +1,13 @@
 import { DispatchContext, StateContext } from '../../../Context/StateContext';
+import useGlobalContext from '../../../Hooks/useGlobalContext';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import {
   checkInInfoArray,
   checkOutInfoArray,
 } from '../../../JSON/Fr/InventoryArray';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { formatDate } from "../../../Functions/DisplayFunctions"
+
 import BottomBorderContainer from '../../../Shared/BottomBorderContainer';
 import DamageCheckBoxes from './DamageCheckBoxes';
 import { GradientButton } from '../../../comps';
@@ -16,6 +18,9 @@ import TopBorderContainer from '../../../Shared/TopBorderContainer';
 import { addInfoDispatch } from '../../../Reducer/GlobalReducer/globalDispatch';
 import { generalStyles } from '../../../Shared/css';
 import { inventoryArray } from '../../../JSON/Fr/InventoryArray';
+
+import useSubmitFiles from '../../../Hooks/useSubmitFiles';
+import { API_URL } from "@env"
 // TODO: Envoi d'un INVENTORY de manière sale
 
 //CHECK IN
@@ -31,23 +36,11 @@ import { inventoryArray } from '../../../JSON/Fr/InventoryArray';
 
 export default function Inventory({ navigation, route }) {
 
-  const { dispatchGeneralType } = route.params;
+  console.log("ROUTE INVENTORY", route.name)
 
   const { globalState } = React.useContext(StateContext);
   const { globalDispatch } = React.useContext(DispatchContext);
-
-  const [state, setGlobalState] = React.useState(globalState);
-
-  React.useEffect(() => {
-    setTimeout(
-      async () => {
-        const state = await AsyncStorage.getItem('globalState');
-        setGlobalState(JSON.parse(state));
-      },
-
-      10,
-    );
-  }, [globalState]);
+  const { userState } = useGlobalContext()
 
   const [lectureArray, setLectureArray] = React.useState();
 
@@ -57,40 +50,77 @@ export default function Inventory({ navigation, route }) {
       : setLectureArray(checkOutInfoArray);
   }, []);
 
+  const { handleSubmitFiles } = useSubmitFiles()
+
+  const dateNow = formatDate(new Date())
+
+  const handleAddInventory = e => {
+    handleSubmitFiles({
+      e,
+      url: `${API_URL}/api/Inventory`,
+      body: {
+        ...globalState.attributionInventory,
+        inventoryTypeGuid: route.name === "CheckIn" ? "7c713fb7-9259-4e7c-89f2-f9212d07b129" : "c9f938d9-278f-434a-9da3-0a3997902d17",
+        userGuid: userState.user.userGuid,
+        vehicleGuid: globalState.currentCar.vehicleGuid,
+        inventoryDoneDate: dateNow,
+      }
+    })
+  }
+
   ////////////////
   // JSX
   ////////////////
 
   return (
     <View style={[generalStyles.container]}>
+
       <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
+
         {lectureArray?.map(display => (
+
           <React.Fragment key={display.title}>
+
             <TouchableOpacity
               activeOpacity={1}
               style={[generalStyles.globalShadow, { paddingVertical: 10 }]}>
+
               <TopBorderContainer>
+
                 <StyledText style={generalStyles.titleInfo}>
+
                   {display.text1}
+
                 </StyledText>
+
               </TopBorderContainer>
+
               <BottomBorderContainer>
+
                 <StyledText>{display.text2}</StyledText>
+
               </BottomBorderContainer>
+
             </TouchableOpacity>
+
           </React.Fragment>
         ))}
 
         <TouchableOpacity
           activeOpacity={1}
           style={[generalStyles.globalShadow, { paddingVertical: 10 }]}>
+
           <TopBorderContainer>
+
             <StyledText style={{ textAlign: 'center', marginBottom: 5 }}>
               Commentaire
             </StyledText>
+
           </TopBorderContainer>
+
           <BottomBorderContainer>
-            <Input
+
+            {/* <Input
               style={{ textAlignVertical: 'top' }}
               multiline={true}
               numberOfLines={5}
@@ -104,59 +134,41 @@ export default function Inventory({ navigation, route }) {
                   ),
                 )
               }
-              value={
-                globalState?.[`${dispatchGeneralType}`]?.generalInventoryInfo?.[0].commentInventory
-              }
+              value={globalState?.[`${dispatchGeneralType}`]?.commentInventory}
               placeholder="Commentaire"
               containerStyle={[
                 generalStyles.textAeraContainer,
                 { marginTop: 10 },
               ]}
               inputContainerStyle={generalStyles.textAeraContentContainer}
-            />
+            /> */}
+
+            {inventoryArray.map((text, index) => (
+
+              <DamageCheckBoxes
+                routeType={route?.inventoryZoneGuid}
+                index={index}
+                key={text.inventoryZoneGuid}
+                navigation={navigation}
+                text={text.descriptionFr}
+                nav={text.inventoryZoneGuid}
+                route={route}
+                globalState={globalState}
+              />
+
+            ))}
 
             <GradientButton
-              style={{ paddingVertical: 10 }}
-              addStyle={{ marginBottom: 10 }}
-              width={250}
-              handlePress={() =>
-                navigation.navigate('inventoryGeneralFrontPanel', {
-                  routeType: route.name,
-                })
-              }
-              text={`Commencer l'état des lieux`}
+              text={`Envoyer Etat des lieux`}
+              handlePress={handleAddInventory}
             />
 
-            {state?.[`${dispatchGeneralType}`].some(obj =>
-              inventoryArray
-                .map(item => item.key)
-                .includes(Object.keys(obj)[0]),
-            ) &&
-              inventoryArray.map((text, index) => (
-                <DamageCheckBoxes
-                  routeType={route?.name}
-                  index={index}
-                  key={text.key}
-                  navigation={navigation}
-                  text={text.text}
-                  nav={text.key}
-                  route={route}
-                  globalState={globalState}
-                />
-              ))}
-
-            {state[`${dispatchGeneralType}`].length > 10 ? (
-              <GradientButton
-                text={`Envoyer Etat des lieux`}
-                handlePress={() => {
-                  console.log('INVENTORY TYPE :', route.name);
-                  console.log('INVENTORY : ', state[`${dispatchGeneralType}`]);
-                }}
-              />
-            ) : null}
           </BottomBorderContainer>
+
         </TouchableOpacity>
+
       </ScrollView>
+
     </View>
   );
 }

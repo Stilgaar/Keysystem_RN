@@ -42,7 +42,7 @@ export default function DamageCheckBoxes({
     // Checks if the checkbox needs to be checked. (Will be checked if a picture in it, can't be unchecked when done)
     ////////////////
 
-    const checked = globalState[`${dispatchGeneralType}`]?.find(obj => obj[nav])?.[nav].length > 0
+    const checked = globalState[`${dispatchGeneralType}`]?.[nav]?.length > 0;
 
     ////////////////
     // JSX
@@ -74,7 +74,7 @@ export default function DamageCheckBoxes({
 
                 <>
                     <PicsFromB64
-                        picsArray={globalState[`${dispatchGeneralType}`]?.find(obj => obj[nav])?.[nav]}
+                        picsArray={globalState[`${dispatchGeneralType}`]?.filter(obj => obj.imageDefaultGuid === nav)}
                         dispatchGeneralType={dispatchGeneralType}
                         dispatchType={nav}
                         checked={checked}

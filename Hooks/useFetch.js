@@ -9,7 +9,7 @@ const useFetch = (url, shouldFetch = true) => {
     const [pending, setPending] = useState(null)
     const [error, setError] = useState(null)
 
-    console.log(url)
+    console.log("FETCH URL", url)
 
     const refresh = useCallback(async () => {
 

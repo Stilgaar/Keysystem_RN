@@ -22,6 +22,8 @@ import moment from 'moment';
 // + Signature électronique
 // + Saisie des dates d'expirations
 
+import { API_URL } from "@env"
+
 export default function ActivateAccount({ navigation }) {
   const { globalState } = React.useContext(StateContext);
 
@@ -93,7 +95,7 @@ export default function ActivateAccount({ navigation }) {
 
       console.log("FORM DATA ACTIVATE ACCOUNT ====> ", formData)
 
-      let postUserDocument = await fetch(`${process.env.API_URL}/api/UserDocument`, {
+      let postUserDocument = await fetch(`${API_URL}/api/UserDocument`, {
         method: 'POST',
         body: formData
       });
@@ -156,7 +158,7 @@ export default function ActivateAccount({ navigation }) {
 
       console.log("FORM DATA ====> ", formData)
 
-      let postUserDocument = await fetch(`${process.env.API_URL}/api/UserDocument`, {
+      let postUserDocument = await fetch(`${API_URL}/api/UserDocument`, {
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -352,7 +354,7 @@ export default function ActivateAccount({ navigation }) {
                   width={300}
                   handlePress={() => {
                     handleSubmitSignature({
-                      url: `${process.env.API_URL}sendSignature`,
+                      url: `${API_URL}sendSignature`,
                       body: state.signature[0],
                     });
                   }}
@@ -371,7 +373,7 @@ export default function ActivateAccount({ navigation }) {
                     width={300}
                     handlePress={() => {
                       handleSubmitAll({
-                        url: `${process.env.API_URL}sendAll`,
+                        url: `${API_URL}sendAll`,
                         body: {
                           id: state.photoID,
                           licence: state.photoLicence,

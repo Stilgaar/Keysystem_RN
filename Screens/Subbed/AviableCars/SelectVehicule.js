@@ -23,6 +23,8 @@ import { KaaS } from '../../../ContinentalUtilities/KaasMethods';
 
 import useFetch from '../../../Hooks/useFetch';
 
+import { API_URL } from "@env"
+
 // import vehicleList from '../../../JSON/CAR_MOCK_DATA.json';
 
 // Sélectionner un véhicule et voir toutes ses informations
@@ -47,15 +49,12 @@ function SelectVehicle({ navigation }) {
   const { globalState } = React.useContext(StateContext);
   const { userState } = useGlobalContext();
 
-  // const { data: vehicleList } = useFetch(`${process.env.API_URL}resetapiroad`)
-
-
   const {
     data: companyVehicles,
     pending: pendingVehicles,
     refresh: refreshVehicles,
     error: errorVehicles
-  } = useFetch(`${process.env.API_URL}/api/Company/${userState.user?.companyGuid}/vehicles`)
+  } = useFetch(`${API_URL}/api/Company/${userState.user?.companyGuid}/vehicles`)
 
   console.log("errorVehicles", errorVehicles)
   // console.log("vehiclesList", companyVehicles)

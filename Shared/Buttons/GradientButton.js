@@ -23,10 +23,10 @@ function GradientButton({
   buttonPadding = 15,
   colorStart = '#53e9f7',
   colorEnd = '#632ec4',
-  borderTopLeftRadius = 50,
-  borderTopRightRadius = 50,
-  borderBottomRightRadius = 50,
-  borderBottomLeftRadius = 50,
+  borderTopLeftRadius = 10,
+  borderTopRightRadius = 10,
+  borderBottomRightRadius = 10,
+  borderBottomLeftRadius = 10,
 }) {
 
   return (
@@ -43,9 +43,9 @@ function GradientButton({
           alignSelf,
         },
       ]}>
-        {!disabled ? 
-          (
-            <LinearGradient
+      {!disabled ?
+        (
+          <LinearGradient
             colors={[colorStart, colorEnd]}
             style={[
               styles.button,
@@ -59,74 +59,74 @@ function GradientButton({
             ]}
             start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 1 }}>
-              <View
-          style={{
-            padding: buttonPadding,
-            borderRadius: borderRadius,
-            flexDirection: 'row',
-            justifyContent: 'center',
-          }}>
+            <View
+              style={{
+                padding: buttonPadding,
+                borderRadius: borderRadius,
+                flexDirection: 'row',
+                justifyContent: 'center',
+              }}>
 
-          {iconName ? (
-            <FontAwesome5
-              style={[{ paddingRight: 10 }]}
-              name={iconName}
-              size={iconSize}
-              color={iconColor}
-            />
+              {iconName ? (
+                <FontAwesome5
+                  style={[{ paddingRight: 10 }]}
+                  name={iconName}
+                  size={iconSize}
+                  color={iconColor}
+                />
 
-          ) : null}
+              ) : null}
 
-          {text && <StyledText style={styles.buttonText}>{text}</StyledText>}
+              {text && <StyledText style={styles.buttonText}>{text}</StyledText>}
 
-          {children && <View style={generalStyles.center}>{children}</View>}
+              {children && <View style={generalStyles.center}>{children}</View>}
 
-        </View>
+            </View>
 
-      </LinearGradient>
-          ) : (
-            <LinearGradient
-              colors={['#7c7c7c' , '#111111']}
-              style={[
-                styles.button,
-                {
-                  borderRadius,
-                  borderTopLeftRadius,
-                  borderTopRightRadius,
-                  borderBottomRightRadius,
-                  borderBottomLeftRadius,
-                },
-              ]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 0, y: 1 }}>
-                <View
-          style={{
-            padding: buttonPadding,
-            borderRadius: borderRadius,
-            flexDirection: 'row',
-            justifyContent: 'center',
-          }}>
+          </LinearGradient>
+        ) : (
+          <LinearGradient
+            colors={['#7c7c7c', '#111111']}
+            style={[
+              styles.button,
+              {
+                borderRadius,
+                borderTopLeftRadius,
+                borderTopRightRadius,
+                borderBottomRightRadius,
+                borderBottomLeftRadius,
+              },
+            ]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 1 }}>
+            <View
+              style={{
+                padding: buttonPadding,
+                borderRadius: borderRadius,
+                flexDirection: 'row',
+                justifyContent: 'center',
+              }}>
 
-          {iconName ? (
-            <FontAwesome5
-              style={[{ paddingRight: 10 }]}
-              name={iconName}
-              size={iconSize}
-              color={iconColor}
-            />
+              {iconName ? (
+                <FontAwesome5
+                  style={[{ paddingRight: 10 }]}
+                  name={iconName}
+                  size={iconSize}
+                  color={iconColor}
+                />
 
-          ) : null}
+              ) : null}
 
-          {text && <StyledText style={styles.buttonText}>{text}</StyledText>}
+              {text && <StyledText style={styles.buttonText}>{text}</StyledText>}
 
-          {children && <View style={generalStyles.center}>{children}</View>}
+              {children && <View style={generalStyles.center}>{children}</View>}
 
-        </View>
+            </View>
 
-      </LinearGradient>
-                )
-              }
-        
+          </LinearGradient>
+        )
+      }
+
 
     </TouchableOpacity>
   );

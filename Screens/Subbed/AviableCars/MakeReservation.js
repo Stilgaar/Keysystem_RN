@@ -23,6 +23,8 @@ import useGlobalContext from '../../../Hooks/useGlobalContext';
 
 import useSubmit from "../../../Hooks/useSubmit";
 
+import { API_URL } from "@env"
+
 export default function MakeReservation({ route, navigation }) {
 
     // Got the concerned vehicule info trought the route props
@@ -134,7 +136,7 @@ export default function MakeReservation({ route, navigation }) {
 
         handleSubmit({
             e,
-            url: `${process.env.API_URL}/api/Reservation`,
+            url: `${API_URL}/api/Reservation`,
             body: ({
                 vehicleGuid: vehicule.vehicleGuid,
                 reservationStartDate: globalState.validationReservation[0].startDate,

@@ -378,7 +378,11 @@ export default function AppNavigator() {
     const [state, setGlobalState] = React.useState(globalState);
 
     return (
+
       <Stack.Navigator initialRouteName="ReservationList">
+
+        {/* RESERVATION LIST */}
+
         <Stack.Screen
           name="ReservationList"
           component={ReservationList}
@@ -398,6 +402,8 @@ export default function AppNavigator() {
           }}
         />
 
+        {/* SELECT A VEHICLE */}
+
         <Stack.Screen
           name="SelectedVehicule"
           component={SelectedVehicule}
@@ -412,6 +418,8 @@ export default function AppNavigator() {
             ),
           }}
         />
+
+        {/* ACTIONS */}
 
         <Stack.Screen
           name="Actions"
@@ -428,6 +436,8 @@ export default function AppNavigator() {
           }}
         />
 
+        {/* RESERVATIONS*/}
+
         <Stack.Screen
           name="ReservationLists"
           options={{
@@ -442,6 +452,8 @@ export default function AppNavigator() {
           }}
           component={ReservationList}
         />
+
+        {/* COST SCREEN */}
 
         <Stack.Screen
           name="Costs"
@@ -460,6 +472,8 @@ export default function AppNavigator() {
           }}
           component={Costs}
         />
+
+        {/* ADD COST PICTURE*/}
 
         <Stack.Screen
           name="attributionCost"
@@ -483,48 +497,7 @@ export default function AppNavigator() {
           }}
         />
 
-        {/* <Stack.Screen
-          name="Damage"
-          initialParams={{
-            dispatchGeneralType: 'attributionDamage',
-          }}
-          options={{
-            header: ({navigation}) => (
-              <HeaderSubbed
-                title={'Déclaration Sinistre'}
-                navigation={navigation}
-                route={route}
-                initial={false}
-              />
-            ),
-          }}
-          component={Damage}
-        />
-
-        {damageArray.map(stack => (
-          <Stack.Screen
-            key={stack.key}
-            name={stack.key}
-            component={AddPicture}
-            initialParams={{
-              textForObtention: stack.text,
-              dispatchGeneralType: 'attributionDamage',
-              dispatchType: stack.key,
-              maxPics: 3,
-            }}
-            options={{
-              header: ({navigation}) => (
-                <HeadersPics
-                  title={stack.text}
-                  info={stack.key}
-                  numberLenghtChecker={'attributionDamage'}
-                  nombreMax={'Maximum 3'}
-                  navigation={navigation}
-                />
-              ),
-            }}
-          />
-        ))} */}
+        {/* DAMAGE SCREEN */}
 
         <Stack.Screen
           name="Damage"
@@ -540,6 +513,8 @@ export default function AppNavigator() {
             ),
           }}
         />
+
+        {/* ADD PICTURE DAMAGE */}
 
         <Stack.Screen
           name="addDamage"
@@ -561,6 +536,8 @@ export default function AppNavigator() {
           }}
         />
 
+        {/* INVENTORY FOR A CHECK IN */}
+
         <Stack.Screen
           name="CheckIn"
           initialParams={{
@@ -579,6 +556,8 @@ export default function AppNavigator() {
           }}
           component={Inventory}
         />
+
+        {/* INVENTORY FOR A CHECK OUT */}
 
         <Stack.Screen
           name="CheckOut"
@@ -599,23 +578,27 @@ export default function AppNavigator() {
           component={Inventory}
         />
 
+
+        {/* INVENTORY PICTURES */}
+
         {inventoryArray.map((stack, index) => (
+
           <Stack.Screen
-            key={stack.key}
-            name={stack.key}
+            key={stack.inventoryZoneGuid}
+            name={stack.inventoryZoneGuid}
             component={AddPicture}
             initialParams={{
-              textForObtention: stack.text,
+              textForObtention: stack.descriptionFr,
               dispatchGeneralType: 'attributionInventory',
-              dispatchType: stack.key,
+              dispatchType: stack.inventoryZoneGuid,
               maxPics: 3,
               indexInventory: index,
             }}
             options={{
               header: ({ navigation }) => (
                 <HeadersPics
-                  title={stack.text}
-                  info={stack.key}
+                  title={stack.descriptionFr}
+                  info={`InventoryImages`}
                   numberLenghtChecker={'attributionInventory'}
                   nombreMax={'Maximum 3'}
                   navigation={navigation}

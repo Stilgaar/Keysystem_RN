@@ -14,6 +14,8 @@ import { KaaS } from '../../../ContinentalUtilities/KaasMethods';
 import { addVirtualKeysClientDevice } from '../../../Reducer/GlobalReducer/globalDispatch';
 import useFetch from "../../../Hooks/useFetch"
 
+import { API_URL } from "@env"
+
 // Clé numérique
 // Information sur la clé active
 // Date attribution
@@ -40,7 +42,7 @@ function ReservationList({ navigation }) {
   const {
     data: vehicles,
     pending: pendingVehicles,
-  } = useFetch(`${process.env.API_URL}/api/Vehicle/user/${userState.user?.userGuid} `)
+  } = useFetch(`${API_URL}/api/Vehicle/user/${userState.user?.userGuid} `)
 
   React.useEffect(() => {
 

@@ -1,4 +1,5 @@
 import { format } from 'date-fns'
+import { formatDate } from "../../Functions/DisplayFunctions"
 
 const defaultAttributionCost = {
     attributionDocs: [],
@@ -126,30 +127,22 @@ export const globalReducer = (prevState, action) => {
             return {
                 ...storedState
             }
-
         }
 
         case "LOGIN_GLOBAL_REDUCER": {
 
             //resets the localStorage when we log in again to make a clean one.
-
-
             return {
                 ...initialGlobalState
             }
 
         }
-
 
         case 'RESET_INITIAL_STATE_LOGGOUT': {
             return {
                 ...initialGlobalState
             }
         }
-
-
-
-
 
         ////////////////
         // SELECT VEHICULES FROM VIRTUAL KEY
@@ -169,10 +162,7 @@ export const globalReducer = (prevState, action) => {
                 },
                 attributionInventory: {
                     ...prevState.attributionInventory,
-                    generalInventoryInfo: [{
-                        ...prevState.attributionInventory?.generalInventoryInfo?.[0],
-                        vehicleGuid: vehicle.vehicleGuid,
-                    }]
+                    vehicleGuid: vehicle.vehicleGuid,
                 },
                 attributionCost: {
                     ...prevState.attributionCost,
@@ -230,14 +220,26 @@ export const globalReducer = (prevState, action) => {
 
             const { picture, dispatchGeneralType, dispatchType } = action.payload;
 
+            console.log("DISPATCHE GENERAL TYPE", dispatchGeneralType)
+            console.log("DISPATCH TYPE", dispatchType)
 
             state = prevState[`${dispatchGeneralType}`]
 
-            console.log("state", state)
-
             if (!dispatchType) {
+
                 state.push({ documentFormFile: { uri: picture.uri, type: 'image/jpeg', name: picture.name } });
+
+            } else if (dispatchGeneralType === "attributionInventory") {
+
+                state.inventoryImages.push({
+                    imageDefaultGuid: "7b8fdbdd-5783-4ecd-a0ed-f71dc29dde77",
+                    inventoryImageDate: formatDate(new Date()),
+                    inventoryImageLocalisation: "Auteuil Neilly Passy",
+                    inventoryImageFile: { uri: picture.uri, type: 'image/jpeg', name: picture.name },
+                })
+
             } else {
+
                 state.attributionDocs.push({
                     documentFormFile: { uri: picture.uri, type: 'image/jpeg', name: picture.name },
                     displayName: picture.name

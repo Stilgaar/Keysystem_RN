@@ -78,7 +78,7 @@ const Login = () => {
               if (isSessionOpened) {
                 // Check retrieve last enabled device if exist
                 const fetchUserDeviceEnabled =
-                  await fetch(`${process.env.API_URL}/api/UserDevice/${responseUserData.userGuid}/last_enabled`)
+                  await fetch(`${API_URL}/api/UserDevice/${responseUserData.userGuid}/last_enabled`)
                     .catch((error) => setErrorLog(error.errorMessage));
 
                 if (fetchUserDeviceEnabled.ok) {
@@ -103,7 +103,7 @@ const Login = () => {
                     if (requestToken) {
 
                       //Then CREATE DEVICE via API
-                      const responseCreateClientDevice = await fetch(`${process.env.API_URL}/api/UserDevice`, {
+                      const responseCreateClientDevice = await fetch(`${API_URL}/api/UserDevice`, {
                         method: 'POST',
                         headers: {
                           Accept: 'application/json',
@@ -151,7 +151,7 @@ const Login = () => {
                 if (requestToken) {
 
                   //Then CREATE DEVICE via API
-                  const responseCreateClientDevice = await fetch(`${process.env.API_URL}/api/UserDevice`, {
+                  const responseCreateClientDevice = await fetch(`${API_URL}/api/UserDevice`, {
                     method: 'POST',
                     headers: {
                       Accept: 'application/json',

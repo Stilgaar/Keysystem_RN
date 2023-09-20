@@ -13,9 +13,8 @@ import { KaaS } from '../../../ContinentalUtilities/KaasMethods';
 // Voyant orange sur le smartphone indiquant qu'il n'est pas encore possible pour autant de démarrer le véhicule. (éviter que quelqu'un ne s'emparer du véhicule dès que les portes sont ouvertes).
 // Ce n'est donc qu'une fois à l'intérieur, qu'un récepteur vérifie la clé virtuelle du smartphone avant que le moteur ne démarre
 
-function Actions({ route }) {
+function Actions() {
 
-  const { vehiculeGuid, virtualKeyGuid } = route.params;
   const [errorLog, setErrorLog] = React.useState("");
 
   const sendCommandToDevice = async (commandName) => {

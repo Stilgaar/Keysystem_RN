@@ -17,6 +17,7 @@ import { addInfoDispatch } from '../../../Reducer/GlobalReducer/globalDispatch';
 import { damageArray } from '../../../JSON/Fr/DamageArray';
 import { generalStyles } from '../../../Shared/css';
 import moment from 'moment';
+import { API_URL } from "@env"
 
 // Sinistre(s) :
 // Localisation du/des dommage(s) sur le schéma du véhicule
@@ -156,7 +157,7 @@ export default function Damage({ navigation, route }) {
         globalState.photoDamage.forEach(photo => {
           const attributionElement =
           {
-            documentFormFile: { uri: photo.jpgFile.uri, type: 'image/jpeg', name: photo.jpgFile.name },
+            documentFormFile: { uri: photo.documentFormFile.uri, type: 'image/jpeg', name: photo.documentFormFile.name },
             displayName: `Photo sinistre`,
           }
           attributionDocs.push(attributionElement)
@@ -177,7 +178,7 @@ export default function Damage({ navigation, route }) {
 
       console.log("FORM DATA DAMAGE ====> ", formData)
 
-      let postDamageResult = await fetch(`${process.env.API_URL}/api/Damage`, {
+      let postDamageResult = await fetch(`${API_URL}/api/Damage`, {
         method: 'POST',
         body: formData
       }).catch((error) => setErrorLog(error.errorMessage));
@@ -199,31 +200,42 @@ export default function Damage({ navigation, route }) {
 
   return (
     <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
+
       <TouchableOpacity
         activeOpacity={1}
         style={[generalStyles.globalShadow, { paddingVertical: 10 }]}>
         <TopBorderContainer>
+
           <StyledText>Vous avez subi un sinistre ?</StyledText>
+
         </TopBorderContainer>
+
         <BottomBorderContainer>
+
           <StyledText style={{ textAlign: 'justify' }}>
             Remplissez ce formulaire pour votre voiture pour que votre
             entreprise puisse prendre les messures nécessaire le plus rapidement
             possible
           </StyledText>
+
         </BottomBorderContainer>
+
       </TouchableOpacity>
 
       <TouchableOpacity
         activeOpacity={1}
         style={[generalStyles.globalShadow, { paddingVertical: 10 }]}>
+
         <TopBorderContainer>
+
           <StyledText style={{ textAlign: 'center', marginBottom: 5 }}>
             Date / Heure sélectionnée : {moment(damageDate.toJSON()).format('DD/MM/YYYY - HH:mm')}
           </StyledText>
+
         </TopBorderContainer>
 
         <BottomBorderContainer>
+
           <GradientButton
             // handlePress={() => showMode('date')}
             addStyle={{ marginBottom: 5 }}

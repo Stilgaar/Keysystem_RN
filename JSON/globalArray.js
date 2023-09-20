@@ -31,13 +31,15 @@ export const initialGlobalState = {
         attributionDocs: []
     },
     attributionInventory: {
-        generalInventoryInfo: [{
-            currentDate: new Date(),
-            commentInventory: "",
-            fullName: "",
-            userGuid: "",
-            vehicleGuid: ""
-        }]
+        vehicleGuid: "",
+        inventoryTypeGuid: '',
+        inventoryMileage: "",
+        inventorySafetyKit: true,
+        inventorySpareWheel: true,
+        inventoryRepairKit: true,
+        inventoryAdditionalEquipment: true,
+        inventoryMountainLawEquipment: true,
+        inventoryImages: []
     },
     attributionCost: {
         costTypeGuid: "",

@@ -21,13 +21,13 @@ import moment from 'moment';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import useGlobalContext from '../../../Hooks/useGlobalContext';
 
 import useCostTypeFetch from '../../../Hooks/Fetchs/userCostTypeFetch';
 
 import useSubmitFiles from "../../../Hooks/useSubmitFiles"
+
+import { API_URL } from "@env"
 
 // TODO: Envoi des COSTS de manière sale
 
@@ -40,6 +40,7 @@ import useSubmitFiles from "../../../Hooks/useSubmitFiles"
 // peage... + divers (carrosserie…)
 
 // Cotisation assurance => ça rime à rien
+
 
 export default function Costs({ navigation, route }) {
 
@@ -64,7 +65,7 @@ export default function Costs({ navigation, route }) {
   const hanldeSubmitCost = e => {
     handleAddCostWithFiles({
       e,
-      url: `${process.env.API_URL}/api/Cost`,
+      url: `${API_URL}/api/Cost`,
       body: {
         ...globalState[`${dispatchGeneralType}`],
         costDoneDate: formatDate(costDoneDate),
@@ -84,7 +85,7 @@ export default function Costs({ navigation, route }) {
 
   const { costTypeArray: items, pendingCostType, makingList } = useCostTypeFetch(true, true)
 
-  console.log(items)
+  console.log("ITEMS COSTS", items)
 
   console.log("PENDING", pendingCostType)
   console.log("MAKEING", makingList)

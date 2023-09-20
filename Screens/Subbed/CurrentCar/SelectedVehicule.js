@@ -20,9 +20,11 @@ import { KaaS } from '../../../ContinentalUtilities/KaasMethods';
 // personal sumbit hook
 import useSubmit from '../../../Hooks/useSubmit';
 
+import { API_URL } from "@env"
+
 // Fiche(s) véhicule(s) séléctionné
 // Marque + modèle
-// Numéro plaque d’immatriculation (API SIV ?)
+// Numéro plaque d’immatriculation (API SIV ?) 
 // le kilométrage actuel
 // Type de contrat (location, en propre, etc.) + nom loueur + date de restitution
 // Date prochaine maintenance
@@ -36,6 +38,8 @@ export default function SelectedVehicule({ navigation, route }) {
   const { globalState } = React.useContext(StateContext);
   const { globalDispatch } = React.useContext(DispatchContext);
   const { userState } = useGlobalContext();
+
+  console.log(globalState.attributionInventory)
 
   ////////////////
   // Legacy comment : x) I DONT KNOW YET IF WE'LL MAKE A GET WITH THE VEHICULE OR THE VIRTUAL KEY
@@ -86,7 +90,7 @@ export default function SelectedVehicule({ navigation, route }) {
   const handleCreateKey = e => {
     handleSubmitCreateKey({
       e,
-      url: `${process.env.API_URL}/api/VirtualKey`,
+      url: `${API_URL}/api/VirtualKey`,
       body: {
         userGuid: userState.user?.userGuid,
         vehicleGuid: selectedVehicule.vehicleGuid,

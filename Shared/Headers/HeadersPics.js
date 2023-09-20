@@ -4,8 +4,6 @@ import { StateContext } from "../../Context/StateContext";
 
 import { blackA, generalStyles } from "../css";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
 function HeadersPics({
     title,
     info,
@@ -15,6 +13,7 @@ function HeadersPics({
 
     const { globalState } = React.useContext(StateContext)
 
+    // x)
     function getWhat() {
 
         if (numberLenghtChecker === "attributionDamage") {
@@ -23,7 +22,7 @@ function HeadersPics({
 
         } else if (numberLenghtChecker === "attributionInventory") {
 
-            return globalState?.["attributionInventory"]?.[`${info}`].length
+            return 3
 
         } else if (numberLenghtChecker === "attributionCost") {
 
