@@ -31,25 +31,23 @@ export const initialGlobalState = {
         attributionDocs: []
     },
     attributionInventory: {
-        vehicleGuid: "",
-        inventoryTypeGuid: '',
-        inventoryMileage: "",
+        inventoryMileage: 15643,
         inventorySafetyKit: true,
         inventorySpareWheel: true,
         inventoryRepairKit: true,
         inventoryAdditionalEquipment: true,
         inventoryMountainLawEquipment: true,
-        inventoryImages: []
+        attributionDocs: [],
     },
     attributionCost: {
         costTypeGuid: "",
-        costAmount: "",
-        costAdditionalCost: "",
         userGuid: "",
         vehicleGuid: "",
         costDoneDate: new Date(),
-        attributionDocs: [],
         costMileage: "",
+        costAmount: "",
+        costAdditionalCost: "",
+        attributionDocs: [],
     },
     validationReservation: {
         vehicleGuid: "",

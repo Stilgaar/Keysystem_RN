@@ -27,16 +27,13 @@ function useSubmitFiles() {
             url,
             method = "POST",
             body,
-            headers = {
-
-            }, // content-type is no longer needed
             dispatcher = null,
             dispatch = null,
 
         }) => {
 
         // console.log(e)
-        console.log("Hurle useSubmit Files", url)
+        // console.log("Hurle useSubmit Files", url)
         // console.log("method", method)
         console.log("body useSubmit Files", body)
         // console.log("head", headers)
@@ -51,13 +48,12 @@ function useSubmitFiles() {
         // For eacth key && value in body he'll make a formData. 
         const formData = new FormData()
 
-        const capitalizeFirstLetter = (string) => {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
+        // put the first letter for the formdata in capital
+        const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
         Object.entries(body).forEach(([key, value]) => {
 
-            if ((key !== "attributionDocs" || key !== "inventoryImages")) {
+            if (key !== "attributionDocs") {
 
                 formData.append(key, value);
 
@@ -65,36 +61,35 @@ function useSubmitFiles() {
 
                 value.forEach((doc, index) => {
 
-                    Object.keys(doc).forEach(field => {
+                    Object.keys(doc).forEach((field) => {
 
                         if (doc[field] !== undefined) {
 
                             const capitalizedField = capitalizeFirstLetter(field);
 
-                            if (key === "inventoryImages") {
-                                formData.append(`inventoryImages[${index}].${capitalizedField}`, doc[field]);
-                            } else {
-                                formData.append(`attributionDocs[${index}].${capitalizedField}`, doc[field]);
-                            }
+                            console.log("USEUBMIT FILES capitalizedField", capitalizedField)
+                            console.log("USEUBMIT FILES  doc[field]", doc[field])
+
+
+                            formData.append(`attributionDocs[${index}].${capitalizedField}`, doc[field]);
                         }
                     });
                 });
             }
         });
 
-        console.log("FORMDATA", formData)
-
         try {
             const res = await fetch(url,
                 {
                     method: method,
-                    headers: headers,
                     body: formData
                 },
             )
 
+            console.log("res usesubmit", res)
+
             if (!res.ok) {
-                throw new Error('throw res', res.status)
+                throw new Error('throw res use file submit', res.status)
             }
 
             // const json = await res.json()

@@ -42,7 +42,8 @@ function ReservationList({ navigation }) {
   const {
     data: vehicles,
     pending: pendingVehicles,
-  } = useFetch(`${API_URL}/api/Vehicle/user/${userState.user?.userGuid} `)
+  } = useFetch(`${API_URL}/api/Vehicle/user/${userState.user?.userGuid}`)
+
 
   React.useEffect(() => {
 

@@ -10,7 +10,6 @@ const useCostTypeFetch = (bool = true, dolist = false) => {
     const { userState } = useGlobalContext()
 
     const [transformedCostTypes, setTransformedCostTypes] = useState([])
-    const [makingList, setMakingList] = useState(false)
 
     // actual fetch for the cost types
     const {
@@ -33,14 +32,13 @@ const useCostTypeFetch = (bool = true, dolist = false) => {
 
     // Making the list for the datalist component
     useEffect(() => {
-        if (transformedCostTypes && dolist) {
+        if (transformedCostTypes && transformedCostTypes.length > 0 && dolist) {
             const dataArray = transformedCostTypes?.map((costTypeFr) => ({
                 label: `${costTypeFr.costTypeDescriptionFr} `,
                 value: costTypeFr.costTypeGuid,
             }));
 
             setcostTypeArray(dataArray);
-            setMakingList(true)
         }
     }, [transformedCostTypes, dolist]);
 
@@ -52,7 +50,6 @@ const useCostTypeFetch = (bool = true, dolist = false) => {
         costTypeArray,
         selectedCostType,
         setSelecedCostType,
-        makingList,
     }
 
 }

@@ -1,5 +1,5 @@
-import { Text, TouchableOpacity, View, Image } from 'react-native';
-import { generalStyles, primaryColor2 } from '../../../Shared/css';
+import { TouchableOpacity, View, Image } from 'react-native';
+import { generalStyles } from '../../../Shared/css';
 
 import BottomBorderContainer from '../../../Shared/BottomBorderContainer';
 import Octicons from 'react-native-vector-icons/Octicons';
@@ -7,7 +7,7 @@ import StyledText from '../../../Shared/StyledText';
 import TopBorderContainer from '../../../Shared/TopBorderContainer';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import moment from 'moment/moment';
-import { useEffect } from 'react';
+
 
 export default function SingleReservation({
   reservationVehicle,
@@ -58,18 +58,20 @@ export default function SingleReservation({
             }}>
             {reservationVehicle.vehicleBrand} {reservationVehicle.vehicleModel}
           </StyledText>
-        </View>
-        <View>
+
           <StyledText
             style={{
               textAlign: 'right',
               color: 'black',
-              fontSize: 15,
+              fontSize: 12,
             }}>
             {reservationVehicle.vehicleImmatriculation}
           </StyledText>
+
         </View>
+
         <View>
+
           {reservationVehicle?.reservationStatus !== null ? (
             reservationVehicle.reservationStatus ? (
               <Octicons name="check-circle" size={30} color="#94ecd3" />
@@ -79,22 +81,28 @@ export default function SingleReservation({
             <Octicons name="no-entry" size={30} color="#e18335" />
           )}
         </View>
+
       </TopBorderContainer>
 
       <BottomBorderContainer
         style={[disabled ? { opacity: 0.5 } : {}]}>
+
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
           <StyledText style={{ fontSize: 12 }}>
             DU : {moment(reservationVehicle.reservationFromDate).format('DD/MM/YYYY')} {"\n"}
-            A: {moment(reservationVehicle.reservationFromDate).format('HH:MM')}
+            À: {moment(reservationVehicle.reservationFromDate).format('HH:MM')}
           </StyledText>
 
           <StyledText style={{ fontSize: 12 }}>
             AU: {moment(reservationVehicle.reservationToDate).format('DD/MM/YYYY')} {"\n"}
-            A: {moment(reservationVehicle.reservationToDate).format('HH:MM')}
+            À: {moment(reservationVehicle.reservationToDate).format('HH:MM')}
           </StyledText>
+
         </View>
+
       </BottomBorderContainer>
+
     </TouchableOpacity>
   );
 }

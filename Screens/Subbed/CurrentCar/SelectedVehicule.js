@@ -39,7 +39,7 @@ export default function SelectedVehicule({ navigation, route }) {
   const { globalDispatch } = React.useContext(DispatchContext);
   const { userState } = useGlobalContext();
 
-  console.log(globalState.attributionInventory)
+  // console.log(globalState.attributionInventory)
 
   ////////////////
   // Legacy comment : x) I DONT KNOW YET IF WE'LL MAKE A GET WITH THE VEHICULE OR THE VIRTUAL KEY
@@ -210,6 +210,7 @@ export default function SelectedVehicule({ navigation, route }) {
 
             <View
               style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+
               <GradientButton
                 iconName="check-circle"
                 iconSize={20}

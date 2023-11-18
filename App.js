@@ -17,10 +17,12 @@ import * as Sentry from '@sentry/react-native';
 // Welcome to KeySystem App
 export default function App() {
 
-  Sentry.init({
-    dsn: 'https://fc8b2f41a24b5c6ed708b093e7536321@o4505845053128704.ingest.sentry.io/4505845054963712',
-  });
 
+  // NEW SENTRY TO GET LASTEST ERRORS 04/11/2023
+  Sentry.init({
+    dsn: "https://c7c7764438944e95c7cbfb71dc251684@o4505845053128704.ingest.sentry.io/4506168237948928",
+    tracesSampleRate: 1.0,
+  });
   ////////////////
   // Needed in React native
   ////////////////

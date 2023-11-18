@@ -36,17 +36,13 @@ import { API_URL } from "@env"
 
 function SelectVehicle({ navigation }) {
 
-  const [errorLog, setErrorLog] = React.useState("");
   const [selectedVehicule, setSelectedVehicule] = React.useState({});
   const [searchVechicule, setSearchVehicule] = React.useState();
   const [searchModal, setSearchModal] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
-  const [refreshing, setRefreshing] = React.useState(true);
 
   const [filterType, setFilterType] = React.useState('all');
 
   const { globalDispatch } = React.useContext(DispatchContext);
-  const { globalState } = React.useContext(StateContext);
   const { userState } = useGlobalContext();
 
   const {
@@ -56,18 +52,22 @@ function SelectVehicle({ navigation }) {
     error: errorVehicles
   } = useFetch(`${API_URL}/api/Company/${userState.user?.companyGuid}/vehicles`)
 
-  console.log("errorVehicles", errorVehicles)
-  // console.log("vehiclesList", companyVehicles)
+  console.log("ERROR SELECT VEHICLE", errorVehicles)
+  console.log("API URL SELECT VEHICLE", API_URL)
+  console.log("COMPANY VEHICLES SELECT VEHICLE", companyVehicles)
+  console.log("USERSTATE VERIFIED", userState.user.isVerified)
 
   if (pendingVehicles) {
+
     return (
+
       <View style={[generalStyles.center, { flex: 1 }]}>
         <Text style={[generalStyles.title]}>Chargement ...</Text>
       </View>
+
     );
   }
 
-  console.log("USERSTATE VERIFIED", userState.user.isVerified)
 
   return (
     <>
@@ -220,9 +220,12 @@ function SelectVehicle({ navigation }) {
 
           ) : (
 
+            <View style={[generalStyles.center]}>
+              <Text style={generalStyles.title}>Aucune voiture disponible</Text>
 
-            <Text style={generalStyles.title}>Aucune voiture disponible</Text>
-
+              <GradientButton text={`Rechercher`}
+                handlePress={refreshVehicles} />
+            </View>
           )}
 
         </>

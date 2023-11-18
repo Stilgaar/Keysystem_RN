@@ -60,7 +60,7 @@ export default function Costs({ navigation, route }) {
 
   const [costDoneDate, setCostDoneDate] = React.useState(new Date())
 
-  const { handleSubmitFiles: handleAddCostWithFiles, resMsg } = useSubmitFiles()
+  const { handleSubmitFiles: handleAddCostWithFiles, resMsg: resMsgCost } = useSubmitFiles()
 
   const hanldeSubmitCost = e => {
     handleAddCostWithFiles({
@@ -71,7 +71,6 @@ export default function Costs({ navigation, route }) {
         costDoneDate: formatDate(costDoneDate),
         userGuid: userState.user.userGuid,
         vehicleGuid: globalState.currentCar.vehicleGuid
-
       }
     })
   }
@@ -83,18 +82,11 @@ export default function Costs({ navigation, route }) {
   DropDownPicker.setLanguage('FR');
   DropDownPicker.setMode('BADGE');
 
-  const { costTypeArray: items, pendingCostType, makingList } = useCostTypeFetch(true, true)
-
-  console.log("ITEMS COSTS", items)
-
-  console.log("PENDING", pendingCostType)
-  console.log("MAKEING", makingList)
+  const { costTypeArray, pendingCostType } = useCostTypeFetch(true, true)
 
   return (
 
     <View style={[generalStyles.container]}>
-
-      {/* <Button text={"reset"} onPress={() => globalDispatch(resetCost())}>RESET</Button> */}
 
       <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
@@ -112,7 +104,7 @@ export default function Costs({ navigation, route }) {
           <BottomBorderContainer>
 
 
-            {!pendingCostType && !makingList && items && items.length > 0 &&
+            {!pendingCostType && costTypeArray && costTypeArray.length > 0 &&
 
               <View style={{ zIndex: 2 }}>
 
@@ -125,13 +117,13 @@ export default function Costs({ navigation, route }) {
                   dropDownMaxHeight={100}
                   elevation={5000} // Add elevation for Android
                   setOpen={setDropDownOpen}
-                  items={items}
-                  onSelectItem={item => globalDispatch(costSelectType(item))}
+                  items={costTypeArray}
+                  onSelectItem={costTypeArray => globalDispatch(costSelectType(costTypeArray))}
                   // setItems={setItems}
                   listMode="MODAL"
                   modalTitle="Séléctionnez un type de coût"
                   flatListProps={{
-                    initialNumToRender: items.length
+                    initialNumToRender: costTypeArray.length
                   }}
                 />
 
@@ -140,8 +132,8 @@ export default function Costs({ navigation, route }) {
 
 
             <>
-              {items && items.length > 0 && globalState?.[`${dispatchGeneralType}`]?.costTypeGuid ? (
-                items
+              {costTypeArray && costTypeArray.length > 0 && globalState?.[`${dispatchGeneralType}`]?.costTypeGuid ? (
+                costTypeArray
                   .filter(
                     item =>
                       item.value ===
@@ -159,7 +151,7 @@ export default function Costs({ navigation, route }) {
                         label={`Montant :  ${filteredValue.label}`}
                         placeholder={`Prix ${filteredValue.label} HT`}
                         onChangeText={value =>
-                          globalDispatch(costAddInfo(value, 'costAmount'))
+                          globalDispatch(costAddInfo(parseInt(value), 'costAmount'))
                         }
                       />
 
@@ -169,7 +161,7 @@ export default function Costs({ navigation, route }) {
                         label={`Montant Additionnel :  ${filteredValue.label}`}
                         placeholder={`Prix ${filteredValue.label} HT`}
                         onChangeText={value =>
-                          globalDispatch(costAddInfo(value, 'costAdditionalCost'))
+                          globalDispatch(costAddInfo(parseInt(value), 'costAdditionalCost'))
                         }
                       />
 
@@ -200,6 +192,7 @@ export default function Costs({ navigation, route }) {
               ) : (
                 <>
                   <View style={[generalStyles.globalShadow, { marginTop: 15 }]}>
+
                     {Array(2)
                       .fill()
                       .map((_, index) => (
@@ -209,6 +202,7 @@ export default function Costs({ navigation, route }) {
                           placeholder={`Choisissez un type de cout`}
                         />
                       ))}
+
                   </View>
                 </>
               )}

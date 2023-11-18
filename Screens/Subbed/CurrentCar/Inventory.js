@@ -36,11 +36,13 @@ import { API_URL } from "@env"
 
 export default function Inventory({ navigation, route }) {
 
-  console.log("ROUTE INVENTORY", route.name)
+  // console.log("ROUTE INVENTORY", route.name)
 
   const { globalState } = React.useContext(StateContext);
   const { globalDispatch } = React.useContext(DispatchContext);
   const { userState } = useGlobalContext()
+
+  console.log("INVNETORY GLOBALSTATE", globalState.attributionInventory)
 
   const [lectureArray, setLectureArray] = React.useState();
 
@@ -50,23 +52,25 @@ export default function Inventory({ navigation, route }) {
       : setLectureArray(checkOutInfoArray);
   }, []);
 
-  const { handleSubmitFiles } = useSubmitFiles()
+  const { handleSubmitFiles: handleSubmitInvoryFiles, resMsg } = useSubmitFiles()
 
   const dateNow = formatDate(new Date())
 
   const handleAddInventory = e => {
-    handleSubmitFiles({
+    handleSubmitInvoryFiles({
       e,
       url: `${API_URL}/api/Inventory`,
       body: {
         ...globalState.attributionInventory,
-        inventoryTypeGuid: route.name === "CheckIn" ? "7c713fb7-9259-4e7c-89f2-f9212d07b129" : "c9f938d9-278f-434a-9da3-0a3997902d17",
+        // inventoryTypeGuid: route.name === "CheckIn" ? "7c713fb7-9259-4e7c-89f2-f9212d07b129" : "c9f938d9-278f-434a-9da3-0a3997902d17",
+        inventoryTypeGuid: "7c713fb7-9259-4e7c-89f2-f9212d07b129",
         userGuid: userState.user.userGuid,
-        vehicleGuid: globalState.currentCar.vehicleGuid,
         inventoryDoneDate: dateNow,
       }
     })
   }
+
+  console.log('RESMSG INVENTORY', resMsg)
 
   ////////////////
   // JSX

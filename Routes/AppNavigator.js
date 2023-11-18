@@ -22,7 +22,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MakeReservation from '../Screens/Subbed/AviableCars/MakeReservation';
 import ModifyAccount from '../Screens/Subbed/PersonalSpace/ModifyAccount';
 import MyAccount from '../Screens/Subbed/PersonalSpace/MyAccount';
-import { Notifications } from 'react-native-notifications';
+
 import Notifs from '../Screens/Subbed/Notifcations/Notifs';
 import ReservationList from '../Screens/Subbed/CurrentCar/ReservationList';
 import { PermissionsAndroid } from 'react-native';
@@ -63,6 +63,8 @@ import useGlobalContext from '../Hooks/useGlobalContext';
 ////////////////
 // Notification Stack
 ////////////////
+
+import PushNotification from 'react-native-push-notification';
 
 ////////////////
 // Select Vehicule Stack
@@ -146,9 +148,10 @@ export default function AppNavigator() {
   function makeANofitication(notif) {
     userDispatch(addNotification(notif));
 
-    Notifications.postLocalNotification({
+    PushNotification.localNotification({
       title: notif.title,
-      body: notif.body,
+      message: notif.body,  // Note: the property name is 'message' instead of 'body'
+      channelId: "general_notifications" // Make sure this matches the ID you've used in your native code
     });
   }
 

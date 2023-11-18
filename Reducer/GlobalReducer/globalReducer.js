@@ -162,7 +162,7 @@ export const globalReducer = (prevState, action) => {
                 },
                 attributionInventory: {
                     ...prevState.attributionInventory,
-                    vehicleGuid: vehicle.vehicleGuid,
+                    fkVehicleGuid: vehicle.vehicleGuid,
                 },
                 attributionCost: {
                     ...prevState.attributionCost,
@@ -231,12 +231,19 @@ export const globalReducer = (prevState, action) => {
 
             } else if (dispatchGeneralType === "attributionInventory") {
 
-                state.inventoryImages.push({
-                    imageDefaultGuid: "7b8fdbdd-5783-4ecd-a0ed-f71dc29dde77",
+                state.attributionDocs.push({
+                    imageDefaultGuid: "2521bc2a-70b5-47ae-83f0-af09cd8ad54d",
+                    imageZoneGuid: "5d1ceb59-c2ee-43aa-b7fe-2af5bad792d4",
                     inventoryImageDate: formatDate(new Date()),
                     inventoryImageLocalisation: "Auteuil Neilly Passy",
                     inventoryImageFile: { uri: picture.uri, type: 'image/jpeg', name: picture.name },
                 })
+
+                // InventoryImageGuid = Guid.NewGuid(),
+                // FkInventoryDefaultGuid = dto.ImageDefaultGuid,
+                // FkInventoryZoneGuid = dto.ImageZoneGuid,
+                // ImageDate = dto.InventoryImageDate,
+                // Localisation = dto.InventoryImageLocalisation,
 
             } else {
 
@@ -265,6 +272,7 @@ export const globalReducer = (prevState, action) => {
             let stateObject = prevState[`${dispatchGeneralType}`]
 
             if (!dispatchType) {
+                console.log(action.type, "if")
 
                 const keys = Object.keys(stateObject);
                 if (keys[pictureIndex]) {
@@ -272,13 +280,14 @@ export const globalReducer = (prevState, action) => {
                 }
 
             } else {
+                console.log(action.type, "else")
 
                 if (stateObject[dispatchType]) {
                     stateObject[dispatchType].splice(pictureIndex, 1);
 
-                    if (stateObject[dispatchType].length === 0) {
-                        delete stateObject[dispatchType];
-                    }
+                    // if (stateObject[dispatchType].length === 0) {
+                    //     delete stateObject[dispatchType];
+                    // }
                 }
             }
 

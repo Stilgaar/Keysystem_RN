@@ -7,7 +7,6 @@ import { View, Text, ScrollView, Animated, Image, Modal, StyleSheet, Dimensions,
 import { generalStyles } from "../../../Shared/css";
 import { GradientButton } from "../../../comps";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Pochette virtuelle (accès au stockage virtuel des papiers importants du véhicule)
 // Carte grise
@@ -22,21 +21,6 @@ export default function VirtualPouch() {
     ////////////////
 
     const { globalState } = React.useContext(StateContext)
-
-    const [state, setGlobalState] = React.useState(globalState);
-
-    React.useEffect(() => {
-
-        setTimeout(
-
-            async () => {
-                const state = await AsyncStorage.getItem('globalState');
-                setGlobalState(JSON.parse(state));
-            },
-
-            10)
-
-    }, [globalState]);
 
     ////////////////
     // State for modal (selected image // open close modal)
@@ -63,29 +47,40 @@ export default function VirtualPouch() {
 
                 <ScrollView contentContainerStyle={generalStyles.scrollViewStyle}>
 
-                    {state?.currentCar?.virutualPouch.map((document, index) => (
+                    {globalState.currentCar.virutualPouch && globalState.currentCar.virutualPouch.length > 0 ?
 
-                        <View key={index}
-                            style={[generalStyles.colorContainer, generalStyles.center]}>
+                        globalState?.currentCar?.virutualPouch.map((document, index) => (
 
-                            <Text style={generalStyles.title}>
-                                {document.docType}
-                            </Text>
+                            <View key={index}
+                                style={[generalStyles.colorContainer, generalStyles.center]}>
 
-                            <TouchableOpacity onPress={() => {
-                                setIsModalVisible(c => !c)
-                                setSelectedImage(document)
-                            }}>
+                                <Text style={generalStyles.title}>
+                                    {document.docType}
+                                </Text>
 
-                                <Image
-                                    source={{ uri: `${document.picJPG}` }}
-                                    style={styles.image}
-                                />
+                                <TouchableOpacity onPress={() => {
+                                    setIsModalVisible(c => !c)
+                                    setSelectedImage(document)
+                                }}>
 
-                            </TouchableOpacity>
+                                    <Image
+                                        source={{ uri: `${document.picJPG}` }}
+                                        style={styles.image}
+                                    />
 
+                                </TouchableOpacity>
+
+                            </View>
+
+                        ))
+
+                        :
+
+                        <View>
+                            <Text>Pas de documents</Text>
                         </View>
-                    ))}
+
+                    }
 
 
 

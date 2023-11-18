@@ -31,6 +31,8 @@ const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [errorLog, setErrorLog] = React.useState("")
 
+  console.log(API_URL)
+
   const validationSchema = Yup.object().shape({
     userEmail: Yup
       .string()
@@ -51,6 +53,8 @@ const Login = () => {
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting }) => {
           // TODO: Mettre toute cette logique dans des services adequate
+          console.log(API_URL)
+
           try {
             const responseLogin = await fetch(`${API_URL}/api/Authentication/login/mobile`, {
               method: 'POST',
@@ -63,8 +67,6 @@ const Login = () => {
                 userPassword: values.userPassword,
               }),
             });
-
-            console.log("RESPONSE LOGIN", responseLogin)
 
             if (responseLogin.ok) {
 

@@ -6,6 +6,10 @@ import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
+
 public class MainActivity extends ReactActivity {
 
   /**
@@ -37,5 +41,19 @@ public class MainActivity extends ReactActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(null);
+  
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    String channelId = "general_notifications"; // This is the ID you create.
+    CharSequence name = "General Notifications"; // The user-visible name of the channel.
+    String description = "Notifications for general purposes"; // The user-visible description of the channel.
+    int importance = NotificationManager.IMPORTANCE_DEFAULT;
+    NotificationChannel channel = new NotificationChannel(channelId, name, importance);
+    channel.setDescription(description);
+    // Register the channel with the system
+    NotificationManager notificationManager = getSystemService(NotificationManager.class);
+    notificationManager.createNotificationChannel(channel);
+}
+   
   }
+
 }

@@ -164,19 +164,23 @@ export default function Damage({ navigation, route }) {
         });
 
         if (attributionDocs.length > 0) {
+
           attributionDocs.forEach((doc, index) => {
-            // Append the file
+
             const file = doc.documentFormFile;
-            formData.append(`attributionDocs[${index}].DocumentFormFile`, file);
-            // Append the display name
             const displayName = doc.displayName || 'DefaultName';
+
+            console.log("DAPAGE FILE", file)
+
+            // Append the display name //  // Append the file
+            formData.append(`attributionDocs[${index}].DocumentFormFile`, file);
             formData.append(`attributionDocs[${index}].DisplayName`, displayName);
           })
         }
       }
       else throw new Error('You should at least send one document')
 
-      console.log("FORM DATA DAMAGE ====> ", formData)
+      // console.log("FORM DATA DAMAGE ====> ", formData)
 
       let postDamageResult = await fetch(`${API_URL}/api/Damage`, {
         method: 'POST',
@@ -184,6 +188,7 @@ export default function Damage({ navigation, route }) {
       }).catch((error) => setErrorLog(error.errorMessage));
 
       if (postDamageResult.ok) {
+        //TODO DO : CHANGE THIS SHIT
         globalState.photoDamage = []
       }
     } catch (e) {
